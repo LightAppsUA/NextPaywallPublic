@@ -1,0 +1,6 @@
+framework module NextPaywallPublic {
+  umbrella header "NextPaywallPublic.h"
+  export *
+
+  module * { export * }
+}

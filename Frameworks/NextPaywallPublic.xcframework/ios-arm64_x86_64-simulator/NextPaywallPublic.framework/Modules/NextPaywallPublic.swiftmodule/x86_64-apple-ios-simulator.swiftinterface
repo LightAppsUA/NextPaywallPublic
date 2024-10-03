@@ -1,0 +1,75 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target x86_64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name NextPaywallPublic
+import AdSupport
+import AppTrackingTransparency
+import Combine
+import Foundation
+@_exported import NextPaywallPublic
+import StoreKit
+import Swift
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum PurchaseResult : Swift.Sendable, Swift.Equatable {
+  case cancelled
+  case purchased
+  case pending
+  case failed(any Swift.Error)
+  public static func == (lhs: NextPaywallPublic.PurchaseResult, rhs: NextPaywallPublic.PurchaseResult) -> Swift.Bool
+}
+public enum RestorationResult : Swift.Sendable, Swift.Equatable {
+  case restored
+  case failed((any Swift.Error)?)
+  public static func == (lhs: NextPaywallPublic.RestorationResult, rhs: NextPaywallPublic.RestorationResult) -> Swift.Bool
+}
+public enum SubscriptionStatus : Swift.Int, Swift.Codable {
+  case active
+  case inactive
+  case unknown
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class AppHelper : ObjectiveC.NSObject {
+  public static let shared: NextPaywallPublic.AppHelper
+  public func application(_ application: UIKit.UIApplication, didFinishLaunchingWithOptions launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?)
+  public func applicationDidBecomeActive(_ application: UIKit.UIApplication)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NextPaywallPresenter {
+  public static let shared: NextPaywallPublic.NextPaywallPresenter
+  public var nativePaywallProvider: (() -> UIKit.UIViewController)?
+  public func getPaywall(nativePaywallProvider: (() -> UIKit.UIViewController)? = nil, animatedDismiss: Swift.Bool = true) -> UIKit.UIViewController?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NextPaywallSettings {
+  public static let shared: NextPaywallPublic.NextPaywallSettings
+  public func configure(secretKey: Swift.String, backgroundColor: UIKit.UIColor? = nil, userDefaultsManager: any NextPaywallPublic.NextPaywallUserDefaultsManager)
+  @objc deinit
+}
+public protocol NextPaywallUserDefaultsManager {
+  var premiumStatus: Swift.Bool { get set }
+  var savedPaywallURL: Swift.String? { get set }
+}
+public struct PaywallConfiguration {
+  public var backgroundColor: UIKit.UIColor?
+  public var statusBarStyle: UIKit.UIStatusBarStyle?
+  public var primaryPrice: Swift.String?
+  public var secondaryPrice: Swift.String?
+  public var tertiaryPrice: Swift.String?
+  public var customTemplates: [Swift.String : Swift.String]?
+  public init(backgroundColor: UIKit.UIColor? = nil, statusBarStyle: UIKit.UIStatusBarStyle? = nil, primaryPrice: Swift.String? = nil, secondaryPrice: Swift.String? = nil, tertiaryPrice: Swift.String? = nil, customTemplates: [Swift.String : Swift.String]? = nil)
+}
+public protocol NextPaywallDelegate : AnyObject {
+  func subscriptionStatusDidChange(to newValue: NextPaywallPublic.SubscriptionStatus)
+  func handleCustomPaywallAction(withName name: Swift.String)
+  func webViewNavigationFinished(url: Foundation.URL)
+}
+extension NextPaywallPublic.SubscriptionStatus : Swift.Equatable {}
+extension NextPaywallPublic.SubscriptionStatus : Swift.Hashable {}
+extension NextPaywallPublic.SubscriptionStatus : Swift.RawRepresentable {}

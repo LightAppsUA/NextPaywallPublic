@@ -1,0 +1,5 @@
+--allman false
+--stripunusedargs closure-only
+--disable enumNamespaces
+--exclude "**/*.generated.swift"
+--header "\n {file}\n\n Copyright (c) {year} Light Apps Studio\n"
