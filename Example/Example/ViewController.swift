@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBAction func buttonPressed(_: Any) {
-        if let paywallVC = NextPaywallPresenter.shared.getPaywall(nativePaywallProvider: {
+        if let paywallVC = NextPaywallPresenter.shared.getPaywallVC(nativePaywallProvider: {
             let vc = UIViewController()
             
             return vc

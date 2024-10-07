@@ -25,245 +25,6 @@
         ]
       },
       {
-        "kind": "TypeDecl",
-        "name": "PurchaseResult",
-        "printedName": "PurchaseResult",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "cancelled",
-            "printedName": "cancelled",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.PurchaseResult.Type) -> NextPaywallPublic.PurchaseResult",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PurchaseResult",
-                    "printedName": "NextPaywallPublic.PurchaseResult",
-                    "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.PurchaseResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PurchaseResult",
-                        "printedName": "NextPaywallPublic.PurchaseResult",
-                        "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic14PurchaseResultO9cancelledyA2CmF",
-            "mangledName": "$s17NextPaywallPublic14PurchaseResultO9cancelledyA2CmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Var",
-            "name": "purchased",
-            "printedName": "purchased",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.PurchaseResult.Type) -> NextPaywallPublic.PurchaseResult",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PurchaseResult",
-                    "printedName": "NextPaywallPublic.PurchaseResult",
-                    "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.PurchaseResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PurchaseResult",
-                        "printedName": "NextPaywallPublic.PurchaseResult",
-                        "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic14PurchaseResultO9purchasedyA2CmF",
-            "mangledName": "$s17NextPaywallPublic14PurchaseResultO9purchasedyA2CmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Var",
-            "name": "pending",
-            "printedName": "pending",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.PurchaseResult.Type) -> NextPaywallPublic.PurchaseResult",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "PurchaseResult",
-                    "printedName": "NextPaywallPublic.PurchaseResult",
-                    "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.PurchaseResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PurchaseResult",
-                        "printedName": "NextPaywallPublic.PurchaseResult",
-                        "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic14PurchaseResultO7pendingyA2CmF",
-            "mangledName": "$s17NextPaywallPublic14PurchaseResultO7pendingyA2CmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Var",
-            "name": "failed",
-            "printedName": "failed",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.PurchaseResult.Type) -> (any Swift.Error) -> NextPaywallPublic.PurchaseResult",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(any Swift.Error) -> NextPaywallPublic.PurchaseResult",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PurchaseResult",
-                        "printedName": "NextPaywallPublic.PurchaseResult",
-                        "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Error",
-                        "printedName": "any Swift.Error",
-                        "usr": "s:s5ErrorP"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.PurchaseResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "PurchaseResult",
-                        "printedName": "NextPaywallPublic.PurchaseResult",
-                        "usr": "s:17NextPaywallPublic14PurchaseResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic14PurchaseResultO6failedyACs5Error_pcACmF",
-            "mangledName": "$s17NextPaywallPublic14PurchaseResultO6failedyACs5Error_pcACmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Function",
-            "name": "==",
-            "printedName": "==(_:_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "PurchaseResult",
-                "printedName": "NextPaywallPublic.PurchaseResult",
-                "usr": "s:17NextPaywallPublic14PurchaseResultO"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "PurchaseResult",
-                "printedName": "NextPaywallPublic.PurchaseResult",
-                "usr": "s:17NextPaywallPublic14PurchaseResultO"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:17NextPaywallPublic14PurchaseResultO2eeoiySbAC_ACtFZ",
-            "mangledName": "$s17NextPaywallPublic14PurchaseResultO2eeoiySbAC_ACtFZ",
-            "moduleName": "NextPaywallPublic",
-            "static": true,
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Enum",
-        "usr": "s:17NextPaywallPublic14PurchaseResultO",
-        "mangledName": "$s17NextPaywallPublic14PurchaseResultO",
-        "moduleName": "NextPaywallPublic",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Sendable",
-            "printedName": "Sendable",
-            "usr": "s:s8SendableP",
-            "mangledName": "$ss8SendableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          }
-        ]
-      },
-      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -274,179 +35,6 @@
         ]
       },
       {
-        "kind": "TypeDecl",
-        "name": "RestorationResult",
-        "printedName": "RestorationResult",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "restored",
-            "printedName": "restored",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.RestorationResult.Type) -> NextPaywallPublic.RestorationResult",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "RestorationResult",
-                    "printedName": "NextPaywallPublic.RestorationResult",
-                    "usr": "s:17NextPaywallPublic17RestorationResultO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.RestorationResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "RestorationResult",
-                        "printedName": "NextPaywallPublic.RestorationResult",
-                        "usr": "s:17NextPaywallPublic17RestorationResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic17RestorationResultO8restoredyA2CmF",
-            "mangledName": "$s17NextPaywallPublic17RestorationResultO8restoredyA2CmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Var",
-            "name": "failed",
-            "printedName": "failed",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.RestorationResult.Type) -> ((any Swift.Error)?) -> NextPaywallPublic.RestorationResult",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "((any Swift.Error)?) -> NextPaywallPublic.RestorationResult",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "RestorationResult",
-                        "printedName": "NextPaywallPublic.RestorationResult",
-                        "usr": "s:17NextPaywallPublic17RestorationResultO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Optional",
-                        "printedName": "(any Swift.Error)?",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Error",
-                            "printedName": "any Swift.Error",
-                            "usr": "s:s5ErrorP"
-                          }
-                        ],
-                        "usr": "s:Sq"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.RestorationResult.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "RestorationResult",
-                        "printedName": "NextPaywallPublic.RestorationResult",
-                        "usr": "s:17NextPaywallPublic17RestorationResultO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic17RestorationResultO6failedyACs5Error_pSgcACmF",
-            "mangledName": "$s17NextPaywallPublic17RestorationResultO6failedyACs5Error_pSgcACmF",
-            "moduleName": "NextPaywallPublic"
-          },
-          {
-            "kind": "Function",
-            "name": "==",
-            "printedName": "==(_:_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "RestorationResult",
-                "printedName": "NextPaywallPublic.RestorationResult",
-                "usr": "s:17NextPaywallPublic17RestorationResultO"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "RestorationResult",
-                "printedName": "NextPaywallPublic.RestorationResult",
-                "usr": "s:17NextPaywallPublic17RestorationResultO"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:17NextPaywallPublic17RestorationResultO2eeoiySbAC_ACtFZ",
-            "mangledName": "$s17NextPaywallPublic17RestorationResultO2eeoiySbAC_ACtFZ",
-            "moduleName": "NextPaywallPublic",
-            "static": true,
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Enum",
-        "usr": "s:17NextPaywallPublic17RestorationResultO",
-        "mangledName": "$s17NextPaywallPublic17RestorationResultO",
-        "moduleName": "NextPaywallPublic",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Sendable",
-            "printedName": "Sendable",
-            "usr": "s:s8SendableP",
-            "mangledName": "$ss8SendableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          }
-        ]
-      },
-      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -454,279 +42,6 @@
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
           "RawDocComment"
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "SubscriptionStatus",
-        "printedName": "SubscriptionStatus",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "active",
-            "printedName": "active",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.SubscriptionStatus.Type) -> NextPaywallPublic.SubscriptionStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "SubscriptionStatus",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus",
-                    "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SubscriptionStatus",
-                        "printedName": "NextPaywallPublic.SubscriptionStatus",
-                        "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic18SubscriptionStatusO6activeyA2CmF",
-            "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO6activeyA2CmF",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "inactive",
-            "printedName": "inactive",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.SubscriptionStatus.Type) -> NextPaywallPublic.SubscriptionStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "SubscriptionStatus",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus",
-                    "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SubscriptionStatus",
-                        "printedName": "NextPaywallPublic.SubscriptionStatus",
-                        "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic18SubscriptionStatusO8inactiveyA2CmF",
-            "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO8inactiveyA2CmF",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "unknown",
-            "printedName": "unknown",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NextPaywallPublic.SubscriptionStatus.Type) -> NextPaywallPublic.SubscriptionStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "SubscriptionStatus",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus",
-                    "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SubscriptionStatus",
-                        "printedName": "NextPaywallPublic.SubscriptionStatus",
-                        "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:17NextPaywallPublic18SubscriptionStatusO7unknownyA2CmF",
-            "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO7unknownyA2CmF",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(rawValue:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "NextPaywallPublic.SubscriptionStatus?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "SubscriptionStatus",
-                    "printedName": "NextPaywallPublic.SubscriptionStatus",
-                    "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-                  }
-                ],
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:17NextPaywallPublic18SubscriptionStatusO8rawValueACSgSi_tcfc",
-            "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO8rawValueACSgSi_tcfc",
-            "moduleName": "NextPaywallPublic",
-            "implicit": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Var",
-            "name": "rawValue",
-            "printedName": "rawValue",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic18SubscriptionStatusO8rawValueSivp",
-            "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO8rawValueSivp",
-            "moduleName": "NextPaywallPublic",
-            "implicit": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic18SubscriptionStatusO8rawValueSivg",
-                "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO8rawValueSivg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          }
-        ],
-        "declKind": "Enum",
-        "usr": "s:17NextPaywallPublic18SubscriptionStatusO",
-        "mangledName": "$s17NextPaywallPublic18SubscriptionStatusO",
-        "moduleName": "NextPaywallPublic",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "enumRawTypeName": "Int",
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          },
-          {
-            "kind": "Conformance",
-            "name": "RawRepresentable",
-            "printedName": "RawRepresentable",
-            "children": [
-              {
-                "kind": "TypeWitness",
-                "name": "RawValue",
-                "printedName": "RawValue",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ]
-              }
-            ],
-            "usr": "s:SY",
-            "mangledName": "$sSY"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
-          }
         ]
       },
       {
@@ -872,7 +187,8 @@
               "HasInitialValue",
               "Final",
               "HasStorage",
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "isLet": true,
             "hasStorage": true,
@@ -951,7 +267,8 @@
             "mangledName": "$s17NextPaywallPublic9AppHelperC11application_29didFinishLaunchingWithOptionsySo13UIApplicationC_SDySo0l6LaunchK3KeyaypGSgtF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -977,7 +294,8 @@
             "mangledName": "$s17NextPaywallPublic9AppHelperC26applicationDidBecomeActiveyySo13UIApplicationCF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           }
@@ -988,6 +306,7 @@
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
           "AccessControl",
+          "RawDocComment",
           "ObjC"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
@@ -1129,7 +448,8 @@
               "HasInitialValue",
               "Final",
               "HasStorage",
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "isLet": true,
             "hasStorage": true,
@@ -1198,7 +518,8 @@
             "declAttributes": [
               "HasInitialValue",
               "HasStorage",
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "hasStorage": true,
             "accessors": [
@@ -1307,8 +628,8 @@
           },
           {
             "kind": "Function",
-            "name": "getPaywall",
-            "printedName": "getPaywall(nativePaywallProvider:animatedDismiss:)",
+            "name": "getPaywallVC",
+            "printedName": "getPaywallVC(nativePaywallProvider:animatedDismiss:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1360,11 +681,12 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17NextPaywallPublic0aB9PresenterC03getB006nativeB8Provider15animatedDismissSo16UIViewControllerCSgAHycSg_SbtF",
-            "mangledName": "$s17NextPaywallPublic0aB9PresenterC03getB006nativeB8Provider15animatedDismissSo16UIViewControllerCSgAHycSg_SbtF",
+            "usr": "s:17NextPaywallPublic0aB9PresenterC03getB2VC06nativeB8Provider15animatedDismissSo16UIViewControllerCSgAHycSg_SbtF",
+            "mangledName": "$s17NextPaywallPublic0aB9PresenterC03getB2VC06nativeB8Provider15animatedDismissSo16UIViewControllerCSgAHycSg_SbtF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           }
@@ -1374,7 +696,8 @@
         "mangledName": "$s17NextPaywallPublic0aB9PresenterC",
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
-          "AccessControl"
+          "AccessControl",
+          "RawDocComment"
         ],
         "hasMissingDesignatedInitializers": true,
         "conformances": [
@@ -1430,7 +753,8 @@
               "HasInitialValue",
               "Final",
               "HasStorage",
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "isLet": true,
             "hasStorage": true,
@@ -1463,7 +787,7 @@
           {
             "kind": "Function",
             "name": "configure",
-            "printedName": "configure(secretKey:backgroundColor:userDefaultsManager:)",
+            "printedName": "configure(secretKey:backgroundColor:persistenceProvider:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1493,17 +817,18 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "NextPaywallUserDefaultsManager",
-                "printedName": "any NextPaywallPublic.NextPaywallUserDefaultsManager",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP"
+                "name": "NextPaywallPersistenceProvider",
+                "printedName": "any NextPaywallPublic.NextPaywallPersistenceProvider",
+                "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP"
               }
             ],
             "declKind": "Func",
-            "usr": "s:17NextPaywallPublic0aB8SettingsC9configure9secretKey15backgroundColor19userDefaultsManagerySS_So7UIColorCSgAA0ab4UserkL0_ptF",
-            "mangledName": "$s17NextPaywallPublic0aB8SettingsC9configure9secretKey15backgroundColor19userDefaultsManagerySS_So7UIColorCSgAA0ab4UserkL0_ptF",
+            "usr": "s:17NextPaywallPublic0aB8SettingsC9configure9secretKey15backgroundColor19persistenceProviderySS_So7UIColorCSgAA0ab11PersistenceK0_ptF",
+            "mangledName": "$s17NextPaywallPublic0aB8SettingsC9configure9secretKey15backgroundColor19persistenceProviderySS_So7UIColorCSgAA0ab11PersistenceK0_ptF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           }
@@ -1513,7 +838,8 @@
         "mangledName": "$s17NextPaywallPublic0aB8SettingsC",
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
-          "AccessControl"
+          "AccessControl",
+          "RawDocComment"
         ],
         "hasMissingDesignatedInitializers": true,
         "conformances": [
@@ -1535,8 +861,8 @@
       },
       {
         "kind": "TypeDecl",
-        "name": "NextPaywallUserDefaultsManager",
-        "printedName": "NextPaywallUserDefaultsManager",
+        "name": "NextPaywallPersistenceProvider",
+        "printedName": "NextPaywallPersistenceProvider",
         "children": [
           {
             "kind": "Var",
@@ -1551,8 +877,8 @@
               }
             ],
             "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvp",
-            "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvp",
+            "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvp",
+            "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvp",
             "moduleName": "NextPaywallPublic",
             "protocolReq": true,
             "declAttributes": [
@@ -1572,11 +898,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvg",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvg",
+                "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvg",
+                "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvg",
                 "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
+                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallPersistenceProvider>",
+                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallPersistenceProvider>",
                 "protocolReq": true,
                 "reqNewWitnessTableEntry": true,
                 "accessorKind": "get"
@@ -1599,11 +925,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvs",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvs",
+                "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvs",
+                "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvs",
                 "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
+                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallPersistenceProvider>",
+                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallPersistenceProvider>",
                 "protocolReq": true,
                 "reqNewWitnessTableEntry": true,
                 "accessorKind": "set"
@@ -1620,129 +946,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvM",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP13premiumStatusSbvM",
+                "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvM",
+                "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP13premiumStatusSbvM",
                 "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "protocolReq": true,
-                "implicit": true,
-                "reqNewWitnessTableEntry": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "savedPaywallURL",
-            "printedName": "savedPaywallURL",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvp",
-            "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvp",
-            "moduleName": "NextPaywallPublic",
-            "protocolReq": true,
-            "declAttributes": [
-              "RawDocComment"
-            ],
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvg",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvg",
-                "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "protocolReq": true,
-                "reqNewWitnessTableEntry": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvs",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvs",
-                "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "protocolReq": true,
-                "reqNewWitnessTableEntry": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvM",
-                "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP05savedB3URLSSSgvM",
-                "moduleName": "NextPaywallPublic",
-                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallUserDefaultsManager>",
-                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallUserDefaultsManager>",
+                "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallPersistenceProvider>",
+                "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallPersistenceProvider>",
                 "protocolReq": true,
                 "implicit": true,
                 "reqNewWitnessTableEntry": true,
@@ -1752,11 +960,12 @@
           }
         ],
         "declKind": "Protocol",
-        "usr": "s:17NextPaywallPublic0aB19UserDefaultsManagerP",
-        "mangledName": "$s17NextPaywallPublic0aB19UserDefaultsManagerP",
+        "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP",
+        "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP",
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
-          "AccessControl"
+          "AccessControl",
+          "RawDocComment"
         ],
         "conformances": [
           {
@@ -1772,6 +981,127 @@
             "printedName": "Copyable",
             "usr": "s:s8CopyableP",
             "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DefaultNextPaywallPersistenceProvider",
+        "printedName": "DefaultNextPaywallPersistenceProvider",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "premiumStatus",
+            "printedName": "premiumStatus",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvp",
+            "mangledName": "$s17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvp",
+            "moduleName": "NextPaywallPublic",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvg",
+                "mangledName": "$s17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvg",
+                "moduleName": "NextPaywallPublic",
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvs",
+                "mangledName": "$s17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvs",
+                "moduleName": "NextPaywallPublic",
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvM",
+                "mangledName": "$s17NextPaywallPublic07DefaultaB19PersistenceProviderC13premiumStatusSbvM",
+                "moduleName": "NextPaywallPublic",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:17NextPaywallPublic07DefaultaB19PersistenceProviderC",
+        "mangledName": "$s17NextPaywallPublic07DefaultaB19PersistenceProviderC",
+        "moduleName": "NextPaywallPublic",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "NextPaywallPersistenceProvider",
+            "printedName": "NextPaywallPersistenceProvider",
+            "usr": "s:17NextPaywallPublic0aB19PersistenceProviderP",
+            "mangledName": "$s17NextPaywallPublic0aB19PersistenceProviderP"
           }
         ]
       },
@@ -1864,863 +1194,6 @@
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
           "RawDocComment"
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "PaywallConfiguration",
-        "printedName": "PaywallConfiguration",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "backgroundColor",
-            "printedName": "backgroundColor",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIColor?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIColor",
-                    "printedName": "UIKit.UIColor",
-                    "usr": "c:objc(cs)UIColor"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIColor?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIColor",
-                        "printedName": "UIKit.UIColor",
-                        "usr": "c:objc(cs)UIColor"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIColor?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIColor",
-                        "printedName": "UIKit.UIColor",
-                        "usr": "c:objc(cs)UIColor"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15backgroundColorSo7UIColorCSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "statusBarStyle",
-            "printedName": "statusBarStyle",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIStatusBarStyle?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIStatusBarStyle",
-                    "printedName": "UIKit.UIStatusBarStyle",
-                    "usr": "c:@E@UIStatusBarStyle"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIStatusBarStyle?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIStatusBarStyle",
-                        "printedName": "UIKit.UIStatusBarStyle",
-                        "usr": "c:@E@UIStatusBarStyle"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIStatusBarStyle?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIStatusBarStyle",
-                        "printedName": "UIKit.UIStatusBarStyle",
-                        "usr": "c:@E@UIStatusBarStyle"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14statusBarStyleSo08UIStatusfG0VSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "primaryPrice",
-            "printedName": "primaryPrice",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV12primaryPriceSSSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "secondaryPrice",
-            "printedName": "secondaryPrice",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV14secondaryPriceSSSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "tertiaryPrice",
-            "printedName": "tertiaryPrice",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Swift.String?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV13tertiaryPriceSSSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "customTemplates",
-            "printedName": "customTemplates",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "[Swift.String : Swift.String]?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Dictionary",
-                    "printedName": "[Swift.String : Swift.String]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:SD"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvp",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvp",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "[Swift.String : Swift.String]?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Dictionary",
-                        "printedName": "[Swift.String : Swift.String]",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          }
-                        ],
-                        "usr": "s:SD"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvg",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvg",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "[Swift.String : Swift.String]?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Dictionary",
-                        "printedName": "[Swift.String : Swift.String]",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          }
-                        ],
-                        "usr": "s:SD"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvs",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvs",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvM",
-                "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15customTemplatesSDyS2SGSgvM",
-                "moduleName": "NextPaywallPublic",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(backgroundColor:statusBarStyle:primaryPrice:secondaryPrice:tertiaryPrice:customTemplates:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "PaywallConfiguration",
-                "printedName": "NextPaywallPublic.PaywallConfiguration",
-                "usr": "s:17NextPaywallPublic0B13ConfigurationV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIColor?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIColor",
-                    "printedName": "UIKit.UIColor",
-                    "usr": "c:objc(cs)UIColor"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIStatusBarStyle?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIStatusBarStyle",
-                    "printedName": "UIKit.UIStatusBarStyle",
-                    "usr": "c:@E@UIStatusBarStyle"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "[Swift.String : Swift.String]?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Dictionary",
-                    "printedName": "[Swift.String : Swift.String]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
-                      }
-                    ],
-                    "usr": "s:SD"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:17NextPaywallPublic0B13ConfigurationV15backgroundColor14statusBarStyle12primaryPrice09secondaryK008tertiaryK015customTemplatesACSo7UIColorCSg_So08UIStatushI0VSgSSSgA2PSDyS2SGSgtcfc",
-            "mangledName": "$s17NextPaywallPublic0B13ConfigurationV15backgroundColor14statusBarStyle12primaryPrice09secondaryK008tertiaryK015customTemplatesACSo7UIColorCSg_So08UIStatushI0VSgSSSgA2PSDyS2SGSgtcfc",
-            "moduleName": "NextPaywallPublic",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "init_kind": "Designated"
-          }
-        ],
-        "declKind": "Struct",
-        "usr": "s:17NextPaywallPublic0B13ConfigurationV",
-        "mangledName": "$s17NextPaywallPublic0B13ConfigurationV",
-        "moduleName": "NextPaywallPublic",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          }
         ]
       },
       {
@@ -2898,119 +1371,6 @@
         ]
       },
       {
-        "kind": "TypeDecl",
-        "name": "NextPaywallDelegate",
-        "printedName": "NextPaywallDelegate",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "subscriptionStatusDidChange",
-            "printedName": "subscriptionStatusDidChange(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "SubscriptionStatus",
-                "printedName": "NextPaywallPublic.SubscriptionStatus",
-                "usr": "s:17NextPaywallPublic18SubscriptionStatusO"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:17NextPaywallPublic0aB8DelegateP27subscriptionStatusDidChange2toyAA012SubscriptionF0O_tF",
-            "mangledName": "$s17NextPaywallPublic0aB8DelegateP27subscriptionStatusDidChange2toyAA012SubscriptionF0O_tF",
-            "moduleName": "NextPaywallPublic",
-            "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallDelegate>",
-            "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallDelegate>",
-            "protocolReq": true,
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "handleCustomPaywallAction",
-            "printedName": "handleCustomPaywallAction(withName:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:17NextPaywallPublic0aB8DelegateP012handleCustomB6Action8withNameySS_tF",
-            "mangledName": "$s17NextPaywallPublic0aB8DelegateP012handleCustomB6Action8withNameySS_tF",
-            "moduleName": "NextPaywallPublic",
-            "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallDelegate>",
-            "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallDelegate>",
-            "protocolReq": true,
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "webViewNavigationFinished",
-            "printedName": "webViewNavigationFinished(url:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "URL",
-                "printedName": "Foundation.URL",
-                "usr": "s:10Foundation3URLV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:17NextPaywallPublic0aB8DelegateP25webViewNavigationFinished3urly10Foundation3URLV_tF",
-            "mangledName": "$s17NextPaywallPublic0aB8DelegateP25webViewNavigationFinished3urly10Foundation3URLV_tF",
-            "moduleName": "NextPaywallPublic",
-            "genericSig": "<τ_0_0 where τ_0_0 : NextPaywallPublic.NextPaywallDelegate>",
-            "sugared_genericSig": "<Self where Self : NextPaywallPublic.NextPaywallDelegate>",
-            "protocolReq": true,
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Protocol",
-        "usr": "s:17NextPaywallPublic0aB8DelegateP",
-        "mangledName": "$s17NextPaywallPublic0aB8DelegateP",
-        "moduleName": "NextPaywallPublic",
-        "genericSig": "<τ_0_0 : AnyObject>",
-        "sugared_genericSig": "<Self : AnyObject>",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          }
-        ]
-      },
-      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -3044,14 +1404,14 @@
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Enums\/SubscriptionStatus.swift",
       "kind": "IntegerLiteral",
-      "offset": 271,
+      "offset": 264,
       "length": 8,
       "value": "1"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Enums\/SubscriptionStatus.swift",
       "kind": "IntegerLiteral",
-      "offset": 334,
+      "offset": 327,
       "length": 7,
       "value": "2"
     },
@@ -3072,23 +1432,37 @@
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/AppHelper.swift",
       "kind": "BooleanLiteral",
-      "offset": 686,
+      "offset": 1124,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/AppHelper.swift",
       "kind": "Array",
-      "offset": 789,
+      "offset": 1227,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallPresenter.swift",
       "kind": "BooleanLiteral",
-      "offset": 382,
+      "offset": 1564,
       "length": 4,
       "value": "true"
+    },
+    {
+      "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallSettings.swift",
+      "kind": "StringLiteral",
+      "offset": 1288,
+      "length": 17,
+      "value": "\"savedPaywallURL\""
+    },
+    {
+      "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallSettings.swift",
+      "kind": "StringLiteral",
+      "offset": 3452,
+      "length": 15,
+      "value": "\"premiumStatus\""
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/ViewController\/PaywallViewController.swift",

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC48C4B42CAF1F9A0080ADE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48C4A92CAF1F9A0080ADE3 /* AppDelegate.swift */; };
-		AC48C4B52CAF1F9A0080ADE3 /* NextPaywallConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48C4B02CAF1F9A0080ADE3 /* NextPaywallConfiguration.swift */; };
+		AC48C4B52CAF1F9A0080ADE3 /* CustomNextPaywallPersistenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48C4B02CAF1F9A0080ADE3 /* CustomNextPaywallPersistenceProvider.swift */; };
 		AC48C4B62CAF1F9A0080ADE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48C4B12CAF1F9A0080ADE3 /* SceneDelegate.swift */; };
 		AC48C4B72CAF1F9A0080ADE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48C4B22CAF1F9A0080ADE3 /* ViewController.swift */; };
 		AC48C4B82CAF1F9A0080ADE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC48C4AA2CAF1F9A0080ADE3 /* Assets.xcassets */; };
@@ -38,7 +38,7 @@
 		AC48C4AB2CAF1F9A0080ADE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC48C4AC2CAF1F9A0080ADE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC48C4AE2CAF1F9A0080ADE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AC48C4B02CAF1F9A0080ADE3 /* NextPaywallConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextPaywallConfiguration.swift; sourceTree = "<group>"; };
+		AC48C4B02CAF1F9A0080ADE3 /* CustomNextPaywallPersistenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextPaywallPersistenceProvider.swift; sourceTree = "<group>"; };
 		AC48C4B12CAF1F9A0080ADE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AC48C4B22CAF1F9A0080ADE3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,7 +81,7 @@
 				AC48C4AB2CAF1F9A0080ADE3 /* Info.plist */,
 				AC48C4AD2CAF1F9A0080ADE3 /* LaunchScreen.storyboard */,
 				AC48C4AF2CAF1F9A0080ADE3 /* Main.storyboard */,
-				AC48C4B02CAF1F9A0080ADE3 /* NextPaywallConfiguration.swift */,
+				AC48C4B02CAF1F9A0080ADE3 /* CustomNextPaywallPersistenceProvider.swift */,
 				AC48C4B12CAF1F9A0080ADE3 /* SceneDelegate.swift */,
 				AC48C4B22CAF1F9A0080ADE3 /* ViewController.swift */,
 			);
@@ -175,7 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC48C4B42CAF1F9A0080ADE3 /* AppDelegate.swift in Sources */,
-				AC48C4B52CAF1F9A0080ADE3 /* NextPaywallConfiguration.swift in Sources */,
+				AC48C4B52CAF1F9A0080ADE3 /* CustomNextPaywallPersistenceProvider.swift in Sources */,
 				AC48C4B62CAF1F9A0080ADE3 /* SceneDelegate.swift in Sources */,
 				AC48C4B72CAF1F9A0080ADE3 /* ViewController.swift in Sources */,
 			);

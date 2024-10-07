@@ -1,5 +1,5 @@
 //
-//  NextPaywallConfiguration.swift
+//  CustomNextPaywallPersistenceProvider.swift
 //
 //  Copyright (c) 2024 Light Apps Studio
 //
@@ -7,7 +7,7 @@
 import NextPaywallPublic
 import UIKit
 
-class CustomNextPaywallUserDefaultsManager: NextPaywallUserDefaultsManager {
+class CustomNextPaywallPersistenceProvider: NextPaywallPersistenceProvider {
     var premiumStatus: Bool {
         get {
             return UserDefaults.standard.bool(forKey: "premiumStatus")
