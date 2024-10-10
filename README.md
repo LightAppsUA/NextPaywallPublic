@@ -30,6 +30,13 @@ NextPaywallPublic can be installed exclusively through the Swift Package Manager
 
 ## Usage
 
+### Required keys in Info.plist
+
+|Property|Type|Value|
+|-|-|-|
+|`ITSAppUsesNonExemptEncryption`|Boolean|NO|
+|`NSAdvertisingAttributionReportEndpoint`|String|`https://appsflyer-skadnetwork.com/`|
+
 ### Setting Up
 
 In your `AppDelegate.swift`, configure the `NextPaywallSettings`.  
