@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
-// swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name Alamofire
+// swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature StrictConcurrency -enable-upcoming-feature ExistentialAny -enable-bare-slash-regex -module-name Alamofire
 // swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import Combine
 import Dispatch
@@ -14,12 +14,12 @@ import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
 import zlib
-public typealias Parameters = [Swift.String : Any]
-public protocol ParameterEncoding {
+public typealias Parameters = [Swift.String : any Swift.Sendable]
+public protocol ParameterEncoding : Swift.Sendable {
   func encode(_ urlRequest: any Alamofire.URLRequestConvertible, with parameters: Alamofire.Parameters?) throws -> Foundation.URLRequest
 }
 public struct URLEncoding : Alamofire.ParameterEncoding {
-  public enum Destination {
+  public enum Destination : Swift.Sendable {
     case methodDependent
     case queryString
     case httpBody
@@ -29,13 +29,13 @@ public struct URLEncoding : Alamofire.ParameterEncoding {
       get
     }
   }
-  public enum ArrayEncoding {
+  public enum ArrayEncoding : Swift.Sendable {
     case brackets
     case noBrackets
     case indexInBrackets
-    case custom((_ key: Swift.String, _ index: Swift.Int) -> Swift.String)
+    case custom(@Sendable (_ key: Swift.String, _ index: Swift.Int) -> Swift.String)
   }
-  public enum BoolEncoding {
+  public enum BoolEncoding : Swift.Sendable {
     case numeric
     case literal
     public static func == (a: Alamofire.URLEncoding.BoolEncoding, b: Alamofire.URLEncoding.BoolEncoding) -> Swift.Bool
@@ -87,24 +87,24 @@ extension Alamofire.JSONEncoding.Error {
   }
 }
 #if compiler(>=5.3) && $PrimaryAssociatedTypes2
-public protocol DataResponseSerializerProtocol<SerializedObject> {
-  associatedtype SerializedObject
+public protocol DataResponseSerializerProtocol<SerializedObject> : Swift.Sendable {
+  associatedtype SerializedObject : Swift.Sendable
   func serialize(request: Foundation.URLRequest?, response: Foundation.HTTPURLResponse?, data: Foundation.Data?, error: (any Swift.Error)?) throws -> Self.SerializedObject
 }
 #else
-public protocol DataResponseSerializerProtocol {
-  associatedtype SerializedObject
+public protocol DataResponseSerializerProtocol : Swift.Sendable {
+  associatedtype SerializedObject : Swift.Sendable
   func serialize(request: Foundation.URLRequest?, response: Foundation.HTTPURLResponse?, data: Foundation.Data?, error: (any Swift.Error)?) throws -> Self.SerializedObject
 }
 #endif
 #if compiler(>=5.3) && $PrimaryAssociatedTypes2
-public protocol DownloadResponseSerializerProtocol<SerializedObject> {
-  associatedtype SerializedObject
+public protocol DownloadResponseSerializerProtocol<SerializedObject> : Swift.Sendable {
+  associatedtype SerializedObject : Swift.Sendable
   func serializeDownload(request: Foundation.URLRequest?, response: Foundation.HTTPURLResponse?, fileURL: Foundation.URL?, error: (any Swift.Error)?) throws -> Self.SerializedObject
 }
 #else
-public protocol DownloadResponseSerializerProtocol {
-  associatedtype SerializedObject
+public protocol DownloadResponseSerializerProtocol : Swift.Sendable {
+  associatedtype SerializedObject : Swift.Sendable
   func serializeDownload(request: Foundation.URLRequest?, response: Foundation.HTTPURLResponse?, fileURL: Foundation.URL?, error: (any Swift.Error)?) throws -> Self.SerializedObject
 }
 #endif
@@ -121,7 +121,7 @@ public protocol ResponseSerializer : Alamofire.DataResponseSerializerProtocol, A
   var emptyResponseCodes: Swift.Set<Swift.Int> { get }
 }
 #endif
-public protocol DataPreprocessor {
+public protocol DataPreprocessor : Swift.Sendable {
   func preprocess(_ data: Foundation.Data) throws -> Foundation.Data
 }
 public struct PassthroughPreprocessor : Alamofire.DataPreprocessor {
@@ -221,7 +221,7 @@ final public class JSONResponseSerializer : Alamofire.ResponseSerializer {
   public typealias SerializedObject = Any
   @objc deinit
 }
-public protocol EmptyResponse {
+public protocol EmptyResponse : Swift.Sendable {
   static func emptyValue() -> Self
 }
 public struct Empty : Swift.Codable, Swift.Sendable {
@@ -232,14 +232,14 @@ public struct Empty : Swift.Codable, Swift.Sendable {
 extension Alamofire.Empty : Alamofire.EmptyResponse {
   public static func emptyValue() -> Alamofire.Empty
 }
-public protocol DataDecoder {
+public protocol DataDecoder : Swift.Sendable {
   func decode<D>(_ type: D.Type, from data: Foundation.Data) throws -> D where D : Swift.Decodable
 }
 extension Foundation.JSONDecoder : Alamofire.DataDecoder {
 }
 extension Foundation.PropertyListDecoder : Alamofire.DataDecoder {
 }
-final public class DecodableResponseSerializer<T> : Alamofire.ResponseSerializer where T : Swift.Decodable {
+final public class DecodableResponseSerializer<T> : Alamofire.ResponseSerializer where T : Swift.Decodable, T : Swift.Sendable {
   final public let dataPreprocessor: any Alamofire.DataPreprocessor
   final public let decoder: any Alamofire.DataDecoder
   final public let emptyResponseCodes: Swift.Set<Swift.Int>
@@ -250,11 +250,11 @@ final public class DecodableResponseSerializer<T> : Alamofire.ResponseSerializer
   @objc deinit
 }
 extension Alamofire.ResponseSerializer {
-  public static func decodable<T>(of type: T.Type, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DecodableResponseSerializer<T> where Self == Alamofire.DecodableResponseSerializer<T>, T : Swift.Decodable
+  public static func decodable<T>(of type: T.Type, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DecodableResponseSerializer<T> where Self == Alamofire.DecodableResponseSerializer<T>, T : Swift.Decodable, T : Swift.Sendable
 }
 public typealias AFDataResponse<Success> = Alamofire.DataResponse<Success, Alamofire.AFError>
 public typealias AFDownloadResponse<Success> = Alamofire.DownloadResponse<Success, Alamofire.AFError>
-public struct DataResponse<Success, Failure> where Failure : Swift.Error {
+public struct DataResponse<Success, Failure> : Swift.Sendable where Success : Swift.Sendable, Failure : Swift.Error {
   public let request: Foundation.URLRequest?
   public let response: Foundation.HTTPURLResponse?
   public let data: Foundation.Data?
@@ -278,12 +278,12 @@ extension Alamofire.DataResponse : Swift.CustomStringConvertible, Swift.CustomDe
   }
 }
 extension Alamofire.DataResponse {
-  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> Alamofire.DataResponse<NewSuccess, Failure>
-  public func tryMap<NewSuccess>(_ transform: (Success) throws -> NewSuccess) -> Alamofire.DataResponse<NewSuccess, any Swift.Error>
+  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> Alamofire.DataResponse<NewSuccess, Failure> where NewSuccess : Swift.Sendable
+  public func tryMap<NewSuccess>(_ transform: (Success) throws -> NewSuccess) -> Alamofire.DataResponse<NewSuccess, any Swift.Error> where NewSuccess : Swift.Sendable
   public func mapError<NewFailure>(_ transform: (Failure) -> NewFailure) -> Alamofire.DataResponse<Success, NewFailure> where NewFailure : Swift.Error
   public func tryMapError<NewFailure>(_ transform: (Failure) throws -> NewFailure) -> Alamofire.DataResponse<Success, any Swift.Error> where NewFailure : Swift.Error
 }
-public struct DownloadResponse<Success, Failure> where Failure : Swift.Error {
+public struct DownloadResponse<Success, Failure> : Swift.Sendable where Success : Swift.Sendable, Failure : Swift.Error {
   public let request: Foundation.URLRequest?
   public let response: Foundation.HTTPURLResponse?
   public let fileURL: Foundation.URL?
@@ -308,13 +308,13 @@ extension Alamofire.DownloadResponse : Swift.CustomStringConvertible, Swift.Cust
   }
 }
 extension Alamofire.DownloadResponse {
-  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> Alamofire.DownloadResponse<NewSuccess, Failure>
-  public func tryMap<NewSuccess>(_ transform: (Success) throws -> NewSuccess) -> Alamofire.DownloadResponse<NewSuccess, any Swift.Error>
+  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> Alamofire.DownloadResponse<NewSuccess, Failure> where NewSuccess : Swift.Sendable
+  public func tryMap<NewSuccess>(_ transform: (Success) throws -> NewSuccess) -> Alamofire.DownloadResponse<NewSuccess, any Swift.Error> where NewSuccess : Swift.Sendable
   public func mapError<NewFailure>(_ transform: (Failure) -> NewFailure) -> Alamofire.DownloadResponse<Success, NewFailure> where NewFailure : Swift.Error
   public func tryMapError<NewFailure>(_ transform: (Failure) throws -> NewFailure) -> Alamofire.DownloadResponse<Success, any Swift.Error> where NewFailure : Swift.Error
 }
-@_hasMissingDesignatedInitializers final public class UploadRequest : Alamofire.DataRequest {
-  public enum Uploadable {
+@_hasMissingDesignatedInitializers final public class UploadRequest : Alamofire.DataRequest, @unchecked Swift.Sendable {
+  public enum Uploadable : @unchecked Swift.Sendable {
     case data(Foundation.Data)
     case file(Foundation.URL, shouldRemove: Swift.Bool)
     case stream(Foundation.InputStream)
@@ -325,7 +325,7 @@ extension Alamofire.DownloadResponse {
   final public func cleanup()
   @objc deinit
 }
-public protocol UploadableConvertible {
+public protocol UploadableConvertible : Swift.Sendable {
   func createUploadable() throws -> Alamofire.UploadRequest.Uploadable
 }
 extension Alamofire.UploadRequest.Uploadable : Alamofire.UploadableConvertible {
@@ -342,7 +342,7 @@ extension Alamofire.Request {
   public func cURLDescriptions(bufferingPolicy: Alamofire.StreamOf<Swift.String>.BufferingPolicy = .unbounded) -> Alamofire.StreamOf<Swift.String>
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct DataTask<Value> {
+public struct DataTask<Value> : Swift.Sendable where Value : Swift.Sendable {
   public var response: Alamofire.DataResponse<Value, Alamofire.AFError> {
     get async
   }
@@ -364,13 +364,13 @@ extension Alamofire.DataRequest {
   @discardableResult
   public func onHTTPResponse(perform handler: @escaping @Sendable (_ response: Foundation.HTTPURLResponse) async -> Swift.Void) -> Self
   public func serializingData(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DataTask<Foundation.Data>
-  public func serializingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<Value>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<Value>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<Value>.defaultEmptyRequestMethods) -> Alamofire.DataTask<Value> where Value : Swift.Decodable
+  public func serializingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<Value>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<Value>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<Value>.defaultEmptyRequestMethods) -> Alamofire.DataTask<Value> where Value : Swift.Decodable, Value : Swift.Sendable
   public func serializingString(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DataTask<Swift.String>
   public func serializingResponse<Serializer>(using serializer: Serializer, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true) -> Alamofire.DataTask<Serializer.SerializedObject> where Serializer : Alamofire.ResponseSerializer
   public func serializingResponse<Serializer>(using serializer: Serializer, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true) -> Alamofire.DataTask<Serializer.SerializedObject> where Serializer : Alamofire.DataResponseSerializerProtocol
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct DownloadTask<Value> {
+public struct DownloadTask<Value> : Swift.Sendable where Value : Swift.Sendable {
   public var response: Alamofire.DownloadResponse<Value, Alamofire.AFError> {
     get async
   }
@@ -387,18 +387,18 @@ public struct DownloadTask<Value> {
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
 extension Alamofire.DownloadRequest {
   final public func serializingData(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DownloadTask<Foundation.Data>
-  final public func serializingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<Value>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<Value>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<Value>.defaultEmptyRequestMethods) -> Alamofire.DownloadTask<Value> where Value : Swift.Decodable
+  final public func serializingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<Value>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<Value>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<Value>.defaultEmptyRequestMethods) -> Alamofire.DownloadTask<Value> where Value : Swift.Decodable, Value : Swift.Sendable
   final public func serializingDownloadedFileURL(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true) -> Alamofire.DownloadTask<Foundation.URL>
   final public func serializingString(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DownloadTask<Swift.String>
   final public func serializingDownload<Serializer>(using serializer: Serializer, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true) -> Alamofire.DownloadTask<Serializer.SerializedObject> where Serializer : Alamofire.ResponseSerializer
   final public func serializingDownload<Serializer>(using serializer: Serializer, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true) -> Alamofire.DownloadTask<Serializer.SerializedObject> where Serializer : Alamofire.DownloadResponseSerializerProtocol
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct DataStreamTask {
+public struct DataStreamTask : Swift.Sendable {
   public typealias Stream<Success, Failure> = Alamofire.StreamOf<Alamofire.DataStreamRequest.Stream<Success, Failure>> where Failure : Swift.Error
   public func streamingData(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.DataStreamTask.Stream<Foundation.Data, Swift.Never>.BufferingPolicy = .unbounded) -> Alamofire.DataStreamTask.Stream<Foundation.Data, Swift.Never>
   public func streamingStrings(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.DataStreamTask.Stream<Swift.String, Swift.Never>.BufferingPolicy = .unbounded) -> Alamofire.DataStreamTask.Stream<Swift.String, Swift.Never>
-  public func streamingDecodables<T>(_ type: T.Type = T.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.DataStreamTask.Stream<T, Alamofire.AFError>.BufferingPolicy = .unbounded) -> Alamofire.DataStreamTask.Stream<T, Alamofire.AFError> where T : Swift.Decodable
+  public func streamingDecodables<T>(_ type: T.Type = T.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.DataStreamTask.Stream<T, Alamofire.AFError>.BufferingPolicy = .unbounded) -> Alamofire.DataStreamTask.Stream<T, Alamofire.AFError> where T : Swift.Decodable, T : Swift.Sendable
   public func streamingResponses<Serializer>(serializedUsing serializer: Serializer, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.DataStreamTask.Stream<Serializer.SerializedObject, Alamofire.AFError>.BufferingPolicy = .unbounded) -> Alamofire.DataStreamTask.Stream<Serializer.SerializedObject, Alamofire.AFError> where Serializer : Alamofire.DataStreamSerializer
   public func cancel()
   public func resume()
@@ -414,12 +414,12 @@ extension Alamofire.DataStreamRequest {
   final public func streamTask() -> Alamofire.DataStreamTask
 }
 @_spi(WebSocket) @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct WebSocketTask {
+public struct WebSocketTask : Swift.Sendable {
   @_spi(WebSocket) public typealias EventStreamOf<Success, Failure> = Alamofire.StreamOf<Alamofire.WebSocketRequest.Event<Success, Failure>> where Failure : Swift.Error
   @_spi(WebSocket) public func streamingMessageEvents(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.WebSocketTask.EventStreamOf<Foundation.URLSessionWebSocketTask.Message, Swift.Never>.BufferingPolicy = .unbounded) -> Alamofire.WebSocketTask.EventStreamOf<Foundation.URLSessionWebSocketTask.Message, Swift.Never>
   @_spi(WebSocket) public func streamingMessages(automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, bufferingPolicy: Alamofire.StreamOf<Foundation.URLSessionWebSocketTask.Message>.BufferingPolicy = .unbounded) -> Alamofire.StreamOf<Foundation.URLSessionWebSocketTask.Message>
-  @_spi(WebSocket) public func streamingDecodableEvents<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, using decoder: any Alamofire.DataDecoder = JSONDecoder(), bufferingPolicy: Alamofire.WebSocketTask.EventStreamOf<Value, any Swift.Error>.BufferingPolicy = .unbounded) -> Alamofire.WebSocketTask.EventStreamOf<Value, any Swift.Error> where Value : Swift.Decodable
-  @_spi(WebSocket) public func streamingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, using decoder: any Alamofire.DataDecoder = JSONDecoder(), bufferingPolicy: Alamofire.StreamOf<Value>.BufferingPolicy = .unbounded) -> Alamofire.StreamOf<Value> where Value : Swift.Decodable
+  @_spi(WebSocket) public func streamingDecodableEvents<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, using decoder: any Alamofire.DataDecoder = JSONDecoder(), bufferingPolicy: Alamofire.WebSocketTask.EventStreamOf<Value, any Swift.Error>.BufferingPolicy = .unbounded) -> Alamofire.WebSocketTask.EventStreamOf<Value, any Swift.Error> where Value : Swift.Decodable, Value : Swift.Sendable
+  @_spi(WebSocket) public func streamingDecodable<Value>(_ type: Value.Type = Value.self, automaticallyCancelling shouldAutomaticallyCancel: Swift.Bool = true, using decoder: any Alamofire.DataDecoder = JSONDecoder(), bufferingPolicy: Alamofire.StreamOf<Value>.BufferingPolicy = .unbounded) -> Alamofire.StreamOf<Value> where Value : Swift.Decodable, Value : Swift.Sendable
   @_spi(WebSocket) public func send(_ message: Foundation.URLSessionWebSocketTask.Message) async throws
   @_spi(WebSocket) public func close(sending closeCode: Foundation.URLSessionWebSocketTask.CloseCode, reason: Foundation.Data? = nil)
   @_spi(WebSocket) public func cancel()
@@ -453,7 +453,7 @@ public struct StreamOf<Element> : _Concurrency.AsyncSequence {
   public typealias __AsyncSequence_Failure = Swift.Never
   #endif
 }
-public protocol URLConvertible {
+public protocol URLConvertible : Swift.Sendable {
   func asURL() throws -> Foundation.URL
 }
 extension Swift.String : Alamofire.URLConvertible {
@@ -465,7 +465,7 @@ extension Foundation.URL : Alamofire.URLConvertible {
 extension Foundation.URLComponents : Alamofire.URLConvertible {
   public func asURL() throws -> Foundation.URL
 }
-public protocol URLRequestConvertible {
+public protocol URLRequestConvertible : Swift.Sendable {
   func asURLRequest() throws -> Foundation.URLRequest
 }
 extension Alamofire.URLRequestConvertible {
@@ -479,8 +479,8 @@ extension Foundation.URLRequest : Alamofire.URLRequestConvertible {
 extension Foundation.URLRequest {
   public init(url: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod, headers: Alamofire.HTTPHeaders? = nil) throws
 }
-@_hasMissingDesignatedInitializers final public class DownloadRequest : Alamofire.Request {
-  public struct Options : Swift.OptionSet {
+@_hasMissingDesignatedInitializers final public class DownloadRequest : Alamofire.Request, @unchecked Swift.Sendable {
+  public struct Options : Swift.OptionSet, Swift.Sendable {
     public static let createIntermediateDirectories: Alamofire.DownloadRequest.Options
     public static let removePreviousFile: Alamofire.DownloadRequest.Options
     public let rawValue: Swift.Int
@@ -489,7 +489,7 @@ extension Foundation.URLRequest {
     public typealias Element = Alamofire.DownloadRequest.Options
     public typealias RawValue = Swift.Int
   }
-  public typealias Destination = (_ temporaryURL: Foundation.URL, _ response: Foundation.HTTPURLResponse) -> (destinationURL: Foundation.URL, options: Alamofire.DownloadRequest.Options)
+  public typealias Destination = @Sendable (_ temporaryURL: Foundation.URL, _ response: Foundation.HTTPURLResponse) -> (destinationURL: Foundation.URL, options: Alamofire.DownloadRequest.Options)
   final public class func suggestedDownloadDestination(for directory: Foundation.FileManager.SearchPathDirectory = .documentDirectory, in domain: Foundation.FileManager.SearchPathDomainMask = .userDomainMask, options: Alamofire.DownloadRequest.Options = []) -> Alamofire.DownloadRequest.Destination
   public enum Downloadable {
     case request(any Alamofire.URLRequestConvertible)
@@ -508,30 +508,30 @@ extension Foundation.URLRequest {
   @discardableResult
   final public func cancel(producingResumeData shouldProduceResumeData: Swift.Bool) -> Self
   @discardableResult
-  final public func cancel(byProducingResumeData completionHandler: @escaping (_ data: Foundation.Data?) -> Swift.Void) -> Self
+  @preconcurrency final public func cancel(byProducingResumeData completionHandler: @escaping @Sendable (_ data: Foundation.Data?) -> Swift.Void) -> Self
   @discardableResult
   final public func validate(_ validation: @escaping Alamofire.DownloadRequest.Validation) -> Self
   @discardableResult
-  final public func response(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping (Alamofire.AFDownloadResponse<Foundation.URL?>) -> Swift.Void) -> Self
+  @preconcurrency final public func response(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Foundation.URL?>) -> Swift.Void) -> Self
   @discardableResult
-  final public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping (Alamofire.AFDownloadResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.DownloadResponseSerializerProtocol
+  final public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.DownloadResponseSerializerProtocol
   @discardableResult
-  final public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping (Alamofire.AFDownloadResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.ResponseSerializer
+  final public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.ResponseSerializer
   @discardableResult
-  final public func responseURL(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping (Alamofire.AFDownloadResponse<Foundation.URL>) -> Swift.Void) -> Self
+  @preconcurrency final public func responseURL(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Foundation.URL>) -> Swift.Void) -> Self
   @discardableResult
-  final public func responseData(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDownloadResponse<Foundation.Data>) -> Swift.Void) -> Self
+  @preconcurrency final public func responseData(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Foundation.Data>) -> Swift.Void) -> Self
   @discardableResult
-  final public func responseString(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDownloadResponse<Swift.String>) -> Swift.Void) -> Self
+  @preconcurrency final public func responseString(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Swift.String>) -> Swift.Void) -> Self
   @available(*, deprecated, message: "responseJSON deprecated and will be removed in Alamofire 6. Use responseDecodable instead.")
   @discardableResult
-  final public func responseJSON(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = JSONResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = JSONResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = JSONResponseSerializer.defaultEmptyRequestMethods, options: Foundation.JSONSerialization.ReadingOptions = .allowFragments, completionHandler: @escaping (Alamofire.AFDownloadResponse<Any>) -> Swift.Void) -> Self
+  @preconcurrency final public func responseJSON(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = JSONResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = JSONResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = JSONResponseSerializer.defaultEmptyRequestMethods, options: Foundation.JSONSerialization.ReadingOptions = .allowFragments, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<Any>) -> Swift.Void) -> Self
   @discardableResult
-  final public func responseDecodable<T>(of type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDownloadResponse<T>) -> Swift.Void) -> Self where T : Swift.Decodable
+  @preconcurrency final public func responseDecodable<T>(of type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDownloadResponse<T>) -> Swift.Void) -> Self where T : Swift.Decodable, T : Swift.Sendable
   @objc deinit
 }
-public enum AFError : Swift.Error {
-  public enum MultipartEncodingFailureReason {
+public enum AFError : Swift.Error, Swift.Sendable {
+  public enum MultipartEncodingFailureReason : Swift.Sendable {
     case bodyPartURLInvalid(url: Foundation.URL)
     case bodyPartFilenameInvalid(in: Foundation.URL)
     case bodyPartFileNotReachable(at: Foundation.URL)
@@ -550,20 +550,20 @@ public enum AFError : Swift.Error {
     public var bytesExpected: Swift.UInt64
     public var bytesRead: Swift.UInt64
   }
-  public enum ParameterEncodingFailureReason {
+  public enum ParameterEncodingFailureReason : Swift.Sendable {
     case missingURL
     case jsonEncodingFailed(error: any Swift.Error)
     case customEncodingFailed(error: any Swift.Error)
   }
-  public enum ParameterEncoderFailureReason {
-    public enum RequiredComponent {
+  public enum ParameterEncoderFailureReason : Swift.Sendable {
+    public enum RequiredComponent : Swift.Sendable {
       case url
       case httpMethod(rawValue: Swift.String)
     }
     case missingRequiredComponent(Alamofire.AFError.ParameterEncoderFailureReason.RequiredComponent)
     case encoderFailed(error: any Swift.Error)
   }
-  public enum ResponseValidationFailureReason {
+  public enum ResponseValidationFailureReason : Swift.Sendable {
     case dataFileNil
     case dataFileReadFailed(at: Foundation.URL)
     case missingContentType(acceptableContentTypes: [Swift.String])
@@ -571,7 +571,7 @@ public enum AFError : Swift.Error {
     case unacceptableStatusCode(code: Swift.Int)
     case customValidationFailed(error: any Swift.Error)
   }
-  public enum ResponseSerializationFailureReason {
+  public enum ResponseSerializationFailureReason : Swift.Sendable {
     case inputDataNilOrZeroLength
     case inputFileNil
     case inputFileReadFailed(at: Foundation.URL)
@@ -581,8 +581,8 @@ public enum AFError : Swift.Error {
     case customSerializationFailed(error: any Swift.Error)
     case invalidEmptyResponse(type: Swift.String)
   }
-  public enum ServerTrustFailureReason {
-    public struct Output {
+  public enum ServerTrustFailureReason : Swift.Sendable {
+    public struct Output : Swift.Sendable {
       public let host: Swift.String
       public let trust: Security.SecTrust
       public let status: Darwin.OSStatus
@@ -602,7 +602,7 @@ public enum AFError : Swift.Error {
     case publicKeyPinningFailed(host: Swift.String, trust: Security.SecTrust, pinnedKeys: [Security.SecKey], serverKeys: [Security.SecKey])
     case customEvaluationFailed(error: any Swift.Error)
   }
-  public enum URLRequestValidationFailureReason {
+  public enum URLRequestValidationFailureReason : Swift.Sendable {
     case bodyDataInGETRequest(Foundation.Data)
   }
   case createUploadableFailed(error: any Swift.Error)
@@ -732,10 +732,10 @@ public typealias AFResult<Success> = Swift.Result<Success, Alamofire.AFError>
 public protocol AuthenticationCredential {
   var requiresRefresh: Swift.Bool { get }
 }
-public protocol Authenticator : AnyObject {
-  associatedtype Credential : Alamofire.AuthenticationCredential
+public protocol Authenticator : AnyObject, Swift.Sendable {
+  associatedtype Credential : Alamofire.AuthenticationCredential, Swift.Sendable
   func apply(_ credential: Self.Credential, to urlRequest: inout Foundation.URLRequest)
-  func refresh(_ credential: Self.Credential, for session: Alamofire.Session, completion: @escaping (Swift.Result<Self.Credential, any Swift.Error>) -> Swift.Void)
+  func refresh(_ credential: Self.Credential, for session: Alamofire.Session, completion: @escaping @Sendable (Swift.Result<Self.Credential, any Swift.Error>) -> Swift.Void)
   func didRequest(_ urlRequest: Foundation.URLRequest, with response: Foundation.HTTPURLResponse, failDueToAuthenticationError error: any Swift.Error) -> Swift.Bool
   func isRequest(_ urlRequest: Foundation.URLRequest, authenticatedWith credential: Self.Credential) -> Swift.Bool
 }
@@ -748,26 +748,26 @@ public enum AuthenticationError : Swift.Error {
     get
   }
 }
-public class AuthenticationInterceptor<AuthenticatorType> : Alamofire.RequestInterceptor where AuthenticatorType : Alamofire.Authenticator {
+final public class AuthenticationInterceptor<AuthenticatorType> : Alamofire.RequestInterceptor, Swift.Sendable where AuthenticatorType : Alamofire.Authenticator {
   public typealias Credential = AuthenticatorType.Credential
   public struct RefreshWindow {
     public let interval: Foundation.TimeInterval
     public let maximumAttempts: Swift.Int
     public init(interval: Foundation.TimeInterval = 30.0, maximumAttempts: Swift.Int = 5)
   }
-  public var credential: Alamofire.AuthenticationInterceptor<AuthenticatorType>.Credential? {
+  final public var credential: Alamofire.AuthenticationInterceptor<AuthenticatorType>.Credential? {
     get
     set
   }
   public init(authenticator: AuthenticatorType, credential: Alamofire.AuthenticationInterceptor<AuthenticatorType>.Credential? = nil, refreshWindow: Alamofire.AuthenticationInterceptor<AuthenticatorType>.RefreshWindow? = RefreshWindow())
-  public func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  public func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+  final public func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  final public func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
   @objc deinit
 }
-public protocol ParameterEncoder {
-  func encode<Parameters>(_ parameters: Parameters?, into request: Foundation.URLRequest) throws -> Foundation.URLRequest where Parameters : Swift.Encodable
+public protocol ParameterEncoder : Swift.Sendable {
+  func encode<Parameters>(_ parameters: Parameters?, into request: Foundation.URLRequest) throws -> Foundation.URLRequest where Parameters : Swift.Encodable, Parameters : Swift.Sendable
 }
-open class JSONParameterEncoder : Alamofire.ParameterEncoder {
+open class JSONParameterEncoder : @unchecked Swift.Sendable, Alamofire.ParameterEncoder {
   public static var `default`: Alamofire.JSONParameterEncoder {
     get
   }
@@ -789,7 +789,7 @@ extension Alamofire.ParameterEncoder where Self == Alamofire.JSONParameterEncode
   }
   public static func json(encoder: Foundation.JSONEncoder = JSONEncoder()) -> Alamofire.JSONParameterEncoder
 }
-open class URLEncodedFormParameterEncoder : Alamofire.ParameterEncoder {
+open class URLEncodedFormParameterEncoder : @unchecked Swift.Sendable, Alamofire.ParameterEncoder {
   public enum Destination {
     case methodDependent
     case queryString
@@ -943,14 +943,14 @@ public struct HTTPMethod : Swift.RawRepresentable, Swift.Equatable, Swift.Hashab
   public init(rawValue: Swift.String)
   public typealias RawValue = Swift.String
 }
-public protocol RedirectHandler {
+public protocol RedirectHandler : Swift.Sendable {
   func task(_ task: Foundation.URLSessionTask, willBeRedirectedTo request: Foundation.URLRequest, for response: Foundation.HTTPURLResponse, completion: @escaping (Foundation.URLRequest?) -> Swift.Void)
 }
 public struct Redirector {
-  public enum Behavior {
+  public enum Behavior : Swift.Sendable {
     case follow
     case doNotFollow
-    case modify((Foundation.URLSessionTask, Foundation.URLRequest, Foundation.HTTPURLResponse) -> Foundation.URLRequest?)
+    case modify(@Sendable (_ task: Foundation.URLSessionTask, _ request: Foundation.URLRequest, _ response: Foundation.HTTPURLResponse) -> Foundation.URLRequest?)
   }
   public static let follow: Alamofire.Redirector
   public static let doNotFollow: Alamofire.Redirector
@@ -967,16 +967,16 @@ extension Alamofire.RedirectHandler where Self == Alamofire.Redirector {
   public static var doNotFollow: Alamofire.Redirector {
     get
   }
-  public static func modify(using closure: @escaping (Foundation.URLSessionTask, Foundation.URLRequest, Foundation.HTTPURLResponse) -> Foundation.URLRequest?) -> Alamofire.Redirector
+  public static func modify(using closure: @escaping @Sendable (Foundation.URLSessionTask, Foundation.URLRequest, Foundation.HTTPURLResponse) -> Foundation.URLRequest?) -> Alamofire.Redirector
 }
 public let AF: Alamofire.Session
 public enum AFInfo {
   public static let version: Swift.String
 }
 @_spi(WebSocket) @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-final public class WebSocketRequest : Alamofire.Request {
-  @_spi(WebSocket) public struct Event<Success, Failure> where Failure : Swift.Error {
-    @_spi(WebSocket) public enum Kind {
+final public class WebSocketRequest : Alamofire.Request, @unchecked Swift.Sendable {
+  @_spi(WebSocket) public struct Event<Success, Failure> : Swift.Sendable where Success : Swift.Sendable, Failure : Swift.Error {
+    @_spi(WebSocket) public enum Kind : Swift.Sendable {
       @_spi(WebSocket) case connected(protocol: Swift.String?)
       @_spi(WebSocket) case receivedMessage(Success)
       @_spi(WebSocket) case serializerFailed(Failure)
@@ -989,9 +989,9 @@ final public class WebSocketRequest : Alamofire.Request {
     }
     @_spi(WebSocket) public func close(sending closeCode: Foundation.URLSessionWebSocketTask.CloseCode, reason: Foundation.Data? = nil)
     @_spi(WebSocket) public func cancel()
-    @_spi(WebSocket) public func sendPing(respondingOn queue: Dispatch.DispatchQueue = .main, onResponse: @escaping (Alamofire.WebSocketRequest.PingResponse) -> Swift.Void)
+    @_spi(WebSocket) public func sendPing(respondingOn queue: Dispatch.DispatchQueue = .main, onResponse: @escaping @Sendable (Alamofire.WebSocketRequest.PingResponse) -> Swift.Void)
   }
-  @_spi(WebSocket) public struct Completion {
+  @_spi(WebSocket) public struct Completion : Swift.Sendable {
     @_spi(WebSocket) public let request: Foundation.URLRequest?
     @_spi(WebSocket) public let response: Foundation.HTTPURLResponse?
     @_spi(WebSocket) public let metrics: Foundation.URLSessionTaskMetrics?
@@ -1008,8 +1008,8 @@ final public class WebSocketRequest : Alamofire.Request {
     @_spi(WebSocket) public let maximumMessageSize: Swift.Int
     @_spi(WebSocket) public let pingInterval: Foundation.TimeInterval?
   }
-  @_spi(WebSocket) public enum PingResponse {
-    @_spi(WebSocket) public struct Pong {
+  @_spi(WebSocket) public enum PingResponse : Swift.Sendable {
+    @_spi(WebSocket) public struct Pong : Swift.Sendable {
     }
     @_spi(WebSocket) case pong(Alamofire.WebSocketRequest.PingResponse.Pong)
     @_spi(WebSocket) case error(any Swift.Error)
@@ -1021,41 +1021,41 @@ final public class WebSocketRequest : Alamofire.Request {
   final public func close(sending closeCode: Foundation.URLSessionWebSocketTask.CloseCode, reason: Foundation.Data? = nil) -> Self
   @_spi(WebSocket) @discardableResult
   override final public func cancel() -> Self
-  @_spi(WebSocket) final public func sendPing(respondingOn queue: Dispatch.DispatchQueue = .main, onResponse: @escaping (Alamofire.WebSocketRequest.PingResponse) -> Swift.Void)
+  @_spi(WebSocket) @preconcurrency final public func sendPing(respondingOn queue: Dispatch.DispatchQueue = .main, onResponse: @escaping @Sendable (Alamofire.WebSocketRequest.PingResponse) -> Swift.Void)
   @_spi(WebSocket) @discardableResult
-  final public func streamSerializer<Serializer>(_ serializer: Serializer, on queue: Dispatch.DispatchQueue = .main, handler: @escaping (_ event: Alamofire.WebSocketRequest.Event<Serializer.Output, Serializer.Failure>) -> Swift.Void) -> Self where Serializer : Alamofire.WebSocketMessageSerializer, Serializer.Failure == any Swift.Error
+  @preconcurrency final public func streamSerializer<Serializer>(_ serializer: Serializer, on queue: Dispatch.DispatchQueue = .main, handler: @escaping @Sendable (_ event: Alamofire.WebSocketRequest.Event<Serializer.Output, Serializer.Failure>) -> Swift.Void) -> Self where Serializer : Alamofire.WebSocketMessageSerializer, Serializer.Failure == any Swift.Error
   @_spi(WebSocket) @discardableResult
-  final public func streamDecodableEvents<Value>(_ type: Value.Type = Value.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), handler: @escaping (_ event: Alamofire.WebSocketRequest.Event<Value, any Swift.Error>) -> Swift.Void) -> Self where Value : Swift.Decodable
+  @preconcurrency final public func streamDecodableEvents<Value>(_ type: Value.Type = Value.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), handler: @escaping @Sendable (_ event: Alamofire.WebSocketRequest.Event<Value, any Swift.Error>) -> Swift.Void) -> Self where Value : Swift.Decodable, Value : Swift.Sendable
   @_spi(WebSocket) @discardableResult
-  final public func streamDecodable<Value>(_ type: Value.Type = Value.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), handler: @escaping (_ value: Value) -> Swift.Void) -> Self where Value : Swift.Decodable
+  @preconcurrency final public func streamDecodable<Value>(_ type: Value.Type = Value.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), handler: @escaping @Sendable (_ value: Value) -> Swift.Void) -> Self where Value : Swift.Decodable, Value : Swift.Sendable
   @_spi(WebSocket) @discardableResult
-  final public func streamMessageEvents(on queue: Dispatch.DispatchQueue = .main, handler: @escaping (_ event: Alamofire.WebSocketRequest.Event<Foundation.URLSessionWebSocketTask.Message, Swift.Never>) -> Swift.Void) -> Self
+  @preconcurrency final public func streamMessageEvents(on queue: Dispatch.DispatchQueue = .main, handler: @escaping @Sendable (_ event: Alamofire.WebSocketRequest.Event<Foundation.URLSessionWebSocketTask.Message, Swift.Never>) -> Swift.Void) -> Self
   @_spi(WebSocket) @discardableResult
-  final public func streamMessages(on queue: Dispatch.DispatchQueue = .main, handler: @escaping (_ message: Foundation.URLSessionWebSocketTask.Message) -> Swift.Void) -> Self
-  @_spi(WebSocket) final public func send(_ message: Foundation.URLSessionWebSocketTask.Message, queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+  @preconcurrency final public func streamMessages(on queue: Dispatch.DispatchQueue = .main, handler: @escaping @Sendable (_ message: Foundation.URLSessionWebSocketTask.Message) -> Swift.Void) -> Self
+  @_spi(WebSocket) @preconcurrency final public func send(_ message: Foundation.URLSessionWebSocketTask.Message, queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping @Sendable (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
   @_spi(WebSocket) @objc deinit
 }
 #if compiler(>=5.3) && $PrimaryAssociatedTypes2
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public protocol WebSocketMessageSerializer<Output, Failure> {
-  associatedtype Output
+public protocol WebSocketMessageSerializer<Output, Failure> : Swift.Sendable {
+  associatedtype Output : Swift.Sendable
   associatedtype Failure : Swift.Error = any Swift.Error
   func decode(_ message: Foundation.URLSessionWebSocketTask.Message) throws -> Self.Output
 }
 #else
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public protocol WebSocketMessageSerializer {
-  associatedtype Output
+public protocol WebSocketMessageSerializer : Swift.Sendable {
+  associatedtype Output : Swift.Sendable
   associatedtype Failure : Swift.Error = any Swift.Error
   func decode(_ message: Foundation.URLSessionWebSocketTask.Message) throws -> Self.Output
 }
 #endif
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
 extension Alamofire.WebSocketMessageSerializer {
-  public static func json<Value>(decoding _: Value.Type = Value.self, using decoder: Foundation.JSONDecoder = JSONDecoder()) -> Alamofire.DecodableWebSocketMessageDecoder<Value> where Self == Alamofire.DecodableWebSocketMessageDecoder<Value>, Value : Swift.Decodable
+  public static func json<Value>(decoding _: Value.Type = Value.self, using decoder: Foundation.JSONDecoder = JSONDecoder()) -> Alamofire.DecodableWebSocketMessageDecoder<Value> where Self == Alamofire.DecodableWebSocketMessageDecoder<Value>, Value : Swift.Decodable, Value : Swift.Sendable
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct DecodableWebSocketMessageDecoder<Value> : Alamofire.WebSocketMessageSerializer where Value : Swift.Decodable {
+public struct DecodableWebSocketMessageDecoder<Value> : Alamofire.WebSocketMessageSerializer where Value : Swift.Decodable, Value : Swift.Sendable {
   public enum Error : Swift.Error {
     case decoding(any Swift.Error)
     case unknownMessage(description: Swift.String)
@@ -1068,32 +1068,32 @@ public struct DecodableWebSocketMessageDecoder<Value> : Alamofire.WebSocketMessa
   @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
   public typealias Output = Value
 }
-@_hasMissingDesignatedInitializers public class DataRequest : Alamofire.Request {
+@_hasMissingDesignatedInitializers public class DataRequest : Alamofire.Request, @unchecked Swift.Sendable {
   final public let convertible: any Alamofire.URLRequestConvertible
   public var data: Foundation.Data? {
     get
   }
   @discardableResult
-  public func validate(_ validation: @escaping Alamofire.DataRequest.Validation) -> Self
+  @preconcurrency public func validate(_ validation: @escaping Alamofire.DataRequest.Validation) -> Self
   @discardableResult
-  @_disfavoredOverload public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (_ response: Foundation.HTTPURLResponse, _ completionHandler: @escaping (Alamofire.Request.ResponseDisposition) -> Swift.Void) -> Swift.Void) -> Self
+  @_disfavoredOverload @preconcurrency public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (_ response: Foundation.HTTPURLResponse, _ completionHandler: @escaping @Sendable (Alamofire.Request.ResponseDisposition) -> Swift.Void) -> Swift.Void) -> Self
   @discardableResult
-  public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (Foundation.HTTPURLResponse) -> Swift.Void) -> Self
+  @preconcurrency public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (Foundation.HTTPURLResponse) -> Swift.Void) -> Self
   @discardableResult
-  public func response(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping (Alamofire.AFDataResponse<Foundation.Data?>) -> Swift.Void) -> Self
+  @preconcurrency public func response(queue: Dispatch.DispatchQueue = .main, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Foundation.Data?>) -> Swift.Void) -> Self
   @discardableResult
-  public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping (Alamofire.AFDataResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.DataResponseSerializerProtocol
+  @preconcurrency public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.DataResponseSerializerProtocol
   @discardableResult
-  public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping (Alamofire.AFDataResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.ResponseSerializer
+  @preconcurrency public func response<Serializer>(queue: Dispatch.DispatchQueue = .main, responseSerializer: Serializer, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Serializer.SerializedObject>) -> Swift.Void) -> Self where Serializer : Alamofire.ResponseSerializer
   @discardableResult
-  public func responseData(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDataResponse<Foundation.Data>) -> Swift.Void) -> Self
+  @preconcurrency public func responseData(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = DataResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Foundation.Data>) -> Swift.Void) -> Self
   @discardableResult
-  public func responseString(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDataResponse<Swift.String>) -> Swift.Void) -> Self
+  @preconcurrency public func responseString(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Swift.String>) -> Swift.Void) -> Self
   @available(*, deprecated, message: "responseJSON deprecated and will be removed in Alamofire 6. Use responseDecodable instead.")
   @discardableResult
-  public func responseJSON(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = JSONResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = JSONResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = JSONResponseSerializer.defaultEmptyRequestMethods, options: Foundation.JSONSerialization.ReadingOptions = .allowFragments, completionHandler: @escaping (Alamofire.AFDataResponse<Any>) -> Swift.Void) -> Self
+  @preconcurrency public func responseJSON(queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = JSONResponseSerializer.defaultDataPreprocessor, emptyResponseCodes: Swift.Set<Swift.Int> = JSONResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = JSONResponseSerializer.defaultEmptyRequestMethods, options: Foundation.JSONSerialization.ReadingOptions = .allowFragments, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Any>) -> Swift.Void) -> Self
   @discardableResult
-  public func responseDecodable<T>(of type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods, completionHandler: @escaping (Alamofire.AFDataResponse<T>) -> Swift.Void) -> Self where T : Swift.Decodable
+  @preconcurrency public func responseDecodable<Value>(of type: Value.Type = Value.self, queue: Dispatch.DispatchQueue = .main, dataPreprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<Value>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<Value>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<Value>.defaultEmptyRequestMethods, completionHandler: @escaping @Sendable (Alamofire.AFDataResponse<Value>) -> Swift.Void) -> Self where Value : Swift.Decodable, Value : Swift.Sendable
   @objc deinit
 }
 open class MultipartFormData {
@@ -1116,24 +1116,24 @@ open class MultipartFormData {
   public func writeEncodedData(to fileURL: Foundation.URL) throws
   @objc deinit
 }
-@_hasMissingDesignatedInitializers final public class DataStreamRequest : Alamofire.Request {
-  public typealias Handler<Success, Failure> = (Alamofire.DataStreamRequest.Stream<Success, Failure>) throws -> Swift.Void where Failure : Swift.Error
-  public struct Stream<Success, Failure> where Failure : Swift.Error {
+@_hasMissingDesignatedInitializers final public class DataStreamRequest : Alamofire.Request, @unchecked Swift.Sendable {
+  public typealias Handler<Success, Failure> = @Sendable (Alamofire.DataStreamRequest.Stream<Success, Failure>) throws -> Swift.Void where Failure : Swift.Error
+  public struct Stream<Success, Failure> : Swift.Sendable where Success : Swift.Sendable, Failure : Swift.Error {
     public let event: Alamofire.DataStreamRequest.Event<Success, Failure>
     public let token: Alamofire.DataStreamRequest.CancellationToken
     public func cancel()
   }
-  public enum Event<Success, Failure> where Failure : Swift.Error {
+  public enum Event<Success, Failure> : Swift.Sendable where Success : Swift.Sendable, Failure : Swift.Error {
     case stream(Swift.Result<Success, Failure>)
     case complete(Alamofire.DataStreamRequest.Completion)
   }
-  public struct Completion {
+  public struct Completion : Swift.Sendable {
     public let request: Foundation.URLRequest?
     public let response: Foundation.HTTPURLResponse?
     public let metrics: Foundation.URLSessionTaskMetrics?
     public let error: Alamofire.AFError?
   }
-  public struct CancellationToken {
+  public struct CancellationToken : Swift.Sendable {
     public func cancel()
   }
   final public let convertible: any Alamofire.URLRequestConvertible
@@ -1142,17 +1142,17 @@ open class MultipartFormData {
   final public func validate(_ validation: @escaping Alamofire.DataStreamRequest.Validation) -> Self
   final public func asInputStream(bufferSize: Swift.Int = 1024) -> Foundation.InputStream?
   @discardableResult
-  @_disfavoredOverload final public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (_ response: Foundation.HTTPURLResponse, _ completionHandler: @escaping (Alamofire.Request.ResponseDisposition) -> Swift.Void) -> Swift.Void) -> Self
+  @_disfavoredOverload @preconcurrency final public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (_ response: Foundation.HTTPURLResponse, _ completionHandler: @escaping @Sendable (Alamofire.Request.ResponseDisposition) -> Swift.Void) -> Swift.Void) -> Self
   @discardableResult
-  final public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (Foundation.HTTPURLResponse) -> Swift.Void) -> Self
+  @preconcurrency final public func onHTTPResponse(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (Foundation.HTTPURLResponse) -> Swift.Void) -> Self
   @discardableResult
-  final public func responseStream(on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Foundation.Data, Swift.Never>) -> Self
+  @preconcurrency final public func responseStream(on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Foundation.Data, Swift.Never>) -> Self
   @discardableResult
-  final public func responseStream<Serializer>(using serializer: Serializer, on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Serializer.SerializedObject, Alamofire.AFError>) -> Self where Serializer : Alamofire.DataStreamSerializer
+  @preconcurrency final public func responseStream<Serializer>(using serializer: Serializer, on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Serializer.SerializedObject, Alamofire.AFError>) -> Self where Serializer : Alamofire.DataStreamSerializer
   @discardableResult
-  final public func responseStreamString(on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Swift.String, Swift.Never>) -> Self
+  @preconcurrency final public func responseStreamString(on queue: Dispatch.DispatchQueue = .main, stream: @escaping Alamofire.DataStreamRequest.Handler<Swift.String, Swift.Never>) -> Self
   @discardableResult
-  final public func responseStreamDecodable<T>(of type: T.Type = T.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), preprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor(), stream: @escaping Alamofire.DataStreamRequest.Handler<T, Alamofire.AFError>) -> Self where T : Swift.Decodable
+  @preconcurrency final public func responseStreamDecodable<T>(of type: T.Type = T.self, on queue: Dispatch.DispatchQueue = .main, using decoder: any Alamofire.DataDecoder = JSONDecoder(), preprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor(), stream: @escaping Alamofire.DataStreamRequest.Handler<T, Alamofire.AFError>) -> Self where T : Swift.Decodable, T : Swift.Sendable
   @objc deinit
 }
 extension Alamofire.DataStreamRequest.Stream {
@@ -1169,11 +1169,11 @@ extension Alamofire.DataStreamRequest.Stream {
     get
   }
 }
-public protocol DataStreamSerializer {
-  associatedtype SerializedObject
+public protocol DataStreamSerializer : Swift.Sendable {
+  associatedtype SerializedObject : Swift.Sendable
   func serialize(_ data: Foundation.Data) throws -> Self.SerializedObject
 }
-public struct DecodableStreamSerializer<T> : Alamofire.DataStreamSerializer where T : Swift.Decodable {
+public struct DecodableStreamSerializer<T> : Alamofire.DataStreamSerializer where T : Swift.Decodable, T : Swift.Sendable {
   public let decoder: any Alamofire.DataDecoder
   public let dataPreprocessor: any Alamofire.DataPreprocessor
   public init(decoder: any Alamofire.DataDecoder = JSONDecoder(), dataPreprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor())
@@ -1191,7 +1191,7 @@ public struct StringStreamSerializer : Alamofire.DataStreamSerializer {
   public typealias SerializedObject = Swift.String
 }
 extension Alamofire.DataStreamSerializer {
-  public static func decodable<T>(of type: T.Type, decoder: any Alamofire.DataDecoder = JSONDecoder(), dataPreprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor()) -> Self where Self == Alamofire.DecodableStreamSerializer<T>, T : Swift.Decodable
+  public static func decodable<T>(of type: T.Type, decoder: any Alamofire.DataDecoder = JSONDecoder(), dataPreprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor()) -> Self where Self == Alamofire.DecodableStreamSerializer<T>, T : Swift.Decodable, T : Swift.Sendable
 }
 extension Alamofire.DataStreamSerializer where Self == Alamofire.PassthroughStreamSerializer {
   public static var passthrough: Alamofire.PassthroughStreamSerializer {
@@ -1241,16 +1241,16 @@ final public class URLEncodedFormEncoder {
     case lowercased
     case custom((Swift.String) -> Swift.String)
   }
-  public struct KeyPathEncoding {
+  public struct KeyPathEncoding : Swift.Sendable {
     public static let brackets: Alamofire.URLEncodedFormEncoder.KeyPathEncoding
     public static let dots: Alamofire.URLEncodedFormEncoder.KeyPathEncoding
-    public init(encoding: @escaping (_ subkey: Swift.String) -> Swift.String)
+    public init(encoding: @escaping @Sendable (_ subkey: Swift.String) -> Swift.String)
   }
-  public struct NilEncoding {
+  public struct NilEncoding : Swift.Sendable {
     public static let dropKey: Alamofire.URLEncodedFormEncoder.NilEncoding
     public static let dropValue: Alamofire.URLEncodedFormEncoder.NilEncoding
     public static let null: Alamofire.URLEncodedFormEncoder.NilEncoding
-    public init(encoding: @escaping () -> Swift.String?)
+    public init(encoding: @escaping @Sendable () -> Swift.String?)
   }
   public enum SpaceEncoding {
     case percentEscaped
@@ -1289,14 +1289,14 @@ extension Foundation.URLRequest {
   }
   public func validate() throws
 }
-open class ServerTrustManager {
+open class ServerTrustManager : @unchecked Swift.Sendable {
   final public let allHostsMustBeEvaluated: Swift.Bool
   final public let evaluators: [Swift.String : any Alamofire.ServerTrustEvaluating]
   public init(allHostsMustBeEvaluated: Swift.Bool = true, evaluators: [Swift.String : any Alamofire.ServerTrustEvaluating])
   open func serverTrustEvaluator(forHost host: Swift.String) throws -> (any Alamofire.ServerTrustEvaluating)?
   @objc deinit
 }
-public protocol ServerTrustEvaluating {
+public protocol ServerTrustEvaluating : Swift.Sendable {
   func evaluate(_ trust: Security.SecTrust, forHost host: Swift.String) throws
 }
 final public class DefaultTrustEvaluator : Alamofire.ServerTrustEvaluating {
@@ -1305,7 +1305,7 @@ final public class DefaultTrustEvaluator : Alamofire.ServerTrustEvaluating {
   @objc deinit
 }
 final public class RevocationTrustEvaluator : Alamofire.ServerTrustEvaluating {
-  public struct Options : Swift.OptionSet {
+  public struct Options : Swift.OptionSet, Swift.Sendable {
     public static let crl: Alamofire.RevocationTrustEvaluator.Options
     public static let networkAccessDisabled: Alamofire.RevocationTrustEvaluator.Options
     public static let ocsp: Alamofire.RevocationTrustEvaluator.Options
@@ -1456,8 +1456,8 @@ extension Alamofire.AlamofireExtension where ExtendedType == Security.SecTrustRe
   }
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-public struct DeflateRequestCompressor : Alamofire.RequestInterceptor {
-  public enum DuplicateHeaderBehavior {
+public struct DeflateRequestCompressor : Swift.Sendable, Alamofire.RequestInterceptor {
+  public enum DuplicateHeaderBehavior : Swift.Sendable {
     case error
     case replace
     case skip
@@ -1470,8 +1470,8 @@ public struct DeflateRequestCompressor : Alamofire.RequestInterceptor {
   public struct DuplicateHeaderError : Swift.Error {
   }
   public let duplicateHeaderBehavior: Alamofire.DeflateRequestCompressor.DuplicateHeaderBehavior
-  public let shouldCompressBodyData: (_ bodyData: Foundation.Data) -> Swift.Bool
-  public init(duplicateHeaderBehavior: Alamofire.DeflateRequestCompressor.DuplicateHeaderBehavior = .error, shouldCompressBodyData: @escaping (_ bodyData: Foundation.Data) -> Swift.Bool = { _ in true })
+  public let shouldCompressBodyData: @Sendable (_ bodyData: Foundation.Data) -> Swift.Bool
+  public init(duplicateHeaderBehavior: Alamofire.DeflateRequestCompressor.DuplicateHeaderBehavior = .error, shouldCompressBodyData: @escaping @Sendable (_ bodyData: Foundation.Data) -> Swift.Bool = { _ in true })
   public func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -1479,75 +1479,75 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.DeflateRequestCom
   public static var deflateCompressor: Alamofire.DeflateRequestCompressor {
     get
   }
-  public static func deflateCompressor(duplicateHeaderBehavior: Alamofire.DeflateRequestCompressor.DuplicateHeaderBehavior = .error, shouldCompressBodyData: @escaping (_ bodyData: Foundation.Data) -> Swift.Bool = { _ in true }) -> Alamofire.DeflateRequestCompressor
+  public static func deflateCompressor(duplicateHeaderBehavior: Alamofire.DeflateRequestCompressor.DuplicateHeaderBehavior = .error, shouldCompressBodyData: @escaping @Sendable (_ bodyData: Foundation.Data) -> Swift.Bool = { _ in true }) -> Alamofire.DeflateRequestCompressor
 }
-public struct RequestAdapterState {
+public struct RequestAdapterState : Swift.Sendable {
   public let requestID: Foundation.UUID
   public let session: Alamofire.Session
 }
-public protocol RequestAdapter {
-  func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+public protocol RequestAdapter : Swift.Sendable {
+  func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping @Sendable (_ result: Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping @Sendable (_ result: Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
 }
 extension Alamofire.RequestAdapter {
-  public func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  @preconcurrency public func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping @Sendable (_ result: Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
 }
-public enum RetryResult {
+public enum RetryResult : Swift.Sendable {
   case retry
   case retryWithDelay(Foundation.TimeInterval)
   case doNotRetry
   case doNotRetryWithError(any Swift.Error)
 }
-public protocol RequestRetrier {
-  func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+public protocol RequestRetrier : Swift.Sendable {
+  func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
 }
 public protocol RequestInterceptor : Alamofire.RequestAdapter, Alamofire.RequestRetrier {
 }
 extension Alamofire.RequestInterceptor {
-  public func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  public func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+  @preconcurrency public func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  @preconcurrency public func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
 }
-public typealias AdaptHandler = (Foundation.URLRequest, Alamofire.Session, _ completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void) -> Swift.Void
-public typealias RetryHandler = (Alamofire.Request, Alamofire.Session, any Swift.Error, _ completion: @escaping (Alamofire.RetryResult) -> Swift.Void) -> Swift.Void
-open class Adapter : Alamofire.RequestInterceptor {
-  public init(_ adaptHandler: @escaping Alamofire.AdaptHandler)
-  open func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  open func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+public typealias AdaptHandler = @Sendable (_ request: Foundation.URLRequest, _ session: Alamofire.Session, _ completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void) -> Swift.Void
+public typealias RetryHandler = @Sendable (_ request: Alamofire.Request, _ session: Alamofire.Session, _ error: any Swift.Error, _ completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void) -> Swift.Void
+open class Adapter : @unchecked Swift.Sendable, Alamofire.RequestInterceptor {
+  @preconcurrency public init(_ adaptHandler: @escaping Alamofire.AdaptHandler)
+  @preconcurrency open func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  @preconcurrency open func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
   @objc deinit
 }
 extension Alamofire.RequestAdapter where Self == Alamofire.Adapter {
-  public static func adapter(using closure: @escaping Alamofire.AdaptHandler) -> Alamofire.Adapter
+  @preconcurrency public static func adapter(using closure: @escaping Alamofire.AdaptHandler) -> Alamofire.Adapter
 }
-open class Retrier : Alamofire.RequestInterceptor {
-  public init(_ retryHandler: @escaping Alamofire.RetryHandler)
-  open func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+open class Retrier : @unchecked Swift.Sendable, Alamofire.RequestInterceptor {
+  @preconcurrency public init(_ retryHandler: @escaping Alamofire.RetryHandler)
+  @preconcurrency open func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
   @objc deinit
 }
 extension Alamofire.RequestRetrier where Self == Alamofire.Retrier {
-  public static func retrier(using closure: @escaping Alamofire.RetryHandler) -> Alamofire.Retrier
+  @preconcurrency public static func retrier(using closure: @escaping Alamofire.RetryHandler) -> Alamofire.Retrier
 }
-open class Interceptor : Alamofire.RequestInterceptor {
+open class Interceptor : @unchecked Swift.Sendable, Alamofire.RequestInterceptor {
   final public let adapters: [any Alamofire.RequestAdapter]
   final public let retriers: [any Alamofire.RequestRetrier]
   public init(adaptHandler: @escaping Alamofire.AdaptHandler, retryHandler: @escaping Alamofire.RetryHandler)
   public init(adapter: any Alamofire.RequestAdapter, retrier: any Alamofire.RequestRetrier)
   public init(adapters: [any Alamofire.RequestAdapter] = [], retriers: [any Alamofire.RequestRetrier] = [], interceptors: [any Alamofire.RequestInterceptor] = [])
-  open func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  open func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
-  open func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+  @preconcurrency open func adapt(_ urlRequest: Foundation.URLRequest, for session: Alamofire.Session, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  @preconcurrency open func adapt(_ urlRequest: Foundation.URLRequest, using state: Alamofire.RequestAdapterState, completion: @escaping @Sendable (Swift.Result<Foundation.URLRequest, any Swift.Error>) -> Swift.Void)
+  @preconcurrency open func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: any Swift.Error, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
   @objc deinit
 }
 extension Alamofire.RequestInterceptor where Self == Alamofire.Interceptor {
-  public static func interceptor(adapter: @escaping Alamofire.AdaptHandler, retrier: @escaping Alamofire.RetryHandler) -> Alamofire.Interceptor
-  public static func interceptor(adapter: any Alamofire.RequestAdapter, retrier: any Alamofire.RequestRetrier) -> Alamofire.Interceptor
-  public static func interceptor(adapters: [any Alamofire.RequestAdapter] = [], retriers: [any Alamofire.RequestRetrier] = [], interceptors: [any Alamofire.RequestInterceptor] = []) -> Alamofire.Interceptor
+  @preconcurrency public static func interceptor(adapter: @escaping Alamofire.AdaptHandler, retrier: @escaping Alamofire.RetryHandler) -> Alamofire.Interceptor
+  @preconcurrency public static func interceptor(adapter: any Alamofire.RequestAdapter, retrier: any Alamofire.RequestRetrier) -> Alamofire.Interceptor
+  @preconcurrency public static func interceptor(adapters: [any Alamofire.RequestAdapter] = [], retriers: [any Alamofire.RequestRetrier] = [], interceptors: [any Alamofire.RequestInterceptor] = []) -> Alamofire.Interceptor
 }
-@_hasMissingDesignatedInitializers open class NetworkReachabilityManager {
-  public enum NetworkReachabilityStatus {
+@_hasMissingDesignatedInitializers open class NetworkReachabilityManager : @unchecked Swift.Sendable {
+  public enum NetworkReachabilityStatus : Swift.Sendable {
     case unknown
     case notReachable
     case reachable(Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus.ConnectionType)
-    public enum ConnectionType {
+    public enum ConnectionType : Swift.Sendable {
       case ethernetOrWiFi
       case cellular
       public static func == (a: Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus.ConnectionType, b: Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus.ConnectionType) -> Swift.Bool
@@ -1557,7 +1557,7 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.Interceptor {
       }
     }
   }
-  public typealias Listener = (Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus) -> Swift.Void
+  public typealias Listener = @Sendable (Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus) -> Swift.Void
   public static let `default`: Alamofire.NetworkReachabilityManager?
   open var isReachable: Swift.Bool {
     get
@@ -1579,20 +1579,20 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.Interceptor {
   convenience public init?()
   @objc deinit
   @discardableResult
-  open func startListening(onQueue queue: Dispatch.DispatchQueue = .main, onUpdatePerforming listener: @escaping Alamofire.NetworkReachabilityManager.Listener) -> Swift.Bool
+  @preconcurrency open func startListening(onQueue queue: Dispatch.DispatchQueue = .main, onUpdatePerforming listener: @escaping Alamofire.NetworkReachabilityManager.Listener) -> Swift.Bool
   open func stopListening()
 }
 extension Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus : Swift.Equatable {
   public static func == (a: Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus, b: Alamofire.NetworkReachabilityManager.NetworkReachabilityStatus) -> Swift.Bool
 }
-public protocol CachedResponseHandler {
+public protocol CachedResponseHandler : Swift.Sendable {
   func dataTask(_ task: Foundation.URLSessionDataTask, willCacheResponse response: Foundation.CachedURLResponse, completion: @escaping (Foundation.CachedURLResponse?) -> Swift.Void)
 }
 public struct ResponseCacher {
-  public enum Behavior {
+  public enum Behavior : Swift.Sendable {
     case cache
     case doNotCache
-    case modify((Foundation.URLSessionDataTask, Foundation.CachedURLResponse) -> Foundation.CachedURLResponse?)
+    case modify(@Sendable (_ task: Foundation.URLSessionDataTask, _ cachedResponse: Foundation.CachedURLResponse) -> Foundation.CachedURLResponse?)
   }
   public static let cache: Alamofire.ResponseCacher
   public static let doNotCache: Alamofire.ResponseCacher
@@ -1609,9 +1609,9 @@ extension Alamofire.CachedResponseHandler where Self == Alamofire.ResponseCacher
   public static var doNotCache: Alamofire.ResponseCacher {
     get
   }
-  public static func modify(using closure: @escaping ((Foundation.URLSessionDataTask, Foundation.CachedURLResponse) -> Foundation.CachedURLResponse?)) -> Alamofire.ResponseCacher
+  public static func modify(using closure: @escaping (@Sendable (Foundation.URLSessionDataTask, Foundation.CachedURLResponse) -> Foundation.CachedURLResponse?)) -> Alamofire.ResponseCacher
 }
-@objc open class SessionDelegate : ObjectiveC.NSObject {
+@objc open class SessionDelegate : ObjectiveC.NSObject, @unchecked Swift.Sendable {
   public init(fileManager: Foundation.FileManager = .default)
   @objc deinit
 }
@@ -1629,7 +1629,7 @@ extension Alamofire.SessionDelegate : Foundation.URLSessionTaskDelegate {
   @objc dynamic open func urlSession(_ session: Foundation.URLSession, taskIsWaitingForConnectivity task: Foundation.URLSessionTask)
 }
 extension Alamofire.SessionDelegate : Foundation.URLSessionDataDelegate {
-  @objc dynamic open func urlSession(_ session: Foundation.URLSession, dataTask: Foundation.URLSessionDataTask, didReceive response: Foundation.URLResponse, completionHandler: @escaping (Foundation.URLSession.ResponseDisposition) -> Swift.Void)
+  @objc dynamic open func urlSession(_ session: Foundation.URLSession, dataTask: Foundation.URLSessionDataTask, didReceive response: Foundation.URLResponse, completionHandler: @escaping @Sendable (Foundation.URLSession.ResponseDisposition) -> Swift.Void)
   @objc dynamic open func urlSession(_ session: Foundation.URLSession, dataTask: Foundation.URLSessionDataTask, didReceive data: Foundation.Data)
   @objc dynamic open func urlSession(_ session: Foundation.URLSession, dataTask: Foundation.URLSessionDataTask, willCacheResponse proposedResponse: Foundation.CachedURLResponse, completionHandler: @escaping (Foundation.CachedURLResponse?) -> Swift.Void)
 }
@@ -1673,7 +1673,7 @@ extension Alamofire.DownloadRequest {
   @discardableResult
   final public func validate() -> Self
 }
-open class RetryPolicy : Alamofire.RequestInterceptor {
+open class RetryPolicy : @unchecked Swift.Sendable, Alamofire.RequestInterceptor {
   public static let defaultRetryLimit: Swift.UInt
   public static let defaultExponentialBackoffBase: Swift.UInt
   public static let defaultExponentialBackoffScale: Swift.Double
@@ -1697,7 +1697,7 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.RetryPolicy {
   }
   public static func retryPolicy(retryLimit: Swift.UInt = RetryPolicy.defaultRetryLimit, exponentialBackoffBase: Swift.UInt = RetryPolicy.defaultExponentialBackoffBase, exponentialBackoffScale: Swift.Double = RetryPolicy.defaultExponentialBackoffScale, retryableHTTPMethods: Swift.Set<Alamofire.HTTPMethod> = RetryPolicy.defaultRetryableHTTPMethods, retryableHTTPStatusCodes: Swift.Set<Swift.Int> = RetryPolicy.defaultRetryableHTTPStatusCodes, retryableURLErrorCodes: Swift.Set<Foundation.URLError.Code> = RetryPolicy.defaultRetryableURLErrorCodes) -> Alamofire.RetryPolicy
 }
-open class ConnectionLostRetryPolicy : Alamofire.RetryPolicy {
+open class ConnectionLostRetryPolicy : Alamofire.RetryPolicy, @unchecked Swift.Sendable {
   public init(retryLimit: Swift.UInt = RetryPolicy.defaultRetryLimit, exponentialBackoffBase: Swift.UInt = RetryPolicy.defaultExponentialBackoffBase, exponentialBackoffScale: Swift.Double = RetryPolicy.defaultExponentialBackoffScale, retryableHTTPMethods: Swift.Set<Alamofire.HTTPMethod> = RetryPolicy.defaultRetryableHTTPMethods)
   @objc deinit
 }
@@ -1707,7 +1707,7 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.ConnectionLostRet
   }
   public static func connectionLostRetryPolicy(retryLimit: Swift.UInt = RetryPolicy.defaultRetryLimit, exponentialBackoffBase: Swift.UInt = RetryPolicy.defaultExponentialBackoffBase, exponentialBackoffScale: Swift.Double = RetryPolicy.defaultExponentialBackoffScale, retryableHTTPMethods: Swift.Set<Alamofire.HTTPMethod> = RetryPolicy.defaultRetryableHTTPMethods) -> Alamofire.ConnectionLostRetryPolicy
 }
-@_hasMissingDesignatedInitializers public class Request {
+@_hasMissingDesignatedInitializers public class Request : @unchecked Swift.Sendable {
   public enum State {
     case initialized
     case resumed
@@ -1746,7 +1746,7 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.ConnectionLostRet
   public var isFinished: Swift.Bool {
     get
   }
-  public typealias ProgressHandler = (Foundation.Progress) -> Swift.Void
+  public typealias ProgressHandler = @Sendable (_ progress: Foundation.Progress) -> Swift.Void
   final public let uploadProgress: Foundation.Progress
   final public let downloadProgress: Foundation.Progress
   public var uploadProgressHandler: (handler: Alamofire.Request.ProgressHandler, queue: Dispatch.DispatchQueue)? {
@@ -1823,25 +1823,25 @@ extension Alamofire.RequestInterceptor where Self == Alamofire.ConnectionLostRet
   @discardableResult
   public func authenticate(with credential: Foundation.URLCredential) -> Self
   @discardableResult
-  public func downloadProgress(queue: Dispatch.DispatchQueue = .main, closure: @escaping Alamofire.Request.ProgressHandler) -> Self
+  @preconcurrency public func downloadProgress(queue: Dispatch.DispatchQueue = .main, closure: @escaping Alamofire.Request.ProgressHandler) -> Self
   @discardableResult
-  public func uploadProgress(queue: Dispatch.DispatchQueue = .main, closure: @escaping Alamofire.Request.ProgressHandler) -> Self
+  @preconcurrency public func uploadProgress(queue: Dispatch.DispatchQueue = .main, closure: @escaping Alamofire.Request.ProgressHandler) -> Self
   @discardableResult
-  public func redirect(using handler: any Alamofire.RedirectHandler) -> Self
+  @preconcurrency public func redirect(using handler: any Alamofire.RedirectHandler) -> Self
   @discardableResult
-  public func cacheResponse(using handler: any Alamofire.CachedResponseHandler) -> Self
+  @preconcurrency public func cacheResponse(using handler: any Alamofire.CachedResponseHandler) -> Self
   @discardableResult
-  public func cURLDescription(on queue: Dispatch.DispatchQueue, calling handler: @escaping (Swift.String) -> Swift.Void) -> Self
+  @preconcurrency public func cURLDescription(on queue: Dispatch.DispatchQueue, calling handler: @escaping @Sendable (Swift.String) -> Swift.Void) -> Self
   @discardableResult
-  public func cURLDescription(calling handler: @escaping (Swift.String) -> Swift.Void) -> Self
+  @preconcurrency public func cURLDescription(calling handler: @escaping @Sendable (Swift.String) -> Swift.Void) -> Self
   @discardableResult
-  public func onURLRequestCreation(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (Foundation.URLRequest) -> Swift.Void) -> Self
+  @preconcurrency public func onURLRequestCreation(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (Foundation.URLRequest) -> Swift.Void) -> Self
   @discardableResult
-  public func onURLSessionTaskCreation(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping (Foundation.URLSessionTask) -> Swift.Void) -> Self
+  @preconcurrency public func onURLSessionTaskCreation(on queue: Dispatch.DispatchQueue = .main, perform handler: @escaping @Sendable (Foundation.URLSessionTask) -> Swift.Void) -> Self
   @objc deinit
 }
 extension Alamofire.Request {
-  public enum ResponseDisposition {
+  public enum ResponseDisposition : Swift.Sendable {
     case allow
     case cancel
     public static func == (a: Alamofire.Request.ResponseDisposition, b: Alamofire.Request.ResponseDisposition) -> Swift.Bool
@@ -1868,22 +1868,22 @@ extension Alamofire.Request : Swift.CustomStringConvertible {
 extension Alamofire.Request {
   public func cURLDescription() -> Swift.String
 }
-public protocol RequestDelegate : AnyObject {
+public protocol RequestDelegate : AnyObject, Swift.Sendable {
   var sessionConfiguration: Foundation.URLSessionConfiguration { get }
   var startImmediately: Swift.Bool { get }
   func cleanup(after request: Alamofire.Request)
-  func retryResult(for request: Alamofire.Request, dueTo error: Alamofire.AFError, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+  func retryResult(for request: Alamofire.Request, dueTo error: Alamofire.AFError, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
   func retryRequest(_ request: Alamofire.Request, withDelay timeDelay: Foundation.TimeInterval?)
 }
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-public struct DataResponsePublisher<Value> : Combine.Publisher {
+public struct DataResponsePublisher<Value> : Combine.Publisher where Value : Swift.Sendable {
   public typealias Output = Alamofire.DataResponse<Value, Alamofire.AFError>
   public typealias Failure = Swift.Never
   public init<Serializer>(_ request: Alamofire.DataRequest, queue: Dispatch.DispatchQueue, serializer: Serializer) where Value == Serializer.SerializedObject, Serializer : Alamofire.ResponseSerializer
   public init<Serializer>(_ request: Alamofire.DataRequest, queue: Dispatch.DispatchQueue, serializer: Serializer) where Value == Serializer.SerializedObject, Serializer : Alamofire.DataResponseSerializerProtocol
   public func result() -> Combine.AnyPublisher<Swift.Result<Value, Alamofire.AFError>, Swift.Never>
   public func value() -> Combine.AnyPublisher<Value, Alamofire.AFError>
-  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S.Failure == Swift.Never, S.Input == Alamofire.DataResponse<Value, Alamofire.AFError>
+  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S : Swift.Sendable, S.Failure == Swift.Never, S.Input == Alamofire.DataResponse<Value, Alamofire.AFError>
 }
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 extension Alamofire.DataResponsePublisher where Value == Foundation.Data? {
@@ -1899,20 +1899,20 @@ extension Alamofire.DataRequest {
   public func publishString(queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DataResponsePublisher<Swift.String>
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   @available(*, deprecated, message: "Renamed publishDecodable(type:queue:preprocessor:decoder:emptyResponseCodes:emptyRequestMethods).")
-  @_disfavoredOverload public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyResponseMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DataResponsePublisher<T> where T : Swift.Decodable
+  @_disfavoredOverload public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyResponseMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DataResponsePublisher<T> where T : Swift.Decodable, T : Swift.Sendable
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-  public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DataResponsePublisher<T> where T : Swift.Decodable
+  public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DataResponsePublisher<T> where T : Swift.Decodable, T : Swift.Sendable
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   public func publishUnserialized(queue: Dispatch.DispatchQueue = .main) -> Alamofire.DataResponsePublisher<Foundation.Data?>
 }
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-public struct DataStreamPublisher<Value> : Combine.Publisher {
+public struct DataStreamPublisher<Value> : Combine.Publisher where Value : Swift.Sendable {
   public typealias Output = Alamofire.DataStreamRequest.Stream<Value, Alamofire.AFError>
   public typealias Failure = Swift.Never
   public init<Serializer>(_ request: Alamofire.DataStreamRequest, queue: Dispatch.DispatchQueue, serializer: Serializer) where Value == Serializer.SerializedObject, Serializer : Alamofire.DataStreamSerializer
   public func result() -> Combine.AnyPublisher<Swift.Result<Value, Alamofire.AFError>, Swift.Never>
   public func value() -> Combine.AnyPublisher<Value, Alamofire.AFError>
-  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S.Failure == Swift.Never, S.Input == Alamofire.DataStreamRequest.Stream<Value, Alamofire.AFError>
+  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S : Swift.Sendable, S.Failure == Swift.Never, S.Input == Alamofire.DataStreamRequest.Stream<Value, Alamofire.AFError>
 }
 extension Alamofire.DataStreamRequest {
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -1922,10 +1922,10 @@ extension Alamofire.DataStreamRequest {
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   final public func publishString(queue: Dispatch.DispatchQueue = .main) -> Alamofire.DataStreamPublisher<Swift.String>
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-  final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, decoder: any Alamofire.DataDecoder = JSONDecoder(), preprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor()) -> Alamofire.DataStreamPublisher<T> where T : Swift.Decodable
+  final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, decoder: any Alamofire.DataDecoder = JSONDecoder(), preprocessor: any Alamofire.DataPreprocessor = PassthroughPreprocessor()) -> Alamofire.DataStreamPublisher<T> where T : Swift.Decodable, T : Swift.Sendable
 }
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-public struct DownloadResponsePublisher<Value> : Combine.Publisher {
+public struct DownloadResponsePublisher<Value> : Combine.Publisher where Value : Swift.Sendable {
   public typealias Output = Alamofire.DownloadResponse<Value, Alamofire.AFError>
   public typealias Failure = Swift.Never
   public init<Serializer>(_ request: Alamofire.DownloadRequest, queue: Dispatch.DispatchQueue, serializer: Serializer) where Value == Serializer.SerializedObject, Serializer : Alamofire.ResponseSerializer
@@ -1933,7 +1933,7 @@ public struct DownloadResponsePublisher<Value> : Combine.Publisher {
   public init<Serializer>(_ request: Alamofire.DownloadRequest, queue: Dispatch.DispatchQueue, serializer: Serializer) where Value == Serializer.SerializedObject, Serializer : Alamofire.DownloadResponseSerializerProtocol
   public func result() -> Combine.AnyPublisher<Swift.Result<Value, Alamofire.AFError>, Swift.Never>
   public func value() -> Combine.AnyPublisher<Value, Alamofire.AFError>
-  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S.Failure == Swift.Never, S.Input == Alamofire.DownloadResponse<Value, Alamofire.AFError>
+  public func receive<S>(subscriber: S) where S : Combine.Subscriber, S : Swift.Sendable, S.Failure == Swift.Never, S.Input == Alamofire.DownloadResponse<Value, Alamofire.AFError>
 }
 extension Alamofire.DownloadRequest {
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -1948,9 +1948,9 @@ extension Alamofire.DownloadRequest {
   final public func publishString(queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor, encoding: Swift.String.Encoding? = nil, emptyResponseCodes: Swift.Set<Swift.Int> = StringResponseSerializer.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods) -> Alamofire.DownloadResponsePublisher<Swift.String>
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   @available(*, deprecated, message: "Renamed publishDecodable(type:queue:preprocessor:decoder:emptyResponseCodes:emptyRequestMethods).")
-  @_disfavoredOverload final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyResponseMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DownloadResponsePublisher<T> where T : Swift.Decodable
+  @_disfavoredOverload final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyResponseMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DownloadResponsePublisher<T> where T : Swift.Decodable, T : Swift.Sendable
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-  final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DownloadResponsePublisher<T> where T : Swift.Decodable
+  final public func publishDecodable<T>(type: T.Type = T.self, queue: Dispatch.DispatchQueue = .main, preprocessor: any Alamofire.DataPreprocessor = DecodableResponseSerializer<T>.defaultDataPreprocessor, decoder: any Alamofire.DataDecoder = JSONDecoder(), emptyResponseCodes: Swift.Set<Swift.Int> = DecodableResponseSerializer<T>.defaultEmptyResponseCodes, emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = DecodableResponseSerializer<T>.defaultEmptyRequestMethods) -> Alamofire.DownloadResponsePublisher<T> where T : Swift.Decodable, T : Swift.Sendable
 }
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 extension Alamofire.DownloadResponsePublisher where Value == Foundation.URL? {
@@ -1976,7 +1976,8 @@ extension Foundation.Notification {
     get
   }
 }
-@_hasMissingDesignatedInitializers final public class AlamofireNotifications : Alamofire.EventMonitor {
+final public class AlamofireNotifications : Alamofire.EventMonitor {
+  public init()
   final public func requestDidResume(_ request: Alamofire.Request)
   final public func requestDidSuspend(_ request: Alamofire.Request)
   final public func requestDidCancel(_ request: Alamofire.Request)
@@ -1987,7 +1988,7 @@ extension Foundation.Notification {
   final public func request(_ request: Alamofire.Request, didCompleteTask task: Foundation.URLSessionTask, with error: Alamofire.AFError?)
   @objc deinit
 }
-open class Session {
+open class Session : @unchecked Swift.Sendable {
   public static let `default`: Alamofire.Session
   final public let session: Foundation.URLSession
   final public let delegate: Alamofire.SessionDelegate
@@ -2000,27 +2001,28 @@ open class Session {
   final public let redirectHandler: (any Alamofire.RedirectHandler)?
   final public let cachedResponseHandler: (any Alamofire.CachedResponseHandler)?
   final public let eventMonitor: Alamofire.CompositeEventMonitor
+  @available(*, deprecated, message: "Use [AlamofireNotifications()] directly.")
   final public let defaultEventMonitors: [any Alamofire.EventMonitor]
-  public init(session: Foundation.URLSession, delegate: Alamofire.SessionDelegate, rootQueue: Dispatch.DispatchQueue, startRequestsImmediately: Swift.Bool = true, requestQueue: Dispatch.DispatchQueue? = nil, serializationQueue: Dispatch.DispatchQueue? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, serverTrustManager: Alamofire.ServerTrustManager? = nil, redirectHandler: (any Alamofire.RedirectHandler)? = nil, cachedResponseHandler: (any Alamofire.CachedResponseHandler)? = nil, eventMonitors: [any Alamofire.EventMonitor] = [])
-  convenience public init(configuration: Foundation.URLSessionConfiguration = URLSessionConfiguration.af.default, delegate: Alamofire.SessionDelegate = SessionDelegate(), rootQueue: Dispatch.DispatchQueue = DispatchQueue(label: "org.alamofire.session.rootQueue"), startRequestsImmediately: Swift.Bool = true, requestQueue: Dispatch.DispatchQueue? = nil, serializationQueue: Dispatch.DispatchQueue? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, serverTrustManager: Alamofire.ServerTrustManager? = nil, redirectHandler: (any Alamofire.RedirectHandler)? = nil, cachedResponseHandler: (any Alamofire.CachedResponseHandler)? = nil, eventMonitors: [any Alamofire.EventMonitor] = [])
+  public init(session: Foundation.URLSession, delegate: Alamofire.SessionDelegate, rootQueue: Dispatch.DispatchQueue, startRequestsImmediately: Swift.Bool = true, requestQueue: Dispatch.DispatchQueue? = nil, serializationQueue: Dispatch.DispatchQueue? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, serverTrustManager: Alamofire.ServerTrustManager? = nil, redirectHandler: (any Alamofire.RedirectHandler)? = nil, cachedResponseHandler: (any Alamofire.CachedResponseHandler)? = nil, eventMonitors: [any Alamofire.EventMonitor] = [AlamofireNotifications()])
+  convenience public init(configuration: Foundation.URLSessionConfiguration = URLSessionConfiguration.af.default, delegate: Alamofire.SessionDelegate = SessionDelegate(), rootQueue: Dispatch.DispatchQueue = DispatchQueue(label: "org.alamofire.session.rootQueue"), startRequestsImmediately: Swift.Bool = true, requestQueue: Dispatch.DispatchQueue? = nil, serializationQueue: Dispatch.DispatchQueue? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, serverTrustManager: Alamofire.ServerTrustManager? = nil, redirectHandler: (any Alamofire.RedirectHandler)? = nil, cachedResponseHandler: (any Alamofire.CachedResponseHandler)? = nil, eventMonitors: [any Alamofire.EventMonitor] = [AlamofireNotifications()])
   @objc deinit
-  public func withAllRequests(perform action: @escaping (Swift.Set<Alamofire.Request>) -> Swift.Void)
-  public func cancelAllRequests(completingOnQueue queue: Dispatch.DispatchQueue = .main, completion: (() -> Swift.Void)? = nil)
-  public typealias RequestModifier = (inout Foundation.URLRequest) throws -> Swift.Void
+  public func withAllRequests(perform action: @escaping @Sendable (Swift.Set<Alamofire.Request>) -> Swift.Void)
+  public func cancelAllRequests(completingOnQueue queue: Dispatch.DispatchQueue = .main, completion: (@Sendable () -> Swift.Void)? = nil)
+  public typealias RequestModifier = @Sendable (inout Foundation.URLRequest) throws -> Swift.Void
   open func request(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Alamofire.Parameters? = nil, encoding: any Alamofire.ParameterEncoding = URLEncoding.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataRequest
-  open func request<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataRequest where Parameters : Swift.Encodable
+  open func request<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataRequest where Parameters : Swift.Encodable, Parameters : Swift.Sendable
   open func request(_ convertible: any Alamofire.URLRequestConvertible, interceptor: (any Alamofire.RequestInterceptor)? = nil) -> Alamofire.DataRequest
-  open func streamRequest<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, automaticallyCancelOnStreamError: Swift.Bool = false, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataStreamRequest where Parameters : Swift.Encodable
+  open func streamRequest<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, automaticallyCancelOnStreamError: Swift.Bool = false, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataStreamRequest where Parameters : Swift.Encodable, Parameters : Swift.Sendable
   open func streamRequest(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, headers: Alamofire.HTTPHeaders? = nil, automaticallyCancelOnStreamError: Swift.Bool = false, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.DataStreamRequest
   open func streamRequest(_ convertible: any Alamofire.URLRequestConvertible, automaticallyCancelOnStreamError: Swift.Bool = false, interceptor: (any Alamofire.RequestInterceptor)? = nil) -> Alamofire.DataStreamRequest
   @_spi(WebSocket) @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
   open func webSocketRequest(to url: any Alamofire.URLConvertible, configuration: Alamofire.WebSocketRequest.Configuration = .default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.WebSocketRequest
   @_spi(WebSocket) @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-  open func webSocketRequest<Parameters>(to url: any Alamofire.URLConvertible, configuration: Alamofire.WebSocketRequest.Configuration = .default, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.WebSocketRequest where Parameters : Swift.Encodable
+  open func webSocketRequest<Parameters>(to url: any Alamofire.URLConvertible, configuration: Alamofire.WebSocketRequest.Configuration = .default, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.WebSocketRequest where Parameters : Swift.Encodable, Parameters : Swift.Sendable
   @_spi(WebSocket) @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
   open func webSocketRequest(performing convertible: any Alamofire.URLRequestConvertible, configuration: Alamofire.WebSocketRequest.Configuration = .default, interceptor: (any Alamofire.RequestInterceptor)? = nil) -> Alamofire.WebSocketRequest
   open func download(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Alamofire.Parameters? = nil, encoding: any Alamofire.ParameterEncoding = URLEncoding.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil, to destination: Alamofire.DownloadRequest.Destination? = nil) -> Alamofire.DownloadRequest
-  open func download<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil, to destination: Alamofire.DownloadRequest.Destination? = nil) -> Alamofire.DownloadRequest where Parameters : Swift.Encodable
+  open func download<Parameters>(_ convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .get, parameters: Parameters? = nil, encoder: any Alamofire.ParameterEncoder = URLEncodedFormParameterEncoder.default, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, requestModifier: Alamofire.Session.RequestModifier? = nil, to destination: Alamofire.DownloadRequest.Destination? = nil) -> Alamofire.DownloadRequest where Parameters : Swift.Encodable, Parameters : Swift.Sendable
   open func download(_ convertible: any Alamofire.URLRequestConvertible, interceptor: (any Alamofire.RequestInterceptor)? = nil, to destination: Alamofire.DownloadRequest.Destination? = nil) -> Alamofire.DownloadRequest
   open func download(resumingWith data: Foundation.Data, interceptor: (any Alamofire.RequestInterceptor)? = nil, to destination: Alamofire.DownloadRequest.Destination? = nil) -> Alamofire.DownloadRequest
   open func upload(_ data: Foundation.Data, to convertible: any Alamofire.URLConvertible, method: Alamofire.HTTPMethod = .post, headers: Alamofire.HTTPHeaders? = nil, interceptor: (any Alamofire.RequestInterceptor)? = nil, fileManager: Foundation.FileManager = .default, requestModifier: Alamofire.Session.RequestModifier? = nil) -> Alamofire.UploadRequest
@@ -2042,10 +2044,10 @@ extension Alamofire.Session : Alamofire.RequestDelegate {
     get
   }
   public func cleanup(after request: Alamofire.Request)
-  public func retryResult(for request: Alamofire.Request, dueTo error: Alamofire.AFError, completion: @escaping (Alamofire.RetryResult) -> Swift.Void)
+  public func retryResult(for request: Alamofire.Request, dueTo error: Alamofire.AFError, completion: @escaping @Sendable (Alamofire.RetryResult) -> Swift.Void)
   public func retryRequest(_ request: Alamofire.Request, withDelay timeDelay: Foundation.TimeInterval?)
 }
-public protocol EventMonitor {
+public protocol EventMonitor : Swift.Sendable {
   var queue: Dispatch.DispatchQueue { get }
   func urlSession(_ session: Foundation.URLSession, didBecomeInvalidWithError error: (any Swift.Error)?)
   func urlSession(_ session: Foundation.URLSession, task: Foundation.URLSessionTask, didReceive challenge: Foundation.URLAuthenticationChallenge)
@@ -2080,9 +2082,9 @@ public protocol EventMonitor {
   func request(_ request: Alamofire.Request, didCancelTask task: Foundation.URLSessionTask)
   func request(_ request: Alamofire.DataRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, data: Foundation.Data?, withResult result: Alamofire.Request.ValidationResult)
   func request(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Foundation.Data?, Alamofire.AFError>)
-  func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>)
+  func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
   func request(_ request: Alamofire.DataStreamRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, withResult result: Alamofire.Request.ValidationResult)
-  func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>)
+  func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>) where Value : Swift.Sendable
   func request(_ request: Alamofire.UploadRequest, didCreateUploadable uploadable: Alamofire.UploadRequest.Uploadable)
   func request(_ request: Alamofire.UploadRequest, didFailToCreateUploadableWithError error: Alamofire.AFError)
   func request(_ request: Alamofire.UploadRequest, didProvideInputStream stream: Foundation.InputStream)
@@ -2090,7 +2092,7 @@ public protocol EventMonitor {
   func request(_ request: Alamofire.DownloadRequest, didCreateDestinationURL url: Foundation.URL)
   func request(_ request: Alamofire.DownloadRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, fileURL: Foundation.URL?, withResult result: Alamofire.Request.ValidationResult)
   func request(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Foundation.URL?, Alamofire.AFError>)
-  func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>)
+  func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
 }
 extension Alamofire.EventMonitor {
   public var queue: Dispatch.DispatchQueue {
@@ -2129,9 +2131,9 @@ extension Alamofire.EventMonitor {
   public func request(_ request: Alamofire.Request, didCancelTask task: Foundation.URLSessionTask)
   public func request(_ request: Alamofire.DataRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, data: Foundation.Data?, withResult result: Alamofire.Request.ValidationResult)
   public func request(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Foundation.Data?, Alamofire.AFError>)
-  public func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>)
+  public func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
   public func request(_ request: Alamofire.DataStreamRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, withResult result: Alamofire.Request.ValidationResult)
-  public func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>)
+  public func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>) where Value : Swift.Sendable
   public func request(_ request: Alamofire.UploadRequest, didCreateUploadable uploadable: Alamofire.UploadRequest.Uploadable)
   public func request(_ request: Alamofire.UploadRequest, didFailToCreateUploadableWithError error: Alamofire.AFError)
   public func request(_ request: Alamofire.UploadRequest, didProvideInputStream stream: Foundation.InputStream)
@@ -2139,7 +2141,7 @@ extension Alamofire.EventMonitor {
   public func request(_ request: Alamofire.DownloadRequest, didCreateDestinationURL url: Foundation.URL)
   public func request(_ request: Alamofire.DownloadRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, fileURL: Foundation.URL?, withResult result: Alamofire.Request.ValidationResult)
   public func request(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Foundation.URL?, Alamofire.AFError>)
-  public func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>)
+  public func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
 }
 @_hasMissingDesignatedInitializers final public class CompositeEventMonitor : Alamofire.EventMonitor {
   final public let queue: Dispatch.DispatchQueue
@@ -2177,9 +2179,9 @@ extension Alamofire.EventMonitor {
   final public func request(_ request: Alamofire.Request, didCancelTask task: Foundation.URLSessionTask)
   final public func request(_ request: Alamofire.DataRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, data: Foundation.Data?, withResult result: Alamofire.Request.ValidationResult)
   final public func request(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Foundation.Data?, Alamofire.AFError>)
-  final public func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>)
+  final public func request<Value>(_ request: Alamofire.DataRequest, didParseResponse response: Alamofire.DataResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
   final public func request(_ request: Alamofire.DataStreamRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, withResult result: Alamofire.Request.ValidationResult)
-  final public func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>)
+  final public func request<Value>(_ request: Alamofire.DataStreamRequest, didParseStream result: Swift.Result<Value, Alamofire.AFError>) where Value : Swift.Sendable
   final public func request(_ request: Alamofire.UploadRequest, didCreateUploadable uploadable: Alamofire.UploadRequest.Uploadable)
   final public func request(_ request: Alamofire.UploadRequest, didFailToCreateUploadableWithError error: Alamofire.AFError)
   final public func request(_ request: Alamofire.UploadRequest, didProvideInputStream stream: Foundation.InputStream)
@@ -2187,10 +2189,10 @@ extension Alamofire.EventMonitor {
   final public func request(_ request: Alamofire.DownloadRequest, didCreateDestinationURL url: Foundation.URL)
   final public func request(_ request: Alamofire.DownloadRequest, didValidateRequest urlRequest: Foundation.URLRequest?, response: Foundation.HTTPURLResponse, fileURL: Foundation.URL?, withResult result: Alamofire.Request.ValidationResult)
   final public func request(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Foundation.URL?, Alamofire.AFError>)
-  final public func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>)
+  final public func request<Value>(_ request: Alamofire.DownloadRequest, didParseResponse response: Alamofire.DownloadResponse<Value, Alamofire.AFError>) where Value : Swift.Sendable
   @objc deinit
 }
-open class ClosureEventMonitor : Alamofire.EventMonitor {
+open class ClosureEventMonitor : Alamofire.EventMonitor, @unchecked Swift.Sendable {
   open var sessionDidBecomeInvalidWithError: ((Foundation.URLSession, (any Swift.Error)?) -> Swift.Void)?
   open var taskDidReceiveChallenge: ((Foundation.URLSession, Foundation.URLSessionTask, Foundation.URLAuthenticationChallenge) -> Swift.Void)?
   open var taskDidSendBodyData: ((Foundation.URLSession, Foundation.URLSessionTask, Swift.Int64, Swift.Int64, Swift.Int64) -> Swift.Void)?

@@ -13,10 +13,10 @@ import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class AppHelper : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class AppHelper : ObjectiveC.NSObject {
   public static let shared: NextPaywallPublic.AppHelper
-  public func application(_ application: UIKit.UIApplication, didFinishLaunchingWithOptions launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?)
-  public func applicationDidBecomeActive(_ application: UIKit.UIApplication)
+  final public func application(_ application: UIKit.UIApplication, didFinishLaunchingWithOptions launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?)
+  final public func applicationDidBecomeActive(_ application: UIKit.UIApplication)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class NextPaywallPresenter {
@@ -25,9 +25,9 @@ import _SwiftConcurrencyShims
   public func getPaywallVC(nativePaywallProvider: (() -> UIKit.UIViewController)? = nil, animatedDismiss: Swift.Bool = true) -> UIKit.UIViewController?
   @objc deinit
 }
-@_hasMissingDesignatedInitializers public class NextPaywallSettings {
+@_hasMissingDesignatedInitializers final public class NextPaywallSettings {
   public static let shared: NextPaywallPublic.NextPaywallSettings
-  public func configure(secretKey: Swift.String, backgroundColor: UIKit.UIColor? = nil, persistenceProvider: any NextPaywallPublic.NextPaywallPersistenceProvider)
+  final public func configure(secretKey: Swift.String, backgroundColor: UIKit.UIColor? = nil, persistenceProvider: any NextPaywallPublic.NextPaywallPersistenceProvider)
   @objc deinit
 }
 public protocol NextPaywallPersistenceProvider {

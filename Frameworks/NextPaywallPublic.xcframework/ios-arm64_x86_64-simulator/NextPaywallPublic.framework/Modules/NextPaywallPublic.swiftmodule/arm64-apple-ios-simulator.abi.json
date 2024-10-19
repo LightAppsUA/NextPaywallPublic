@@ -267,6 +267,7 @@
             "mangledName": "$s17NextPaywallPublic9AppHelperC11application_29didFinishLaunchingWithOptionsySo13UIApplicationC_SDySo0l6LaunchK3KeyaypGSgtF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "RawDocComment"
             ],
@@ -294,6 +295,7 @@
             "mangledName": "$s17NextPaywallPublic9AppHelperC26applicationDidBecomeActiveyySo13UIApplicationCF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "RawDocComment"
             ],
@@ -305,6 +307,7 @@
         "mangledName": "$s17NextPaywallPublic9AppHelperC",
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "RawDocComment",
           "ObjC"
@@ -827,6 +830,7 @@
             "mangledName": "$s17NextPaywallPublic0aB8SettingsC9configure9secretKey15backgroundColor19persistenceProviderySS_So7UIColorCSgAA0ab11PersistenceK0_ptF",
             "moduleName": "NextPaywallPublic",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "RawDocComment"
             ],
@@ -838,6 +842,7 @@
         "mangledName": "$s17NextPaywallPublic0aB8SettingsC",
         "moduleName": "NextPaywallPublic",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "RawDocComment"
         ],
@@ -1418,98 +1423,98 @@
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/ViewController\/NextPaywallViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 181,
+      "offset": 187,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/ViewController\/NextPaywallViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 239,
+      "offset": 245,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/AppHelper.swift",
       "kind": "BooleanLiteral",
-      "offset": 1124,
+      "offset": 1125,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/AppHelper.swift",
       "kind": "Array",
-      "offset": 1227,
+      "offset": 1228,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallPresenter.swift",
       "kind": "BooleanLiteral",
-      "offset": 1564,
+      "offset": 1559,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallSettings.swift",
       "kind": "StringLiteral",
-      "offset": 1288,
+      "offset": 1285,
       "length": 17,
       "value": "\"savedPaywallURL\""
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/Extra\/NextPaywallSettings.swift",
       "kind": "StringLiteral",
-      "offset": 3452,
+      "offset": 3439,
       "length": 15,
       "value": "\"premiumStatus\""
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/ViewController\/PaywallViewController.swift",
       "kind": "StringLiteral",
-      "offset": 6791,
+      "offset": 6797,
       "length": 6,
       "value": "\"Done\""
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/FullScreenWKWebView.swift",
       "kind": "IntegerLiteral",
-      "offset": 227,
+      "offset": 233,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/FullScreenWKWebView.swift",
       "kind": "IntegerLiteral",
-      "offset": 236,
+      "offset": 242,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/FullScreenWKWebView.swift",
       "kind": "IntegerLiteral",
-      "offset": 247,
+      "offset": 253,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/FullScreenWKWebView.swift",
       "kind": "IntegerLiteral",
-      "offset": 257,
+      "offset": 263,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/NextPaywall.swift",
       "kind": "BooleanLiteral",
-      "offset": 351,
+      "offset": 357,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/artem\/Developer\/VPN_Games\/NextPaywallPublicBuilding\/NextPaywallPublic\/NextPaywall.swift",
       "kind": "Dictionary",
-      "offset": 706,
+      "offset": 712,
       "length": 3,
       "value": "[]"
     }

@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		puOfohZ0CjeeW/+VCH53yfsAc50=
+		SCy4IWWjJfzWW2IqJMd2KvkIriY=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		vo0OTEm6WQruWqHEdCr0uE7kmXA=
+		vo6/nkhj3V46p6+4lZoTP8ZRp5Y=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		vo0OTEm6WQruWqHEdCr0uE7kmXA=
+		vo6/nkhj3V46p6+4lZoTP8ZRp5Y=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		TrNannlAFnUr155RBfChLa6Clpo=
+		Qk1FI04z+Iz9rQIEpYNz0NT5Vvk=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		puOfohZ0CjeeW/+VCH53yfsAc50=
+		SCy4IWWjJfzWW2IqJMd2KvkIriY=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		/ZJ8dVMi5kYekndMuDtM64Nd++o=
+		vTEu1R/jFPXqRcr7G1aPaItAav4=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		/ZJ8dVMi5kYekndMuDtM64Nd++o=
+		vTEu1R/jFPXqRcr7G1aPaItAav4=
 		</data>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		307Ame0oq4KOX8nsOjcGljtPvPU=
+		1sg2ijwSMsHAfkAESyjbO83kl14=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -70,14 +70,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cX3tAdubeX5BkRQzoR2yb3H+CSvRHZHuIHTWGtIre8o=
+			l2tSeLSpXRreIa5CYjQ4EOzh/bCxEoEP1EFyzVrjvY8=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zQQX6miRRclXYKikLY7C7SVqwHP0i0G1Cu7WMffruRA=
+			U1oFx2PauT1Qb10n5Pddk6ghXlY2Y8v7YoXa+TazKhE=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -91,28 +91,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zQQX6miRRclXYKikLY7C7SVqwHP0i0G1Cu7WMffruRA=
+			U1oFx2PauT1Qb10n5Pddk6ghXlY2Y8v7YoXa+TazKhE=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OsnIO3d5nwRW+pPItpUbUGzgLQo6fo7/5+bE5PRGnsQ=
+			+TU73lYnJ4bO9B9rzW8B7bsU01PNuXE7Gwi3Q1zNqHo=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cX3tAdubeX5BkRQzoR2yb3H+CSvRHZHuIHTWGtIre8o=
+			l2tSeLSpXRreIa5CYjQ4EOzh/bCxEoEP1EFyzVrjvY8=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			m3dqDnlVjXAkBmdauPddvmXr+3J9HwOYrFEOHBQJLes=
+			MDsjLfYKzPEFEPM0i6nRZxgYj7bCmfyE72Y4XXEOC44=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -126,14 +126,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			m3dqDnlVjXAkBmdauPddvmXr+3J9HwOYrFEOHBQJLes=
+			MDsjLfYKzPEFEPM0i6nRZxgYj7bCmfyE72Y4XXEOC44=
 			</data>
 		</dict>
 		<key>Modules/NextPaywallPublic.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xgnxJ0tEuZnjtXwLciC+BKPQJSt6SQ6EhauSNePdHy8=
+			xHIFDP7IBZ/syQh6uBqRId+F2eWhgoLzsQyrtqW/7kM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

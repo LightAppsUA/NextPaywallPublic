@@ -1,6 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
-// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name RevenueCat
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name RevenueCat
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import AdServices
 import CommonCrypto
 import CryptoKit
@@ -49,6 +50,7 @@ extension RevenueCat.Offering : Swift.Identifiable {
   final public var id: Swift.String {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = Swift.String
 }
 extension RevenueCat.Offering : Swift.Sendable {
@@ -163,12 +165,10 @@ extension RevenueCat.Purchases {
 extension RevenueCat.Storefront : Swift.Sendable {
 }
 extension RevenueCat.Storefront {
-  #if compiler(>=5.3) && $EffectfulProp
   @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, macCatalyst 13.1, *)
   public static var currentStorefront: RevenueCat.Storefront? {
     get async
   }
-  #endif
   @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, macCatalyst 13.1, *)
   @available(swift, obsoleted: 0.0.1, renamed: "currentStorefront")
   @objc public static var sk1CurrentStorefront: RevenueCat.Storefront? {
@@ -233,6 +233,7 @@ extension RevenueCat.Attribution {
   @objc final public func setOnesignalUserID(_ onesignalUserID: Swift.String?)
   @objc final public func setAirshipChannelID(_ airshipChannelID: Swift.String?)
   @objc final public func setCleverTapID(_ cleverTapID: Swift.String?)
+  @objc final public func setKochavaDeviceID(_ kochavaDeviceID: Swift.String?)
   @objc final public func setMixpanelDistinctID(_ mixpanelDistinctID: Swift.String?)
   @objc final public func setFirebaseAppInstanceID(_ firebaseAppInstanceID: Swift.String?)
   @objc final public func setMediaSource(_ mediaSource: Swift.String?)
@@ -272,22 +273,22 @@ extension RevenueCat.StoreProduct.ProductType : Swift.Sendable {
 }
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension _StoreKit_SwiftUI.StoreView {
-  public static func forOffering(_ offering: RevenueCat.Offering, prefersPromotionalIcon: Swift.Bool = false, @SwiftUI.ViewBuilder icon: @escaping (StoreKit.Product) -> Icon, @SwiftUI.ViewBuilder placeholderIcon: () -> PlaceholderIcon) -> some SwiftUI.View
+  @_Concurrency.MainActor @preconcurrency public static func forOffering(_ offering: RevenueCat.Offering, prefersPromotionalIcon: Swift.Bool = false, @SwiftUICore.ViewBuilder icon: @escaping (StoreKit.Product) -> Icon, @SwiftUICore.ViewBuilder placeholderIcon: () -> PlaceholderIcon) -> some SwiftUICore.View
   
 }
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-extension _StoreKit_SwiftUI.StoreView where Icon == SwiftUI.EmptyView, PlaceholderIcon == SwiftUI.EmptyView {
-  public static func forOffering(_ offering: RevenueCat.Offering, prefersPromotionalIcon: Swift.Bool = false) -> some SwiftUI.View
+extension _StoreKit_SwiftUI.StoreView where Icon == SwiftUICore.EmptyView, PlaceholderIcon == SwiftUICore.EmptyView {
+  @_Concurrency.MainActor @preconcurrency public static func forOffering(_ offering: RevenueCat.Offering, prefersPromotionalIcon: Swift.Bool = false) -> some SwiftUICore.View
   
 }
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension _StoreKit_SwiftUI.SubscriptionStoreView {
-  public static func forOffering(_ offering: RevenueCat.Offering, @SwiftUI.ViewBuilder marketingContent: () -> (Content)) -> some SwiftUI.View
+  @_Concurrency.MainActor @preconcurrency public static func forOffering(_ offering: RevenueCat.Offering, @SwiftUICore.ViewBuilder marketingContent: () -> (Content)) -> some SwiftUICore.View
   
 }
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension _StoreKit_SwiftUI.SubscriptionStoreView where Content == _StoreKit_SwiftUI.AutomaticSubscriptionStoreMarketingContent {
-  public static func forOffering(_ offering: RevenueCat.Offering) -> some SwiftUI.View
+  @_Concurrency.MainActor @preconcurrency public static func forOffering(_ offering: RevenueCat.Offering) -> some SwiftUICore.View
   
 }
 extension RevenueCat.Purchases {
@@ -296,14 +297,12 @@ extension RevenueCat.Purchases {
   @available(watchOS, obsoleted: 1, renamed: "restorePurchases(completion:)")
   @available(macOS, obsoleted: 1, renamed: "restorePurchases(completion:)")
   @objc(restoreTransactionsWithCompletionBlock:) final public func restoreTransactions(completion: ((RevenueCat.CustomerInfo?, (any Swift.Error)?) -> Swift.Void)? = nil)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "restorePurchases()")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "restorePurchases()")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "restorePurchases()")
   @available(macOS, unavailable, introduced: 10.15, renamed: "restorePurchases()")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "restorePurchases()")
   final public func restoreTransactions() async throws -> RevenueCat.CustomerInfo
-  #endif
   @available(iOS, obsoleted: 1, renamed: "getCustomerInfo(completion:)")
   @available(tvOS, obsoleted: 1, renamed: "getCustomerInfo(completion:)")
   @available(watchOS, obsoleted: 1, renamed: "getCustomerInfo(completion:)")
@@ -314,14 +313,12 @@ extension RevenueCat.Purchases {
   @available(watchOS, obsoleted: 1, renamed: "getCustomerInfo(completion:)")
   @available(macOS, obsoleted: 1, renamed: "getCustomerInfo(completion:)")
   @objc(purchaserInfoWithCompletionBlock:) final public func purchaserInfo(completion: @escaping (RevenueCat.CustomerInfo?, (any Swift.Error)?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "customerInfo()")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "customerInfo()")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "customerInfo()")
   @available(macOS, unavailable, introduced: 10.15, renamed: "customerInfo()")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "customerInfo()")
   final public func purchaserInfo() async throws -> RevenueCat.CustomerInfo
-  #endif
   @available(iOS, obsoleted: 1, renamed: "getProducts(_:completion:)")
   @available(tvOS, obsoleted: 1, renamed: "getProducts(_:completion:)")
   @available(watchOS, obsoleted: 1, renamed: "getProducts(_:completion:)")
@@ -332,100 +329,76 @@ extension RevenueCat.Purchases {
   @available(watchOS, obsoleted: 1, renamed: "getOfferings(completion:)")
   @available(macOS, obsoleted: 1, renamed: "getOfferings(completion:)")
   @objc(offeringsWithCompletionBlock:) final public func offerings(completion: @escaping (RevenueCat.Offerings?, (any Swift.Error)?) -> Swift.Void)
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, obsoleted: 1, renamed: "purchase(package:completion:)")
   @available(tvOS, obsoleted: 1, renamed: "purchase(package:completion:)")
   @available(watchOS, obsoleted: 1, renamed: "purchase(package:completion:)")
   @available(macOS, obsoleted: 1, renamed: "purchase(package:completion:)")
   @objc(purchasePackage:withCompletionBlock:) final public func purchasePackage(_ package: RevenueCat.Package, _ completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(package:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(package:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(package:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(package:)")
   final public func purchasePackage(_ package: RevenueCat.Package) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(tvOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macOS, unavailable, introduced: 10.14.4, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:completion:)")
   @objc(purchasePackage:withDiscount:completionBlock:) final public func purchasePackage(_ package: RevenueCat.Package, discount: StoreKit.SKPaymentDiscount, _ completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(package:promotionalOffer:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   final public func purchasePackage(_ package: RevenueCat.Package, discount: StoreKit.SKPaymentDiscount) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, obsoleted: 1, renamed: "purchase(product:_:)")
   @available(tvOS, obsoleted: 1, renamed: "purchase(product:_:)")
   @available(watchOS, obsoleted: 1, renamed: "purchase(product:_:)")
   @available(macOS, obsoleted: 1, renamed: "purchase(product:_:)")
   @objc(purchaseProduct:withCompletionBlock:) final public func purchaseProduct(_ product: StoreKit.SKProduct, _ completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(product:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(product:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(product:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(product:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(product:)")
   final public func purchaseProduct(_ product: StoreKit.SKProduct) async throws
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, unavailable, introduced: 12.2, renamed: "purchase(product:promotionalOffer:completion:)")
   @available(tvOS, unavailable, introduced: 12.2, renamed: "purchase(product:promotionalOffer:completion:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(product:promotionalOffer:completion:)")
   @available(macOS, unavailable, introduced: 10.14.4, renamed: "purchase(product:promotionalOffer:completion:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(product:promotionalOffer:completion:)")
   @objc(purchaseProduct:withDiscount:completionBlock:) final public func purchaseProduct(_ product: StoreKit.SKProduct, discount: StoreKit.SKPaymentDiscount, _ completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(product:promotionalOffer:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(product:promotionalOffer:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(product:promotionalOffer:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(product:promotionalOffer:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(product:promotionalOffer:)")
   final public func purchaseProduct(_ product: StoreKit.SKProduct, discount: StoreKit.SKPaymentDiscount) async throws
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(package:promotionalOffer:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   final public func purchase(package: RevenueCat.Package, discount: RevenueCat.StoreProductDiscount) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(tvOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macOS, unavailable, introduced: 10.14.4, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macCatalyst, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   final public func purchase(package: RevenueCat.Package, discount: RevenueCat.StoreProductDiscount, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:)")
   @available(macOS, unavailable, introduced: 10.15, renamed: "purchase(package:promotionalOffer:)")
   @available(macCatalyst, unavailable, introduced: 13.0, renamed: "purchase(package:promotionalOffer:)")
   final public func purchase(product: RevenueCat.StoreProduct, discount: RevenueCat.StoreProductDiscount) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @available(iOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(tvOS, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macOS, unavailable, introduced: 10.14.4, renamed: "purchase(package:promotionalOffer:completion:)")
   @available(macCatalyst, unavailable, introduced: 12.2, renamed: "purchase(package:promotionalOffer:completion:)")
   final public func purchase(product: RevenueCat.StoreProduct, discount: RevenueCat.StoreProductDiscount, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
   @available(iOS, unavailable, introduced: 13.0, renamed: "getPromotionalOffer(forProductDiscount:product:)")
   @available(tvOS, unavailable, introduced: 13.0, renamed: "getPromotionalOffer(forProductDiscount:product:)")
   @available(watchOS, unavailable, introduced: 6.2, renamed: "getPromotionalOffer(forProductDiscount:product:)")
@@ -456,14 +429,12 @@ extension RevenueCat.Purchases {
   @available(macOS, unavailable, introduced: 10.14.4, message: "Check eligibility for a discount using getPromotionalOffer:")
   @available(macCatalyst, unavailable, introduced: 13.0, message: "Check eligibility for a discount using getPromotionalOffer:")
   @objc(paymentDiscountForProductDiscount:product:completion:) final public func paymentDiscount(for discount: StoreKit.SKProductDiscount, product: StoreKit.SKProduct, completion: @escaping (StoreKit.SKPaymentDiscount?, (any Swift.Error)?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, unavailable, introduced: 13.0, message: "Check eligibility for a discount using getPromotionalOffer:")
   @available(tvOS, unavailable, introduced: 13.0, message: "Check eligibility for a discount using getPromotionalOffer:")
   @available(watchOS, unavailable, introduced: 6.2, message: "Check eligibility for a discount using getPromotionalOffer:")
   @available(macOS, unavailable, introduced: 10.15, message: "Check eligibility for a discount using getPromotionalOffer:")
   @available(macCatalyst, unavailable, introduced: 13.0, message: "Check eligibility for a discount using getPromotionalOffer:")
   final public func paymentDiscount(for discount: StoreKit.SKProductDiscount, product: StoreKit.SKProduct) async throws -> StoreKit.SKPaymentDiscount
-  #endif
   @available(iOS, obsoleted: 1, message: "This was never meant to be public. Use `PurchasesDelegate.purchases(_:readyForPromotedProduct:purchase:)`")
   @available(tvOS, obsoleted: 1, message: "This was never meant to be public. Use `PurchasesDelegate.purchases(_:readyForPromotedProduct:purchase:)`")
   @available(watchOS, obsoleted: 1, message: "This was never meant to be public. Use `PurchasesDelegate.purchases(_:readyForPromotedProduct:purchase:)`")
@@ -485,6 +456,46 @@ extension RevenueCat.Purchases {
   @available(watchOS, obsoleted: 1, renamed: "logOut")
   @available(macOS, obsoleted: 1, renamed: "logOut")
   @objc(resetWithCompletionBlock:) final public func reset(completion: ((RevenueCat.CustomerInfo?, (any Swift.Error)?) -> Swift.Void)?)
+  @available(iOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(tvOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(watchOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(macOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @discardableResult
+  @objc(configureWithAPIKey:appUserID:observerMode:) @_disfavoredOverload public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool) -> RevenueCat.Purchases
+  @available(iOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(tvOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(watchOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @available(macOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting purchasesAreCompletedBy.")
+  @discardableResult
+  public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.StaticString, observerMode: Swift.Bool) -> RevenueCat.Purchases
+  @available(iOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting\npurchasesAreCompletedBy. Please use the Configuration.Builder class to configure the SDK with\ncustom UserDefaults.")
+  @available(tvOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting\npurchasesAreCompletedBy. Please use the Configuration.Builder class to configure the SDK with\ncustom UserDefaults.")
+  @available(watchOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting\npurchasesAreCompletedBy. Please use the Configuration.Builder class to configure the SDK with\ncustom UserDefaults.")
+  @available(macOS, obsoleted: 1, renamed: "configure(withAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:)", message: "Explicitly setting the StoreKit version is now required when setting\npurchasesAreCompletedBy. Please use the Configuration.Builder class to configure the SDK with\ncustom UserDefaults.")
+  @discardableResult
+  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?) -> RevenueCat.Purchases
+  @available(iOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(tvOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(watchOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(macOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(macCatalyst, obsoleted: 1, renamed: "configure(with:)")
+  @discardableResult
+  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:useStoreKit2IfAvailable:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?, useStoreKit2IfAvailable: Swift.Bool) -> RevenueCat.Purchases
+  @available(iOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(tvOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(watchOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(macOS, obsoleted: 1, renamed: "configure(with:)")
+  @available(macCatalyst, obsoleted: 1, renamed: "configure(with:)")
+  @discardableResult
+  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:useStoreKit2IfAvailable:dangerousSettings:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?, useStoreKit2IfAvailable: Swift.Bool, dangerousSettings: RevenueCat.DangerousSettings?) -> RevenueCat.Purchases
+  @available(iOS, obsoleted: 1, renamed: "Purchases.shared.attribution.enableAdServicesAttributionTokenCollection()", message: "Use Purchases.shared.attribution.enableAdServicesAttributionTokenCollection() instead.\nAdClient doesn't work after February 7, 2023  so this boolean doesn't have any effect.")
+  @available(tvOS, obsoleted: 1, renamed: "Purchases.shared.attribution.enableAdServicesAttributionTokenCollection()", message: "Use Purchases.shared.attribution.enableAdServicesAttributionTokenCollection() instead.\nAdClient doesn't work after February 7, 2023  so this boolean doesn't have any effect.")
+  @available(watchOS, obsoleted: 1, renamed: "Purchases.shared.attribution.enableAdServicesAttributionTokenCollection()", message: "Use Purchases.shared.attribution.enableAdServicesAttributionTokenCollection() instead.\nAdClient doesn't work after February 7, 2023  so this boolean doesn't have any effect.")
+  @available(macOS, obsoleted: 1, renamed: "Purchases.shared.attribution.enableAdServicesAttributionTokenCollection()", message: "Use Purchases.shared.attribution.enableAdServicesAttributionTokenCollection() instead.\nAdClient doesn't work after February 7, 2023  so this boolean doesn't have any effect.")
+  @objc public static var automaticAppleSearchAdsAttributionCollection: Swift.Bool {
+    @objc get
+    @objc set
+  }
 }
 @available(iOS, obsoleted: 1, renamed: "StartPurchaseBlock")
 @available(tvOS, obsoleted: 1, renamed: "StartPurchaseBlock")
@@ -683,6 +694,13 @@ extension RevenueCat.Purchases {
   public enum PeriodType {
   }
 }
+extension RevenueCat.Configuration.Builder {
+  @available(iOS, obsoleted: 1, renamed: "with(purchasesAreCompletedBy:storeKitVersion:)", message: "Observer Mode is now named PurchasesAreCompletedBy.")
+  @available(tvOS, obsoleted: 1, renamed: "with(purchasesAreCompletedBy:storeKitVersion:)", message: "Observer Mode is now named PurchasesAreCompletedBy.")
+  @available(watchOS, obsoleted: 1, renamed: "with(purchasesAreCompletedBy:storeKitVersion:)", message: "Observer Mode is now named PurchasesAreCompletedBy.")
+  @available(macOS, obsoleted: 1, renamed: "with(purchasesAreCompletedBy:storeKitVersion:)", message: "Observer Mode is now named PurchasesAreCompletedBy.")
+  @objc dynamic public func with(observerMode: Swift.Bool) -> RevenueCat.Configuration.Builder
+}
 @_hasMissingDesignatedInitializers @objc(RCPromotionalOffer) final public class PromotionalOffer : ObjectiveC.NSObject {
   @objc final public let discount: RevenueCat.StoreProductDiscount
   @objc final public let signedData: RevenueCat.PromotionalOffer.SignedData
@@ -712,6 +730,10 @@ public struct PaywallData {
     get
     set
   }
+  public var zeroDecimalPlaceCountries: [Swift.String] {
+    get
+  }
+  public var defaultLocale: Swift.String?
 }
 public protocol PaywallLocalizedConfiguration {
   var title: Swift.String { get }
@@ -722,6 +744,20 @@ public protocol PaywallLocalizedConfiguration {
   var offerDetailsWithIntroOffer: Swift.String? { get }
   var offerName: Swift.String? { get }
   var features: [RevenueCat.PaywallData.LocalizedConfiguration.Feature] { get }
+  var tierName: Swift.String? { get }
+}
+extension RevenueCat.PaywallData {
+  public struct ZeroDecimalPlaceCountries : Swift.Codable, Swift.Sendable, Swift.Hashable, Swift.Equatable {
+    public var apple: [Swift.String]
+    public init(apple: [Swift.String])
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: RevenueCat.PaywallData.ZeroDecimalPlaceCountries, b: RevenueCat.PaywallData.ZeroDecimalPlaceCountries) -> Swift.Bool
+    public func encode(to encoder: any Swift.Encoder) throws
+    public var hashValue: Swift.Int {
+      get
+    }
+    public init(from decoder: any Swift.Decoder) throws
+  }
 }
 extension RevenueCat.PaywallData {
   public struct LocalizedConfiguration : RevenueCat.PaywallLocalizedConfiguration {
@@ -747,13 +783,22 @@ extension RevenueCat.PaywallData {
       get
       set
     }
+    public var offerOverrides: [Swift.String : RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride] {
+      get
+      set
+    }
     public var features: [RevenueCat.PaywallData.LocalizedConfiguration.Feature] {
       get
       set
     }
-    public init(title: Swift.String, subtitle: Swift.String? = nil, callToAction: Swift.String, callToActionWithIntroOffer: Swift.String? = nil, offerDetails: Swift.String?, offerDetailsWithIntroOffer: Swift.String? = nil, offerName: Swift.String? = nil, features: [RevenueCat.PaywallData.LocalizedConfiguration.Feature] = [])
+    public var tierName: Swift.String? {
+      get
+      set
+    }
+    public init(title: Swift.String, subtitle: Swift.String? = nil, callToAction: Swift.String, callToActionWithIntroOffer: Swift.String? = nil, offerDetails: Swift.String? = nil, offerDetailsWithIntroOffer: Swift.String? = nil, offerName: Swift.String? = nil, offerOverrides: [Swift.String : RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride] = [:], features: [RevenueCat.PaywallData.LocalizedConfiguration.Feature] = [], tierName: Swift.String? = nil)
   }
   public func config(for requiredLocale: Foundation.Locale) -> RevenueCat.PaywallData.LocalizedConfiguration?
+  public func tiersLocalization(for requiredLocale: Foundation.Locale) -> [Swift.String : RevenueCat.PaywallData.LocalizedConfiguration]?
 }
 extension RevenueCat.PaywallData.LocalizedConfiguration {
   public struct Feature {
@@ -763,13 +808,32 @@ extension RevenueCat.PaywallData.LocalizedConfiguration {
     public init(title: Swift.String, content: Swift.String? = nil, iconID: Swift.String? = nil)
   }
 }
+extension RevenueCat.PaywallData.LocalizedConfiguration {
+  public struct OfferOverride {
+    public var offerDetails: Swift.String?
+    public var offerDetailsWithIntroOffer: Swift.String?
+    public var offerName: Swift.String?
+    public var offerBadge: Swift.String?
+    public init(offerDetails: Swift.String? = nil, offerDetailsWithIntroOffer: Swift.String? = nil, offerName: Swift.String? = nil, offerBadge: Swift.String? = nil)
+  }
+}
 extension RevenueCat.PaywallData {
   public struct Configuration {
-    public var packages: [Swift.String]
+    public var packages: [Swift.String] {
+      get
+      set
+    }
     public var defaultPackage: Swift.String?
+    public var tiers: [RevenueCat.PaywallData.Tier] {
+      get
+      set
+    }
     public var images: RevenueCat.PaywallData.Configuration.Images {
       get
       set
+    }
+    public var imagesByTier: [Swift.String : RevenueCat.PaywallData.Configuration.Images] {
+      get
     }
     public var imagesLowRes: RevenueCat.PaywallData.Configuration.Images {
       get
@@ -792,7 +856,12 @@ extension RevenueCat.PaywallData {
       set
     }
     public var colors: RevenueCat.PaywallData.Configuration.ColorInformation
+    public var colorsByTier: [Swift.String : RevenueCat.PaywallData.Configuration.ColorInformation] {
+      get
+      set
+    }
     public init(packages: [Swift.String], defaultPackage: Swift.String? = nil, images: RevenueCat.PaywallData.Configuration.Images, imagesLowRes: RevenueCat.PaywallData.Configuration.Images = Images(), colors: RevenueCat.PaywallData.Configuration.ColorInformation, blurredBackgroundImage: Swift.Bool = false, displayRestorePurchases: Swift.Bool = true, termsOfServiceURL: Foundation.URL? = nil, privacyURL: Foundation.URL? = nil)
+    public init(images: RevenueCat.PaywallData.Configuration.Images, imagesByTier: [Swift.String : RevenueCat.PaywallData.Configuration.Images] = [:], colors: RevenueCat.PaywallData.Configuration.ColorInformation, colorsByTier: [Swift.String : RevenueCat.PaywallData.Configuration.ColorInformation] = [:], tiers: [RevenueCat.PaywallData.Tier], blurredBackgroundImage: Swift.Bool = false, displayRestorePurchases: Swift.Bool = true, termsOfServiceURL: Foundation.URL? = nil, privacyURL: Foundation.URL? = nil)
   }
 }
 extension RevenueCat.PaywallData.Configuration {
@@ -819,24 +888,41 @@ extension RevenueCat.PaywallData.Configuration {
     public init(light: RevenueCat.PaywallData.Configuration.Colors, dark: RevenueCat.PaywallData.Configuration.Colors? = nil)
   }
   public struct Colors {
-    public var background: RevenueCat.PaywallColor
-    public var text1: RevenueCat.PaywallColor
+    public var background: RevenueCat.PaywallColor?
+    public var text1: RevenueCat.PaywallColor?
     public var text2: RevenueCat.PaywallColor?
     public var text3: RevenueCat.PaywallColor?
-    public var callToActionBackground: RevenueCat.PaywallColor
-    public var callToActionForeground: RevenueCat.PaywallColor
+    public var callToActionBackground: RevenueCat.PaywallColor?
+    public var callToActionForeground: RevenueCat.PaywallColor?
     public var callToActionSecondaryBackground: RevenueCat.PaywallColor?
     public var accent1: RevenueCat.PaywallColor?
     public var accent2: RevenueCat.PaywallColor?
     public var accent3: RevenueCat.PaywallColor?
     public var closeButton: RevenueCat.PaywallColor?
-    public init(background: RevenueCat.PaywallColor, text1: RevenueCat.PaywallColor, text2: RevenueCat.PaywallColor? = nil, text3: RevenueCat.PaywallColor? = nil, callToActionBackground: RevenueCat.PaywallColor, callToActionForeground: RevenueCat.PaywallColor, callToActionSecondaryBackground: RevenueCat.PaywallColor? = nil, accent1: RevenueCat.PaywallColor? = nil, accent2: RevenueCat.PaywallColor? = nil, accent3: RevenueCat.PaywallColor? = nil, closeButton: RevenueCat.PaywallColor? = nil)
+    public var tierControlBackground: RevenueCat.PaywallColor?
+    public var tierControlForeground: RevenueCat.PaywallColor?
+    public var tierControlSelectedBackground: RevenueCat.PaywallColor?
+    public var tierControlSelectedForeground: RevenueCat.PaywallColor?
+    public init(background: RevenueCat.PaywallColor? = nil, text1: RevenueCat.PaywallColor? = nil, text2: RevenueCat.PaywallColor? = nil, text3: RevenueCat.PaywallColor? = nil, callToActionBackground: RevenueCat.PaywallColor? = nil, callToActionForeground: RevenueCat.PaywallColor? = nil, callToActionSecondaryBackground: RevenueCat.PaywallColor? = nil, accent1: RevenueCat.PaywallColor? = nil, accent2: RevenueCat.PaywallColor? = nil, accent3: RevenueCat.PaywallColor? = nil, closeButton: RevenueCat.PaywallColor? = nil, tierControlBackground: RevenueCat.PaywallColor? = nil, tierControlForeground: RevenueCat.PaywallColor? = nil, tierControlSelectedBackground: RevenueCat.PaywallColor? = nil, tierControlSelectedForeground: RevenueCat.PaywallColor? = nil)
   }
 }
 extension RevenueCat.PaywallData {
-  public init(templateName: Swift.String, config: RevenueCat.PaywallData.Configuration, localization: RevenueCat.PaywallData.LocalizedConfiguration, assetBaseURL: Foundation.URL, revision: Swift.Int = 0, locale: Foundation.Locale = .current)
+  public struct Tier {
+    public var id: Swift.String
+    public var packages: [Swift.String]
+    public var defaultPackage: Swift.String
+    public init(id: Swift.String, packages: [Swift.String], defaultPackage: Swift.String)
+  }
+}
+extension RevenueCat.PaywallData {
+  public init(templateName: Swift.String, config: RevenueCat.PaywallData.Configuration, localization: RevenueCat.PaywallData.LocalizedConfiguration, assetBaseURL: Foundation.URL, revision: Swift.Int = 0, locale: Foundation.Locale = .current, zeroDecimalPlaceCountries: [Swift.String] = [])
+  public init(templateName: Swift.String, config: RevenueCat.PaywallData.Configuration, localizationByTier: [Swift.String : RevenueCat.PaywallData.LocalizedConfiguration], assetBaseURL: Foundation.URL, revision: Swift.Int = 0, locale: Foundation.Locale = .current, zeroDecimalPlaceCountries: [Swift.String] = [])
 }
 extension RevenueCat.PaywallData.LocalizedConfiguration.Feature : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
@@ -856,6 +942,10 @@ extension RevenueCat.PaywallData.Configuration.Images : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+extension RevenueCat.PaywallData.Tier : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
 extension RevenueCat.PaywallData.Configuration : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -864,9 +954,23 @@ extension RevenueCat.PaywallData : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+extension RevenueCat.PaywallData.Tier : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: RevenueCat.PaywallData.Tier, b: RevenueCat.PaywallData.Tier) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
 extension RevenueCat.PaywallData.LocalizedConfiguration.Feature : Swift.Hashable {
   public func hash(into hasher: inout Swift.Hasher)
   public static func == (a: RevenueCat.PaywallData.LocalizedConfiguration.Feature, b: RevenueCat.PaywallData.LocalizedConfiguration.Feature) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride, b: RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride) -> Swift.Bool
   public var hashValue: Swift.Int {
     get
   }
@@ -915,7 +1019,11 @@ extension RevenueCat.PaywallData : Swift.Hashable {
 }
 extension RevenueCat.PaywallData.LocalizedConfiguration.Feature : Swift.Sendable {
 }
+extension RevenueCat.PaywallData.LocalizedConfiguration.OfferOverride : Swift.Sendable {
+}
 extension RevenueCat.PaywallData.LocalizedConfiguration : Swift.Sendable {
+}
+extension RevenueCat.PaywallData.Tier : Swift.Sendable {
 }
 extension RevenueCat.PaywallData.Configuration.ColorInformation : Swift.Sendable {
 }
@@ -927,12 +1035,14 @@ extension RevenueCat.PaywallData.Configuration : Swift.Sendable {
 }
 extension RevenueCat.PaywallData : Swift.Sendable {
 }
-@_hasMissingDesignatedInitializers @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-@objc(RCPurchasesDiagnostics) final public class PurchasesDiagnostics : ObjectiveC.NSObject {
+extension RevenueCat.PaywallData.Tier : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+@_hasMissingDesignatedInitializers @objc(RCPurchasesDiagnostics) final public class PurchasesDiagnostics : ObjectiveC.NSObject {
   @objc public static let `default`: RevenueCat.PurchasesDiagnostics
   @objc deinit
 }
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
 extension RevenueCat.PurchasesDiagnostics {
   public enum Error : Swift.Error {
     case failedConnectingToAPI(any Swift.Error)
@@ -942,13 +1052,9 @@ extension RevenueCat.PurchasesDiagnostics {
     case unknown(any Swift.Error)
   }
 }
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
 extension RevenueCat.PurchasesDiagnostics {
-  #if compiler(>=5.3) && $AsyncAwait
   @objc(testSDKHealthWithCompletion:) final public func testSDKHealth() async throws
-  #endif
 }
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
 extension RevenueCat.PurchasesDiagnostics.Error : Foundation.CustomNSError {
   public var errorUserInfo: [Swift.String : Any] {
     get
@@ -973,53 +1079,24 @@ extension RevenueCat.Purchases {
   @available(macOS, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   @available(macCatalyst, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   final public func checkTrialOrIntroDiscountEligibility(_ productIdentifiers: [Swift.String], completion: @escaping ([Swift.String : RevenueCat.IntroEligibility]) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, introduced: 13.0, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   @available(tvOS, introduced: 13.0, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   @available(watchOS, introduced: 6.2, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   @available(macOS, introduced: 10.15, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   @available(macCatalyst, introduced: 13.0, deprecated: 1, renamed: "checkTrialOrIntroDiscountEligibility(productIdentifiers:)")
   final public func checkTrialOrIntroDiscountEligibility(_ productIdentifiers: [Swift.String]) async -> [Swift.String : RevenueCat.IntroEligibility]
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, deprecated, introduced: 13.0, renamed: "promotionalOffer(forProductDiscount:product:)")
   @available(tvOS, deprecated, introduced: 13.0, renamed: "promotionalOffer(forProductDiscount:product:)")
   @available(watchOS, deprecated, introduced: 6.2, renamed: "promotionalOffer(forProductDiscount:product:)")
   @available(macOS, deprecated, introduced: 10.15, renamed: "promotionalOffer(forProductDiscount:product:)")
   @available(macCatalyst, deprecated, introduced: 13.0, renamed: "promotionalOffer(forProductDiscount:product:)")
   final public func getPromotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct) async throws -> RevenueCat.PromotionalOffer
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers(forProduct:)")
   @available(tvOS, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers(forProduct:)")
   @available(watchOS, deprecated, introduced: 6.2, renamed: "eligiblePromotionalOffers(forProduct:)")
   @available(macOS, deprecated, introduced: 10.15, renamed: "eligiblePromotionalOffers(forProduct:)")
   @available(macCatalyst, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers(forProduct:)")
   final public func getEligiblePromotionalOffers(forProduct product: RevenueCat.StoreProduct) async -> [RevenueCat.PromotionalOffer]
-  #endif
-  @available(iOS, deprecated: 1, renamed: "configure(with:)")
-  @available(tvOS, deprecated: 1, renamed: "configure(with:)")
-  @available(watchOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macCatalyst, deprecated: 1, renamed: "configure(with:)")
-  @discardableResult
-  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?) -> RevenueCat.Purchases
-  @available(iOS, deprecated: 1, renamed: "configure(with:)")
-  @available(tvOS, deprecated: 1, renamed: "configure(with:)")
-  @available(watchOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macCatalyst, deprecated: 1, renamed: "configure(with:)")
-  @discardableResult
-  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:useStoreKit2IfAvailable:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?, useStoreKit2IfAvailable: Swift.Bool) -> RevenueCat.Purchases
-  @available(iOS, deprecated: 1, renamed: "configure(with:)")
-  @available(tvOS, deprecated: 1, renamed: "configure(with:)")
-  @available(watchOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macOS, deprecated: 1, renamed: "configure(with:)")
-  @available(macCatalyst, deprecated: 1, renamed: "configure(with:)")
-  @discardableResult
-  @objc(configureWithAPIKey:appUserID:observerMode:userDefaults:useStoreKit2IfAvailable:dangerousSettings:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool, userDefaults: Foundation.UserDefaults?, useStoreKit2IfAvailable: Swift.Bool, dangerousSettings: RevenueCat.DangerousSettings?) -> RevenueCat.Purchases
-  @available(*, deprecated, message: "Use Purchases.shared.attribution.enableAdServicesAttributionTokenCollection() instead.\nAdClient doesn't work after February 7, 2023  so this boolean doesn't have any effect.")
-  @objc public static var automaticAppleSearchAdsAttributionCollection: Swift.Bool
 }
 extension RevenueCat.Purchases {
   @available(iOS, deprecated, renamed: "attribution.collectDeviceIdentifiers()")
@@ -1156,14 +1233,12 @@ extension RevenueCat.Purchases {
   @objc final public func setCreative(_ creative: Swift.String?)
 }
 extension RevenueCat.StoreProduct {
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers()")
   @available(tvOS, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers()")
   @available(watchOS, deprecated, introduced: 6.2, renamed: "eligiblePromotionalOffers()")
   @available(macOS, deprecated, introduced: 10.15, renamed: "eligiblePromotionalOffers()")
   @available(macCatalyst, deprecated, introduced: 13.0, renamed: "eligiblePromotionalOffers()")
   final public func getEligiblePromotionalOffers() async -> [RevenueCat.PromotionalOffer]
-  #endif
 }
 extension RevenueCat.CustomerInfo {
   @available(*, deprecated, message: "use nonSubscriptionTransactions")
@@ -1176,11 +1251,8 @@ extension RevenueCat.CustomerInfo {
   }
 }
 extension RevenueCat.Configuration.Builder {
-  @available(*, deprecated, message: "RevenueCat currently uses StoreKit 1 for purchases, as its stability in production scenarios has\nproven to be more performant than StoreKit 2.\n\nWe're collecting more data on the best approach, but StoreKit 1 vs StoreKit 2 is an implementation detail\nthat you shouldn't need to care about.\n\nSimply remove this method call to let RevenueCat decide for you which StoreKit implementation to use.")
+  @available(*, deprecated, message: "Use .with(storeKitVersion:) to enable StoreKit 2")
   @objc dynamic public func with(usesStoreKit2IfAvailable: Swift.Bool) -> RevenueCat.Configuration.Builder
-}
-extension Dispatch.DispatchTimeInterval : Swift.Comparable {
-  public static func < (lhs: Dispatch.DispatchTimeInterval, rhs: Dispatch.DispatchTimeInterval) -> Swift.Bool
 }
 @objc(RCPurchasesErrorCode) public enum ErrorCode : Swift.Int, Swift.Error {
   @objc(RCUnknownError) case unknownError = 0
@@ -1231,7 +1303,7 @@ extension Dispatch.DispatchTimeInterval : Swift.Comparable {
 }
 extension RevenueCat.ErrorCode : Swift.CaseIterable {
   public typealias AllCases = [RevenueCat.ErrorCode]
-  public static var allCases: [RevenueCat.ErrorCode] {
+  nonisolated public static var allCases: [RevenueCat.ErrorCode] {
     get
   }
 }
@@ -1336,6 +1408,7 @@ extension RevenueCat.CustomerInfo : Swift.Identifiable {
   final public var id: Swift.String {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = Swift.String
 }
 extension RevenueCat.AppleReceipt {
@@ -1403,7 +1476,7 @@ extension RevenueCat.AppleReceipt.InAppPurchase : Swift.CustomDebugStringConvert
 }
 extension RevenueCat.Store : Swift.CaseIterable {
   public typealias AllCases = [RevenueCat.Store]
-  public static var allCases: [RevenueCat.Store] {
+  nonisolated public static var allCases: [RevenueCat.Store] {
     get
   }
 }
@@ -1421,7 +1494,7 @@ extension RevenueCat.Store : Swift.Sendable {
 }
 extension RevenueCat.PeriodType : Swift.CaseIterable {
   public typealias AllCases = [RevenueCat.PeriodType]
-  public static var allCases: [RevenueCat.PeriodType] {
+  nonisolated public static var allCases: [RevenueCat.PeriodType] {
     get
   }
 }
@@ -1470,7 +1543,6 @@ extension RevenueCat.PeriodType : Swift.Sendable {
   @objc final public var ownershipType: RevenueCat.PurchaseOwnershipType {
     @objc get
   }
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public var verification: RevenueCat.VerificationResult {
     @objc get
   }
@@ -1501,6 +1573,7 @@ extension RevenueCat.EntitlementInfo : Swift.Identifiable {
   final public var id: Swift.String {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = Swift.String
 }
 public typealias VerboseLogHandler = (_ level: RevenueCat.LogLevel, _ message: Swift.String, _ file: Swift.String?, _ function: Swift.String?, _ line: Swift.UInt) -> Swift.Void
@@ -1537,7 +1610,7 @@ extension RevenueCat.PurchasesReceiptParser.Error : Foundation.LocalizedError {
   public init?(rawValue: Swift.Int)
   public typealias AllCases = [RevenueCat.LogLevel]
   public typealias RawValue = Swift.Int
-  public static var allCases: [RevenueCat.LogLevel] {
+  nonisolated public static var allCases: [RevenueCat.LogLevel] {
     get
   }
   public var rawValue: Swift.Int {
@@ -1554,7 +1627,7 @@ extension RevenueCat.PurchasesReceiptParser.Error : Foundation.LocalizedError {
 }
 extension RevenueCat.PackageType : Swift.CaseIterable {
   public typealias AllCases = [RevenueCat.PackageType]
-  public static var allCases: [RevenueCat.PackageType] {
+  nonisolated public static var allCases: [RevenueCat.PackageType] {
     get
   }
 }
@@ -1610,6 +1683,7 @@ extension RevenueCat.StoreTransaction : Swift.Identifiable {
   final public var id: Swift.String {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = Swift.String
 }
 public protocol RawDataContainer {
@@ -1617,9 +1691,7 @@ public protocol RawDataContainer {
   var rawData: Self.Content { get }
 }
 public typealias PurchaseResultData = (transaction: RevenueCat.StoreTransaction?, customerInfo: RevenueCat.CustomerInfo, userCancelled: Swift.Bool)
-#if compiler(>=5.3) && $Sendable
 public typealias PurchaseCompletedBlock = @_Concurrency.MainActor @Sendable (RevenueCat.StoreTransaction?, RevenueCat.CustomerInfo?, RevenueCat.PublicError?, Swift.Bool) -> Swift.Void
-#endif
 public typealias StartPurchaseBlock = (@escaping RevenueCat.PurchaseCompletedBlock) -> Swift.Void
 @_hasMissingDesignatedInitializers @objc(RCPurchases) final public class Purchases : ObjectiveC.NSObject, RevenueCat.PurchasesType, RevenueCat.PurchasesSwiftType {
   @objc(sharedPurchases) public static var shared: RevenueCat.Purchases {
@@ -1670,6 +1742,9 @@ public typealias StartPurchaseBlock = (@escaping RevenueCat.PurchaseCompletedBlo
     @objc get
     @objc set
   }
+  @objc final public var storeFrontCountryCode: Swift.String? {
+    @objc get
+  }
   @objc deinit
 }
 extension RevenueCat.Purchases {
@@ -1680,10 +1755,7 @@ extension RevenueCat.Purchases {
     @objc get
   }
   @objc final public func getOfferings(completion: @escaping (RevenueCat.Offerings?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func offerings() async throws -> RevenueCat.Offerings
-  #endif
   @objc final public var cachedOfferings: RevenueCat.Offerings? {
     @objc get
   }
@@ -1692,104 +1764,45 @@ extension RevenueCat.Purchases {
   @available(*, deprecated, message: "The appUserID passed to logIn is a constant string known at compile time.\nThis is likely a programmer error. This ID is used to identify the current user.\nSee https://docs.revenuecat.com/docs/user-ids for more information.")
   final public func logIn(_ appUserID: Swift.StaticString, completion: @escaping (RevenueCat.CustomerInfo?, Swift.Bool, RevenueCat.PublicError?) -> Swift.Void)
   @_disfavoredOverload @objc(logIn:completion:) final public func logIn(_ appUserID: Swift.String, completion: @escaping (RevenueCat.CustomerInfo?, Swift.Bool, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  @available(*, deprecated, message: "The appUserID passed to logIn is a constant string known at compile time.\nThis is likely a programmer error. This ID is used to identify the current user.\nSee https://docs.revenuecat.com/docs/user-ids for more information.")
   final public func logIn(_ appUserID: Swift.StaticString) async throws -> (customerInfo: RevenueCat.CustomerInfo, created: Swift.Bool)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @_disfavoredOverload @objc final public func logIn(_ appUserID: Swift.String) async throws -> (customerInfo: RevenueCat.CustomerInfo, created: Swift.Bool)
-  #endif
   @objc final public func logOut(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)?)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func logOut() async throws -> RevenueCat.CustomerInfo
-  #endif
   @objc final public func syncAttributesAndOfferingsIfNeeded(completion: @escaping (RevenueCat.Offerings?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func syncAttributesAndOfferingsIfNeeded() async throws -> RevenueCat.Offerings?
-  #endif
 }
 extension RevenueCat.Purchases {
   @objc final public func getCustomerInfo(completion: @escaping (RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)
   @objc final public func getCustomerInfo(fetchPolicy: RevenueCat.CacheFetchPolicy, completion: @escaping (RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func customerInfo() async throws -> RevenueCat.CustomerInfo
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func customerInfo(fetchPolicy: RevenueCat.CacheFetchPolicy) async throws -> RevenueCat.CustomerInfo
-  #endif
   @objc final public var cachedCustomerInfo: RevenueCat.CustomerInfo? {
     @objc get
   }
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   final public var customerInfoStream: _Concurrency.AsyncStream<RevenueCat.CustomerInfo> {
     get
   }
   @objc(getProductsWithIdentifiers:completion:) final public func getProducts(_ productIdentifiers: [Swift.String], completion: @escaping ([RevenueCat.StoreProduct]) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func products(_ productIdentifiers: [Swift.String]) async -> [RevenueCat.StoreProduct]
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @objc(purchaseProduct:withCompletion:) final public func purchase(product: RevenueCat.StoreProduct, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func purchase(product: RevenueCat.StoreProduct) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
   @objc(purchasePackage:withCompletion:) final public func purchase(package: RevenueCat.Package, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func purchase(package: RevenueCat.Package) async throws -> RevenueCat.PurchaseResultData
-  #endif
   @objc final public func restorePurchases(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)? = nil)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func restorePurchases() async throws -> RevenueCat.CustomerInfo
-  #endif
   @objc final public func invalidateCustomerInfoCache()
   @objc final public func syncPurchases(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)?)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func syncPurchases() async throws -> RevenueCat.CustomerInfo
-  #endif
-  #if compiler(>=5.3) && $Sendable
-  @available(iOS 12.2, macOS 10.14.4, watchOS 6.2, macCatalyst 13.0, tvOS 12.2, *)
   @objc(purchaseProduct:withPromotionalOffer:completion:) final public func purchase(product: RevenueCat.StoreProduct, promotionalOffer: RevenueCat.PromotionalOffer, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func purchase(product: RevenueCat.StoreProduct, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
-  @available(iOS 12.2, macOS 10.14.4, watchOS 6.2, macCatalyst 13.0, tvOS 12.2, *)
   @objc(purchasePackage:withPromotionalOffer:completion:) final public func purchase(package: RevenueCat.Package, promotionalOffer: RevenueCat.PromotionalOffer, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func purchase(package: RevenueCat.Package, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
-  #endif
   @objc(checkTrialOrIntroDiscountEligibility:completion:) final public func checkTrialOrIntroDiscountEligibility(productIdentifiers: [Swift.String], completion: @escaping ([Swift.String : RevenueCat.IntroEligibility]) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
   @objc final public func checkTrialOrIntroDiscountEligibility(productIdentifiers: [Swift.String]) async -> [Swift.String : RevenueCat.IntroEligibility]
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
   final public func checkTrialOrIntroDiscountEligibility(packages: [RevenueCat.Package]) async -> [RevenueCat.Package : RevenueCat.IntroEligibility]
-  #endif
   @objc(checkTrialOrIntroDiscountEligibilityForProduct:completion:) final public func checkTrialOrIntroDiscountEligibility(product: RevenueCat.StoreProduct, completion: @escaping (RevenueCat.IntroEligibilityStatus) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
   @objc final public func checkTrialOrIntroDiscountEligibility(product: RevenueCat.StoreProduct) async -> RevenueCat.IntroEligibilityStatus
-  #endif
   @available(iOS 13.4, macCatalyst 13.4, *)
   @objc final public func showPriceConsentIfNeeded()
   @available(iOS 14.0, *)
@@ -1798,60 +1811,44 @@ extension RevenueCat.Purchases {
   @available(macOS, unavailable)
   @available(macCatalyst, unavailable)
   @objc final public func presentCodeRedemptionSheet()
-  @available(iOS 12.2, macOS 10.14.4, macCatalyst 13.0, tvOS 12.2, watchOS 6.2, *)
   @objc(getPromotionalOfferForProductDiscount:withProduct:withCompletion:) final public func getPromotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct, completion: @escaping (RevenueCat.PromotionalOffer?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func promotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct) async throws -> RevenueCat.PromotionalOffer
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public func eligiblePromotionalOffers(forProduct product: RevenueCat.StoreProduct) async -> [RevenueCat.PromotionalOffer]
-  #endif
   @available(iOS 13.0, macOS 10.15, *)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc final public func showManageSubscriptions(completion: @escaping (RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 13.0, macOS 10.15, *)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc final public func showManageSubscriptions() async throws
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForProduct:completion:) final public func beginRefundRequest(forProduct productID: Swift.String) async throws -> RevenueCat.RefundRequestStatus
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForEntitlement:completion:) final public func beginRefundRequest(forEntitlement entitlementID: Swift.String) async throws -> RevenueCat.RefundRequestStatus
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForActiveEntitlementWithCompletion:) final public func beginRefundRequestForActiveEntitlement() async throws -> RevenueCat.RefundRequestStatus
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 16.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   final public func showStoreMessages(for types: Swift.Set<RevenueCat.StoreMessageType> = Set(StoreMessageType.allCases)) async
-  #endif
+  @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+  final public func recordPurchase(_ purchaseResult: StoreKit.Product.PurchaseResult) async throws -> RevenueCat.StoreTransaction?
 }
 @available(iOS 15.0, tvOS 15.0, macOS 12.0, watchOS 8.0, *)
 extension RevenueCat.Purchases {
-  #if compiler(>=5.3) && $AsyncAwait
   final public func track(paywallEvent: RevenueCat.PaywallEvent) async
-  #endif
+  final public func loadCustomerCenter() async throws -> RevenueCat.CustomerCenterConfigData
   @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
   public static let paywallImageDownloadSession: Foundation.URLSession
 }
@@ -1867,14 +1864,11 @@ extension RevenueCat.Purchases {
   @available(*, deprecated, message: "The appUserID passed to logIn is a constant string known at compile time.\nThis is likely a programmer error. This ID is used to identify the current user.\nSee https://docs.revenuecat.com/docs/user-ids for more information.")
   @discardableResult
   public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.StaticString) -> RevenueCat.Purchases
-  @available(*, deprecated, message: "Use configure(withAPIKey:appUserID:purchasesAreCompletedBy:) instead.")
   @discardableResult
-  @_disfavoredOverload @objc(configureWithAPIKey:appUserID:observerMode:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, observerMode: Swift.Bool) -> RevenueCat.Purchases
-  @discardableResult
-  @_disfavoredOverload @objc(configureWithAPIKey:appUserID:purchasesAreCompletedBy:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy) -> RevenueCat.Purchases
+  @_disfavoredOverload @objc(configureWithAPIKey:appUserID:purchasesAreCompletedBy:storeKitVersion:) public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.String?, purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy, storeKitVersion: RevenueCat.StoreKitVersion) -> RevenueCat.Purchases
   @available(*, deprecated, message: "The appUserID passed to logIn is a constant string known at compile time.\nThis is likely a programmer error. This ID is used to identify the current user.\nSee https://docs.revenuecat.com/docs/user-ids for more information.")
   @discardableResult
-  public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.StaticString, observerMode: Swift.Bool) -> RevenueCat.Purchases
+  public static func configure(withAPIKey apiKey: Swift.String, appUserID: Swift.StaticString, purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy, storeKitVersion: RevenueCat.StoreKitVersion) -> RevenueCat.Purchases
 }
 extension RevenueCat.Purchases {
   @available(*, deprecated, message: "use Purchases.logLevel instead")
@@ -1882,7 +1876,7 @@ extension RevenueCat.Purchases {
     @objc get
     @objc set
   }
-  @available(*, deprecated, message: "Configure behavior through the RevenueCat dashboard instead")
+  @available(*, deprecated, message: "Configure behavior through the RevenueCat dashboard instead. If you have configured the \"Legacy\" restore\nbehavior in the [RevenueCat Dashboard](app.revenuecat.com) and are currently setting this to `true`, keep\nthis setting active.")
   @objc final public var allowSharingAppStoreAccount: Swift.Bool {
     @objc get
     @objc set
@@ -1960,7 +1954,7 @@ extension RevenueCat.SubscriptionPeriod : Swift.Encodable {
 }
 extension RevenueCat.PurchaseOwnershipType : Swift.CaseIterable {
   public typealias AllCases = [RevenueCat.PurchaseOwnershipType]
-  public static var allCases: [RevenueCat.PurchaseOwnershipType] {
+  nonisolated public static var allCases: [RevenueCat.PurchaseOwnershipType] {
     get
   }
 }
@@ -1988,7 +1982,13 @@ extension RevenueCat.TestStoreProduct {
   public func toStoreProduct() -> RevenueCat.StoreProduct
 }
 extension RevenueCat.PaywallData {
-  public var localizedConfiguration: RevenueCat.PaywallData.LocalizedConfiguration {
+  public var locale: Foundation.Locale? {
+    get
+  }
+  public var localizedConfiguration: RevenueCat.PaywallData.LocalizedConfiguration? {
+    get
+  }
+  public var localizedConfigurationByTier: [Swift.String : RevenueCat.PaywallData.LocalizedConfiguration]? {
     get
   }
 }
@@ -2003,6 +2003,138 @@ extension RevenueCat.PeriodType : Swift.Decodable {
 }
 extension RevenueCat.PeriodType : Swift.Encodable {
   public func encode(to encoder: any Swift.Encoder) throws
+}
+public typealias RCColor = RevenueCat.PaywallColor
+public struct CustomerCenterConfigData {
+  public let screens: [RevenueCat.CustomerCenterConfigData.Screen.ScreenType : RevenueCat.CustomerCenterConfigData.Screen]
+  public let appearance: RevenueCat.CustomerCenterConfigData.Appearance
+  public let localization: RevenueCat.CustomerCenterConfigData.Localization
+  public let support: RevenueCat.CustomerCenterConfigData.Support
+  public let lastPublishedAppVersion: Swift.String?
+  public let productId: Swift.UInt?
+  public init(screens: [RevenueCat.CustomerCenterConfigData.Screen.ScreenType : RevenueCat.CustomerCenterConfigData.Screen], appearance: RevenueCat.CustomerCenterConfigData.Appearance, localization: RevenueCat.CustomerCenterConfigData.Localization, support: RevenueCat.CustomerCenterConfigData.Support, lastPublishedAppVersion: Swift.String?, productId: Swift.UInt?)
+  public struct Localization {
+    public init(locale: Swift.String, localizedStrings: [Swift.String : Swift.String])
+    public enum CommonLocalizedString : Swift.String {
+      case noThanks
+      case noSubscriptionsFound
+      case tryCheckRestore
+      case restorePurchases
+      case cancel
+      case billingCycle
+      case currentPrice
+      case expired
+      case expires
+      case nextBillingDate
+      case refundCanceled
+      case refundErrorGeneric
+      case refundGranted
+      case refundStatus
+      case subEarliestExpiration
+      case subEarliestRenewal
+      case subExpired
+      case contactSupport
+      case defaultBody
+      case defaultSubject
+      case dismiss
+      case updateWarningTitle
+      case updateWarningDescription
+      case updateWarningUpdate
+      case updateWarningIgnore
+      case pleaseContactSupportToManage
+      case appleSubscriptionManage
+      case googleSubscriptionManage
+      case amazonSubscriptionManage
+      case platformMismatch
+      case goingToCheckPurchases
+      case checkPastPurchases
+      case purchasesRecovered
+      case purchasesRecoveredExplanation
+      case purchasesNotRecovered
+      public init?(rawValue: Swift.String)
+      public typealias RawValue = Swift.String
+      public var rawValue: Swift.String {
+        get
+      }
+    }
+    public func commonLocalizedString(for key: RevenueCat.CustomerCenterConfigData.Localization.CommonLocalizedString) -> Swift.String
+  }
+  public struct HelpPath {
+    public let id: Swift.String
+    public let title: Swift.String
+    public let type: RevenueCat.CustomerCenterConfigData.HelpPath.PathType
+    public let detail: RevenueCat.CustomerCenterConfigData.HelpPath.PathDetail?
+    public init(id: Swift.String, title: Swift.String, type: RevenueCat.CustomerCenterConfigData.HelpPath.PathType, detail: RevenueCat.CustomerCenterConfigData.HelpPath.PathDetail?)
+    public enum PathDetail {
+      case promotionalOffer(RevenueCat.CustomerCenterConfigData.HelpPath.PromotionalOffer)
+      case feedbackSurvey(RevenueCat.CustomerCenterConfigData.HelpPath.FeedbackSurvey)
+    }
+    public enum PathType : Swift.String {
+      case missingPurchase
+      case refundRequest
+      case changePlans
+      case cancel
+      case unknown
+      public init?(rawValue: Swift.String)
+      public typealias RawValue = Swift.String
+      public var rawValue: Swift.String {
+        get
+      }
+    }
+    public struct PromotionalOffer {
+      public let iosOfferId: Swift.String
+      public let eligible: Swift.Bool
+      public let title: Swift.String
+      public let subtitle: Swift.String
+      public init(iosOfferId: Swift.String, eligible: Swift.Bool, title: Swift.String, subtitle: Swift.String)
+    }
+    public struct FeedbackSurvey {
+      public let title: Swift.String
+      public let options: [RevenueCat.CustomerCenterConfigData.HelpPath.FeedbackSurvey.Option]
+      public init(title: Swift.String, options: [RevenueCat.CustomerCenterConfigData.HelpPath.FeedbackSurvey.Option])
+      public struct Option {
+        public let id: Swift.String
+        public let title: Swift.String
+        public let promotionalOffer: RevenueCat.CustomerCenterConfigData.HelpPath.PromotionalOffer?
+        public init(id: Swift.String, title: Swift.String, promotionalOffer: RevenueCat.CustomerCenterConfigData.HelpPath.PromotionalOffer?)
+      }
+    }
+  }
+  public struct Appearance {
+    public let accentColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation
+    public let textColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation
+    public let backgroundColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation
+    public let buttonTextColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation
+    public let buttonBackgroundColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation
+    public init(accentColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation, textColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation, backgroundColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation, buttonTextColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation, buttonBackgroundColor: RevenueCat.CustomerCenterConfigData.Appearance.ColorInformation)
+    public struct ColorInformation {
+      public var light: RevenueCat.RCColor?
+      public var dark: RevenueCat.RCColor?
+      public init()
+      public init(light: Swift.String?, dark: Swift.String?)
+    }
+  }
+  public struct Screen {
+    public let type: RevenueCat.CustomerCenterConfigData.Screen.ScreenType
+    public let title: Swift.String
+    public let subtitle: Swift.String?
+    public let paths: [RevenueCat.CustomerCenterConfigData.HelpPath]
+    public init(type: RevenueCat.CustomerCenterConfigData.Screen.ScreenType, title: Swift.String, subtitle: Swift.String?, paths: [RevenueCat.CustomerCenterConfigData.HelpPath])
+    public enum ScreenType : Swift.String {
+      case management
+      case noActive
+      case unknown
+      public init?(rawValue: Swift.String)
+      public typealias RawValue = Swift.String
+      public var rawValue: Swift.String {
+        get
+      }
+    }
+  }
+  public struct Support {
+    public let email: Swift.String
+    public init(email: Swift.String)
+  }
 }
 extension RevenueCat.PurchasesReceiptParser {
   @objc public static let `default`: RevenueCat.PurchasesReceiptParser
@@ -2058,7 +2190,6 @@ extension RevenueCat.Store : Swift.Encodable {
   @objc final public subscript(key: Swift.String) -> RevenueCat.EntitlementInfo? {
     @objc get
   }
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   @objc final public var verification: RevenueCat.VerificationResult {
     @objc get
   }
@@ -2085,10 +2216,11 @@ extension RevenueCat.EntitlementInfos : Swift.Sendable {
   case billingIssue = 0
   case priceIncreaseConsent
   case generic
+  case winBackOffer
   public init?(rawValue: Swift.Int)
   public typealias AllCases = [RevenueCat.StoreMessageType]
   public typealias RawValue = Swift.Int
-  public static var allCases: [RevenueCat.StoreMessageType] {
+  nonisolated public static var allCases: [RevenueCat.StoreMessageType] {
     get
   }
   public var rawValue: Swift.Int {
@@ -2143,6 +2275,7 @@ extension RevenueCat.Package : Swift.Identifiable {
   final public var id: Swift.String {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = Swift.String
 }
 extension RevenueCat.Package : Swift.Sendable {
@@ -2159,19 +2292,17 @@ extension RevenueCat.PresentedOfferingContext.TargetingContext : Swift.Sendable 
     @_disfavoredOverload @objc public func with(appUserID: Swift.String?) -> RevenueCat.Configuration.Builder
     @available(*, deprecated, message: "The appUserID passed to logIn is a constant string known at compile time.\nThis is likely a programmer error. This ID is used to identify the current user.\nSee https://docs.revenuecat.com/docs/user-ids for more information.")
     public func with(appUserID: Swift.StaticString) -> RevenueCat.Configuration.Builder
-    @available(*, deprecated, message: "Use with(purchasesAreCompletedBy:) instead.")
-    @objc public func with(observerMode: Swift.Bool) -> RevenueCat.Configuration.Builder
-    @objc public func with(purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy) -> RevenueCat.Configuration.Builder
+    @objc public func with(purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy, storeKitVersion: RevenueCat.StoreKitVersion) -> RevenueCat.Configuration.Builder
     @objc public func with(userDefaults: Foundation.UserDefaults) -> RevenueCat.Configuration.Builder
     @objc public func with(dangerousSettings: RevenueCat.DangerousSettings) -> RevenueCat.Configuration.Builder
     @objc public func with(networkTimeout: Foundation.TimeInterval) -> RevenueCat.Configuration.Builder
     @objc public func with(storeKit1Timeout: Foundation.TimeInterval) -> RevenueCat.Configuration.Builder
     @objc public func with(platformInfo: RevenueCat.Purchases.PlatformInfo) -> RevenueCat.Configuration.Builder
     @objc public func with(showStoreMessagesAutomatically: Swift.Bool) -> RevenueCat.Configuration.Builder
-    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
     @objc public func with(entitlementVerificationMode mode: RevenueCat.Configuration.EntitlementVerificationMode) -> RevenueCat.Configuration.Builder
     @available(iOS 15.0, tvOS 15.0, macOS 12.0, watchOS 8.0, *)
     @objc public func with(diagnosticsEnabled: Swift.Bool) -> RevenueCat.Configuration.Builder
+    @objc public func with(storeKitVersion version: RevenueCat.StoreKitVersion) -> RevenueCat.Configuration.Builder
     @objc public func build() -> RevenueCat.Configuration
     @objc deinit
   }
@@ -2248,7 +2379,7 @@ extension RevenueCat.TestStoreProductDiscount {
 }
 extension RevenueCat.IntroEligibilityStatus : Swift.CaseIterable, Swift.Sendable {
   public typealias AllCases = [RevenueCat.IntroEligibilityStatus]
-  public static var allCases: [RevenueCat.IntroEligibilityStatus] {
+  nonisolated public static var allCases: [RevenueCat.IntroEligibilityStatus] {
     get
   }
 }
@@ -2372,7 +2503,6 @@ extension RevenueCat.StoreProductDiscount {
   }
 }
 extension RevenueCat.StoreProductDiscount {
-  @available(iOS 12.2, macOS 10.14.4, tvOS 12.2, watchOS 6.2, *)
   @objc final public var sk1Discount: RevenueCat.SK1ProductDiscount? {
     @objc get
   }
@@ -2390,6 +2520,7 @@ extension RevenueCat.StoreProductDiscount : Swift.Identifiable {
   final public var id: RevenueCat.StoreProductDiscount.Data {
     get
   }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public typealias ID = RevenueCat.StoreProductDiscount.Data
 }
 public struct PaywallColor {
@@ -2403,8 +2534,7 @@ public struct PaywallColor {
     }
   }
   public var stringRepresentation: Swift.String
-  @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
-  public var underlyingColor: SwiftUI.Color {
+  public var underlyingColor: SwiftUICore.Color {
     get
   }
 }
@@ -2414,7 +2544,7 @@ extension RevenueCat.PaywallColor {
   public init(light: RevenueCat.PaywallColor, dark: RevenueCat.PaywallColor)
 }
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension SwiftUI.Color {
+extension SwiftUICore.Color {
   public var asPaywallColor: RevenueCat.PaywallColor {
     get
   }
@@ -2495,124 +2625,57 @@ public typealias PublicError = Foundation.NSError
 @objc(RCPurchasesType) public protocol PurchasesType {
   @objc var appUserID: Swift.String { get }
   @objc var isAnonymous: Swift.Bool { get }
-  @objc @available(*, deprecated, message: "Use purchasesAreCompletedBy instead.")
-  var finishTransactions: Swift.Bool { get set }
   @objc var purchasesAreCompletedBy: RevenueCat.PurchasesAreCompletedBy { get set }
   @objc var delegate: (any RevenueCat.PurchasesDelegate)? { get set }
   @objc func logIn(_ appUserID: Swift.String, completion: @escaping (RevenueCat.CustomerInfo?, Swift.Bool, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func logIn(_ appUserID: Swift.String) async throws -> (customerInfo: RevenueCat.CustomerInfo, created: Swift.Bool)
-  #endif
+  @objc func logIn(_ appUserID: Swift.String) async throws -> (customerInfo: RevenueCat.CustomerInfo, created: Swift.Bool)
   @objc func logOut(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)?)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func logOut() async throws -> RevenueCat.CustomerInfo
-  #endif
+  @objc func logOut() async throws -> RevenueCat.CustomerInfo
   @objc func getCustomerInfo(completion: @escaping ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void))
   @objc func getCustomerInfo(fetchPolicy: RevenueCat.CacheFetchPolicy, completion: @escaping (RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func customerInfo() async throws -> RevenueCat.CustomerInfo
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func customerInfo(fetchPolicy: RevenueCat.CacheFetchPolicy) async throws -> RevenueCat.CustomerInfo
-  #endif
+  @objc func customerInfo() async throws -> RevenueCat.CustomerInfo
+  @objc func customerInfo(fetchPolicy: RevenueCat.CacheFetchPolicy) async throws -> RevenueCat.CustomerInfo
   @objc var cachedCustomerInfo: RevenueCat.CustomerInfo? { get }
   @objc func getOfferings(completion: @escaping ((RevenueCat.Offerings?, RevenueCat.PublicError?) -> Swift.Void))
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func offerings() async throws -> RevenueCat.Offerings
-  #endif
+  @objc func offerings() async throws -> RevenueCat.Offerings
   @objc var cachedOfferings: RevenueCat.Offerings? { get }
   @objc(getProductsWithIdentifiers:completion:) func getProducts(_ productIdentifiers: [Swift.String], completion: @escaping ([RevenueCat.StoreProduct]) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func products(_ productIdentifiers: [Swift.String]) async -> [RevenueCat.StoreProduct]
-  #endif
-  #if compiler(>=5.3) && $Sendable
+  @objc func products(_ productIdentifiers: [Swift.String]) async -> [RevenueCat.StoreProduct]
   @objc(purchaseProduct:withCompletion:) func purchase(product: RevenueCat.StoreProduct, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func purchase(product: RevenueCat.StoreProduct) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
+  @objc func purchase(product: RevenueCat.StoreProduct) async throws -> RevenueCat.PurchaseResultData
   @objc(purchasePackage:withCompletion:) func purchase(package: RevenueCat.Package, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func purchase(package: RevenueCat.Package) async throws -> RevenueCat.PurchaseResultData
-  #endif
+  @objc func purchase(package: RevenueCat.Package) async throws -> RevenueCat.PurchaseResultData
   @objc func invalidateCustomerInfoCache()
   @objc func restorePurchases(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)?)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func restorePurchases() async throws -> RevenueCat.CustomerInfo
-  #endif
+  @objc func restorePurchases() async throws -> RevenueCat.CustomerInfo
   @objc func syncPurchases(completion: ((RevenueCat.CustomerInfo?, RevenueCat.PublicError?) -> Swift.Void)?)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func syncPurchases() async throws -> RevenueCat.CustomerInfo
-  #endif
-  #if compiler(>=5.3) && $Sendable
-  @available(iOS 12.2, macOS 10.14.4, watchOS 6.2, macCatalyst 13.0, tvOS 12.2, *)
+  @objc func syncPurchases() async throws -> RevenueCat.CustomerInfo
   @objc(purchaseProduct:withPromotionalOffer:completion:) func purchase(product: RevenueCat.StoreProduct, promotionalOffer: RevenueCat.PromotionalOffer, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func purchase(product: RevenueCat.StoreProduct, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
-  #endif
-  #if compiler(>=5.3) && $Sendable
-  @available(iOS 12.2, macOS 10.14.4, watchOS 6.2, macCatalyst 13.0, tvOS 12.2, *)
+  @objc func purchase(product: RevenueCat.StoreProduct, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
   @objc(purchasePackage:withPromotionalOffer:completion:) func purchase(package: RevenueCat.Package, promotionalOffer: RevenueCat.PromotionalOffer, completion: @escaping RevenueCat.PurchaseCompletedBlock)
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func purchase(package: RevenueCat.Package, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
-  #endif
+  @objc func purchase(package: RevenueCat.Package, promotionalOffer: RevenueCat.PromotionalOffer) async throws -> RevenueCat.PurchaseResultData
   @objc(checkTrialOrIntroDiscountEligibility:completion:) func checkTrialOrIntroDiscountEligibility(productIdentifiers: [Swift.String], completion receiveEligibility: @escaping ([Swift.String : RevenueCat.IntroEligibility]) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
-  func checkTrialOrIntroDiscountEligibility(productIdentifiers: [Swift.String]) async -> [Swift.String : RevenueCat.IntroEligibility]
-  #endif
+  @objc func checkTrialOrIntroDiscountEligibility(productIdentifiers: [Swift.String]) async -> [Swift.String : RevenueCat.IntroEligibility]
   @objc(checkTrialOrIntroDiscountEligibilityForProduct:completion:) func checkTrialOrIntroDiscountEligibility(product: RevenueCat.StoreProduct, completion: @escaping (RevenueCat.IntroEligibilityStatus) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, tvOS 13.0, macOS 10.15, watchOS 6.2, *)
-  func checkTrialOrIntroDiscountEligibility(product: RevenueCat.StoreProduct) async -> RevenueCat.IntroEligibilityStatus
-  #endif
-  @available(iOS 12.2, macOS 10.14.4, macCatalyst 13.0, tvOS 12.2, watchOS 6.2, *)
+  @objc func checkTrialOrIntroDiscountEligibility(product: RevenueCat.StoreProduct) async -> RevenueCat.IntroEligibilityStatus
   @objc(getPromotionalOfferForProductDiscount:withProduct:withCompletion:) func getPromotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct, completion: @escaping ((RevenueCat.PromotionalOffer?, RevenueCat.PublicError?) -> Swift.Void))
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func promotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct) async throws -> RevenueCat.PromotionalOffer
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
-  @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
-  func eligiblePromotionalOffers(forProduct product: RevenueCat.StoreProduct) async -> [RevenueCat.PromotionalOffer]
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
+  @objc func promotionalOffer(forProductDiscount discount: RevenueCat.StoreProductDiscount, product: RevenueCat.StoreProduct) async throws -> RevenueCat.PromotionalOffer
+  @objc func eligiblePromotionalOffers(forProduct product: RevenueCat.StoreProduct) async -> [RevenueCat.PromotionalOffer]
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForProduct:completion:) func beginRefundRequest(forProduct productID: Swift.String) async throws -> RevenueCat.RefundRequestStatus
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForEntitlement:completion:) func beginRefundRequest(forEntitlement entitlementID: Swift.String) async throws -> RevenueCat.RefundRequestStatus
-  #endif
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc(beginRefundRequestForActiveEntitlementWithCompletion:) func beginRefundRequestForActiveEntitlement() async throws -> RevenueCat.RefundRequestStatus
-  #endif
   @objc @available(iOS 14.0, *)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
@@ -2625,18 +2688,14 @@ public typealias PublicError = Foundation.NSError
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   @objc func showManageSubscriptions(completion: @escaping (RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @objc @available(iOS 13.0, macOS 10.15, *)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   func showManageSubscriptions() async throws
-  #endif
   @objc var attribution: RevenueCat.Attribution { get }
   @objc func syncAttributesAndOfferingsIfNeeded(completion: @escaping (RevenueCat.Offerings?, RevenueCat.PublicError?) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @objc @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   func syncAttributesAndOfferingsIfNeeded() async throws -> RevenueCat.Offerings?
-  #endif
   @objc func setAttributes(_ attributes: [Swift.String : Swift.String])
   @objc @available(*, deprecated)
   var allowSharingAppStoreAccount: Swift.Bool { get set }
@@ -2680,9 +2739,10 @@ public typealias PublicError = Foundation.NSError
   func setFirebaseAppInstanceID(_ firebaseAppInstanceID: Swift.String?)
   @objc @available(*, deprecated)
   func collectDeviceIdentifiers()
+  @objc @available(*, deprecated, message: "Use purchasesAreCompletedBy instead.")
+  var finishTransactions: Swift.Bool { get set }
 }
 public protocol PurchasesSwiftType : AnyObject {
-  @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
   var customerInfoStream: _Concurrency.AsyncStream<RevenueCat.CustomerInfo> { get }
   @available(iOS 15.0, *)
   @available(macOS, unavailable)
@@ -2699,13 +2759,30 @@ public protocol PurchasesSwiftType : AnyObject {
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   func beginRefundRequestForActiveEntitlement(completion: @escaping (Swift.Result<RevenueCat.RefundRequestStatus, RevenueCat.PublicError>) -> Swift.Void)
-  #if compiler(>=5.3) && $AsyncAwait
   @available(iOS 16.0, *)
   @available(macOS, unavailable)
   @available(watchOS, unavailable)
   @available(tvOS, unavailable)
   func showStoreMessages(for types: Swift.Set<RevenueCat.StoreMessageType>) async
-  #endif
+  @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+  func recordPurchase(_ purchaseResult: StoreKit.Product.PurchaseResult) async throws -> RevenueCat.StoreTransaction?
+}
+@objc(RCStoreKitVersion) public enum StoreKitVersion : Swift.Int {
+  @objc(RCStoreKitVersion1) case storeKit1 = 1
+  @objc(RCStoreKitVersion2) case storeKit2 = 2
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension RevenueCat.StoreKitVersion {
+  public static let `default`: RevenueCat.StoreKitVersion
+}
+extension RevenueCat.StoreKitVersion : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
 }
 public typealias SK1Product = StoreKit.SKProduct
 @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
@@ -2743,22 +2820,18 @@ public typealias SK2Product = StoreKit.Product
   @objc final public var isFamilyShareable: Swift.Bool {
     @objc get
   }
-  @available(iOS 12.0, macCatalyst 13.0, tvOS 12.0, macOS 10.14, watchOS 6.2, *)
   @objc final public var subscriptionGroupIdentifier: Swift.String? {
     @objc get
   }
   @objc final public var priceFormatter: Foundation.NumberFormatter? {
     @objc get
   }
-  @available(iOS 11.2, macOS 10.13.2, tvOS 11.2, watchOS 6.2, *)
   @objc final public var subscriptionPeriod: RevenueCat.SubscriptionPeriod? {
     @objc get
   }
-  @available(iOS 11.2, macOS 10.13.2, tvOS 11.2, watchOS 6.2, *)
   @objc final public var introductoryDiscount: RevenueCat.StoreProductDiscount? {
     @objc get
   }
-  @available(iOS 12.2, macOS 10.14.4, tvOS 12.2, watchOS 6.2, *)
   @objc final public var discounts: [RevenueCat.StoreProductDiscount] {
     @objc get
   }
@@ -2796,11 +2869,8 @@ extension RevenueCat.StoreProduct {
     @objc get
   }
 }
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
 extension RevenueCat.StoreProduct {
-  #if compiler(>=5.3) && $AsyncAwait
   final public func eligiblePromotionalOffers() async -> [RevenueCat.PromotionalOffer]
-  #endif
 }
 extension RevenueCat.StoreProduct {
   @objc convenience dynamic public init(sk1Product: RevenueCat.SK1Product)
@@ -2830,6 +2900,20 @@ extension RevenueCat.StoreProduct {
     @objc get
   }
 }
+#if compiler(>=5.3) && $RetroactiveAttribute
+extension StoreKit.SKRequest : @unchecked @retroactive Swift.Sendable {
+}
+#else
+extension StoreKit.SKRequest : @unchecked Swift.Sendable {
+}
+#endif
+#if compiler(>=5.3) && $RetroactiveAttribute
+extension StoreKit.SKProductsRequest : @unchecked @retroactive Swift.Sendable {
+}
+#else
+extension StoreKit.SKProductsRequest : @unchecked Swift.Sendable {
+}
+#endif
 extension RevenueCat.VerificationResult : Swift.Equatable {}
 extension RevenueCat.VerificationResult : Swift.Hashable {}
 extension RevenueCat.VerificationResult : Swift.RawRepresentable {}
@@ -2875,6 +2959,15 @@ extension RevenueCat.PurchaseOwnershipType : Swift.Equatable {}
 extension RevenueCat.PurchaseOwnershipType : Swift.Hashable {}
 extension RevenueCat.PurchaseOwnershipType : Swift.RawRepresentable {}
 extension RevenueCat.TestStoreProduct : Swift.Sendable {}
+extension RevenueCat.CustomerCenterConfigData.Localization.CommonLocalizedString : Swift.Equatable {}
+extension RevenueCat.CustomerCenterConfigData.Localization.CommonLocalizedString : Swift.Hashable {}
+extension RevenueCat.CustomerCenterConfigData.Localization.CommonLocalizedString : Swift.RawRepresentable {}
+extension RevenueCat.CustomerCenterConfigData.HelpPath.PathType : Swift.Equatable {}
+extension RevenueCat.CustomerCenterConfigData.HelpPath.PathType : Swift.Hashable {}
+extension RevenueCat.CustomerCenterConfigData.HelpPath.PathType : Swift.RawRepresentable {}
+extension RevenueCat.CustomerCenterConfigData.Screen.ScreenType : Swift.Equatable {}
+extension RevenueCat.CustomerCenterConfigData.Screen.ScreenType : Swift.Hashable {}
+extension RevenueCat.CustomerCenterConfigData.Screen.ScreenType : Swift.RawRepresentable {}
 extension RevenueCat.AppleReceipt.Environment : Swift.Equatable {}
 extension RevenueCat.AppleReceipt.Environment : Swift.Hashable {}
 extension RevenueCat.AppleReceipt.Environment : Swift.RawRepresentable {}
@@ -2896,6 +2989,10 @@ extension RevenueCat.StoreProductDiscount.DiscountType : Swift.Hashable {}
 extension RevenueCat.StoreProductDiscount.DiscountType : Swift.RawRepresentable {}
 extension RevenueCat.PaywallColor.ColorScheme : Swift.Hashable {}
 extension RevenueCat.PaywallColor.ColorScheme : Swift.RawRepresentable {}
+extension RevenueCat.PaywallColor.ColorScheme : Swift.BitwiseCopyable {}
 extension RevenueCat.AttributionNetwork : Swift.Equatable {}
 extension RevenueCat.AttributionNetwork : Swift.Hashable {}
 extension RevenueCat.AttributionNetwork : Swift.RawRepresentable {}
+extension RevenueCat.StoreKitVersion : Swift.Equatable {}
+extension RevenueCat.StoreKitVersion : Swift.Hashable {}
+extension RevenueCat.StoreKitVersion : Swift.RawRepresentable {}
