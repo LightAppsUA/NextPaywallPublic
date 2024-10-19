@@ -39,12 +39,46 @@ NextPaywallPublic can be installed exclusively through the Swift Package Manager
 
 ### Setting Up
 
+#### UIKit
+
 In your `AppDelegate.swift`, configure the `NextPaywallSettings`.  
 
 ```swift
 import NextPaywallPublic
 
 @main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        NextPaywallSettings.shared.configure(secretKey: "YOUR_SECRET_KEY", persistenceProvider: CustomNextPaywallPersistenceProvider())
+        AppHelper.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppHelper.shared.applicationDidBecomeActive(application)
+    }
+}
+```
+
+#### SwiftUI
+
+```swift
+import SwiftUI
+import NextPaywallPublic
+
+@main
+struct YourApp: App {
+    // SwiftUI's entry point
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+// AppDelegate for handling lifecycle methods
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         NextPaywallSettings.shared.configure(secretKey: "YOUR_SECRET_KEY", persistenceProvider: CustomNextPaywallPersistenceProvider())
@@ -86,9 +120,12 @@ If you don't have a something like UserDefaultsManager, you can continue using t
 
 ## Presenting the Paywall
 
+#### UIKit
+
 In your view controller, use the NextPaywallPresenter to present the paywall:
 
 ```swift
+import UIKit
 import NextPaywallPublic
 
 class ViewController: UIViewController {
@@ -101,5 +138,44 @@ class ViewController: UIViewController {
             self.present(paywallVC, animated: true)
         }
     }
+}
+```
+
+#### SwiftUI
+
+```swift
+import SwiftUI
+import NextPaywallPublic
+
+struct ContentView: View {
+    @State private var isPaywallPresented = false
+    
+    var body: some View {
+        VStack {
+            Button("Show Paywall") {
+                isPaywallPresented = true
+            }
+        }
+        .sheet(isPresented: $isPaywallPresented) {
+            PaywallView()
+                .edgesIgnoringSafeArea(.all)
+        }
+    }
+}
+
+struct PaywallView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        if let paywallVC = NextPaywallPresenter.shared.getPaywallVC(nativePaywallProvider: {
+            let vc = NativePaywallViewController() // Your native paywall VC here
+            return vc
+        }) {
+            paywallVC.modalPresentationStyle = .fullScreen
+            return paywallVC
+        } else {
+            return UIViewController() // Fallback in case paywall fails to load
+        }
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 ```
